@@ -39,8 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\BubbleColor.cs" />
+    <Compile Include="Enums\BubbleSize.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="CheckLines.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameLogic.cs" />
     <Compile Include="NetOfCells.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />

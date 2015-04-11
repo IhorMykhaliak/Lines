@@ -10,17 +10,17 @@ namespace Lines.GameEngine.Test
         public void TestHorizontalLine()
         {
             Game game = new Game();
-            game.Field.Cells[1, 1].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
             game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
             game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
             game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
             game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = ContainedItem.Small;
+            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
             game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            game.Field.Cells[1, 5].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             game.Field.Cells[1, 5].Color = BubbleColor.Red;
 
             game.Start();
@@ -31,7 +31,7 @@ namespace Lines.GameEngine.Test
             Assert.AreEqual(game.Field.Cells[1, 1].Contain, null);
             Assert.AreEqual(game.Field.Cells[1, 2].Contain, null);
             Assert.AreEqual(game.Field.Cells[1, 3].Contain, null);
-            Assert.AreEqual(game.Field.Cells[1, 4].Contain, ContainedItem.Small);
+            Assert.AreEqual(game.Field.Cells[1, 4].Contain, BubbleSize.Small);
             Assert.AreEqual(game.Field.Cells[1, 5].Contain, null);
 
 

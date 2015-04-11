@@ -17,17 +17,17 @@ namespace LinesForms
 
         static void Main(string[] args)
         {
-            game.Field.Cells[1, 1].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
             game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
             game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
             game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
             game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = ContainedItem.Small;
+            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
             game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            game.Field.Cells[1, 5].Contain = ContainedItem.Big;
+            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             game.Field.Cells[1, 5].Color = BubbleColor.Red;
 
             game.Start();
@@ -113,14 +113,14 @@ namespace LinesForms
 
                     if (game.Field.Cells[i, j].Contain != null)
                     {
-                        radius = (game.Field.Cells[i, j].Contain == ContainedItem.Big) ? 2 : 1;
+                        radius = (game.Field.Cells[i, j].Contain == BubbleSize.Big) ? 2 : 1;
                         Console.ForegroundColor = GetColor(game.Field.Cells[i, j].Color) ?? ConsoleColor.White;
 
                         Console.BackgroundColor = Console.ForegroundColor;
                         //Console.BackgroundColor = ConsoleColor.Red;
                         Console.SetCursorPosition(x + (scale + 1) * i, y + 3 * j);
                         Console.Write('\u2588');
-                        if (game.Field.Cells[i, j].Contain == ContainedItem.Big)
+                        if (game.Field.Cells[i, j].Contain == BubbleSize.Big)
                         {
 
                             Console.SetCursorPosition(x + (scale + 1) * i + 1, y + scale * j);

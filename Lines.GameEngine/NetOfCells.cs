@@ -10,12 +10,6 @@ namespace Lines.GameEngine
     
     public class NetOfCells
     {
-        //private readonly Color[] bubbleColor = new Color[] { Color.Red };
-
-        //private readonly Color[] bubbleColor = new Color[] { Color.Red, Color.Blue, Color.Green, Color.Yellow, Color.Purple, };
-
-        
-
         #region Properties
 
         public int Width { get; set; }
@@ -45,7 +39,5 @@ namespace Lines.GameEngine
         }
 
         #endregion
-
-
     }
 }

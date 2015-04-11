@@ -22,15 +22,15 @@ namespace Lines.DesktopUI
             InitializeComponent();
 
            
-            //game.Field.Cells[1, 5].Contain = ContainedItem.Big;
+            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             //game.Field.Cells[1, 5].Color = Color.Black;
 
-             //For auto fill Net
+            // For auto fill Net
             //for (int i = 0; i < game.Field.Height; i++)
             //{
             //    for (int j = 0; j < game.Field.Width - 1; j++)
             //    {
-            //        game.Field.Cells[i, j].Contain = ContainedItem.Big;
+            //        game.Field.Cells[i, j].Contain = BubbleSize.Big;
             //        game.Field.Cells[i, j].Color = BubbleColor.Red;
             //    }
             //}
@@ -63,7 +63,7 @@ namespace Lines.DesktopUI
                     canvas.FillRectangle(Brushes.Silver, i * scale, j * scale, scale - 2, scale - 2);
                     if (game.Field.Cells[i, j].Contain != null)
                     {
-                        radius = (game.Field.Cells[i, j].Contain == ContainedItem.Big) ? 2 : 1;
+                        radius = (game.Field.Cells[i, j].Contain == BubbleSize.Big) ? 2 : 1;
                         canvas.FillEllipse(new SolidBrush(GetColor(game.Field.Cells[i, j].Color) ?? Color.Black), scale * i - 2, scale * j- 2, scale / 2 * radius, scale / 2 * radius);
                     }
                 }
@@ -86,6 +86,11 @@ namespace Lines.DesktopUI
                     return Color.Blue;
                 case BubbleColor.Yellow:
                     return Color.Yellow;
+                case BubbleColor.Purple:
+                    return Color.Purple;
+                case BubbleColor.Pink:
+                    return Color.DeepPink;
+;
 
                 default:
                     return null;
