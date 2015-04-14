@@ -213,7 +213,7 @@ namespace Lines.GameEngine
             return length > 4 ? true : false;
         }
 
-        public void DestroyLines(Cell cellFrom, Cell cellTo)
+        private void DestroyLines(Cell cellFrom, Cell cellTo)
         {
             int cell1_row = cellFrom.Row;
             int cell1_col = cellFrom.Column;

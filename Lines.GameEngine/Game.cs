@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lines.GameEngine.PathFinding_Algorithm;
 
 namespace Lines.GameEngine
 {
@@ -18,7 +19,7 @@ namespace Lines.GameEngine
         private Random _random = new Random();
         private int _emptyCells;
         private CheckLines _checkLine;
-        private GameLogic _gameLogic;
+        private FindPath _findPath;
         #endregion
 
         #region Constructor
@@ -159,20 +160,20 @@ namespace Lines.GameEngine
             if (Field.Cells[row, col].Contain == null)
             {
                 _checkLine = new CheckLines(Field, row, col);
-                MoveBubble(_selectedCell, Field.Cells[row, col]);
-                _selectedCell = null;
-
-                // Check Lines Condiotion
-                if (!_checkLine.Check(row, col))
+                if (MoveBubble(_selectedCell, Field.Cells[row, col]))
                 {
-                    // Begining of next Turn
-                    NextTurn(true);
-                }
-                else
-                {
-                    _emptyCells += _checkLine.LineLength;
-                    NextTurn(false);
 
+                    _selectedCell = null;
+
+                    if (!_checkLine.Check(row, col))
+                    {
+                        NextTurn(true);
+                    }
+                    else
+                    {
+                        _emptyCells += _checkLine.LineLength;
+                        NextTurn(false);
+                    }
                 }
             }
             else
@@ -188,21 +189,21 @@ namespace Lines.GameEngine
                         Color = Field.Cells[row, col].Color
                     };
 
-                    MoveBubble(_selectedCell, Field.Cells[row, col]);
-                    _selectedCell = null;
+                    if (MoveBubble(_selectedCell, Field.Cells[row, col]))
+                    {
+                        _selectedCell = null;
 
-                    // Check Lines Condiotion
-                    if (!_checkLine.Check(row, col))
-                    {
-                        GenerateBubble(BubbleSize.Small, CurrentCell.Color);
-                        // Begining of next Turn
-                        NextTurn(true);
-                    }
-                    else
-                    {
-                        _emptyCells += _checkLine.LineLength;
-                        Field.Cells[row, col] = CurrentCell;
-                        NextTurn(false);
+                        if (!_checkLine.Check(row, col))
+                        {
+                            GenerateBubble(BubbleSize.Small, CurrentCell.Color);
+                            NextTurn(true);
+                        }
+                        else
+                        {
+                            _emptyCells += _checkLine.LineLength;
+                            Field.Cells[row, col] = CurrentCell;
+                            NextTurn(false);
+                        }
                     }
                 }
                 else
@@ -212,13 +213,24 @@ namespace Lines.GameEngine
             }
         }
 
-        private void MoveBubble(Cell cellFrom, Cell cellTo)
+        public bool MoveBubble(Cell cellFrom, Cell cellTo)
         {
-            cellTo.Contain = cellFrom.Contain;
-            cellTo.Color = cellFrom.Color;
+            _findPath = new FindPath(Field, cellFrom, cellTo);
+            List<MapElement> Way;
+            if (_findPath.GetWay(out Way))
+            {
+                cellTo.Contain = cellFrom.Contain;
+                cellTo.Color = cellFrom.Color;
 
-            cellFrom.Contain = null;
-            cellFrom.Color = null;
+                cellFrom.Contain = null;
+                cellFrom.Color = null;
+                return true;
+            }
+            else
+            {
+                Settings.Messege = "No way!!";
+                return false;
+            }
         }
         
         

@@ -44,8 +44,10 @@
     <Compile Include="Cell.cs" />
     <Compile Include="CheckLines.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameLogic.cs" />
     <Compile Include="NetOfCells.cs" />
+    <Compile Include="PathFinding Algorithm\FindPath.cs" />
+    <Compile Include="PathFinding Algorithm\Map.cs" />
+    <Compile Include="PathFinding Algorithm\MapElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>

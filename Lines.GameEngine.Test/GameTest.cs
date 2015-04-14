@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Lines.GameEngine.Test
 {
     [TestClass]
-    public class TestGame
+    public class GameTest
     {
         [TestMethod]
         public void TestHorizontalLine()
@@ -23,7 +23,7 @@ namespace Lines.GameEngine.Test
             game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             game.Field.Cells[1, 5].Color = BubbleColor.Red;
 
-            game.Start();
+            //game.Start();
 
             game.SelectCell(1, 8);
             game.SelectCell(1, 4);
