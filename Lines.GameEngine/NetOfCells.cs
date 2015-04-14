@@ -34,8 +34,6 @@ namespace Lines.GameEngine
                     Cells[i, j] = new Cell() { Row = i, Column = j, Contain = null, Color = null };
                 }
             }
-
-
         }
 
         #endregion

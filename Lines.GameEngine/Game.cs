@@ -12,7 +12,6 @@ namespace Lines.GameEngine
         #region Properties
 
         public NetOfCells Field { get; set; }
-        public Settings GameSettings { get; set; }
         public int Turn { get; private set; }
 
         private Cell _selectedCell = null;
@@ -26,7 +25,6 @@ namespace Lines.GameEngine
 
         public Game()
         {
-            GameSettings = new Settings();
             Field = new NetOfCells();
             _emptyCells = 0;
             Turn = 0;
@@ -165,7 +163,7 @@ namespace Lines.GameEngine
 
                     _selectedCell = null;
 
-                    if (!_checkLine.Check(row, col))
+                    if (!_checkLine.Check())
                     {
                         NextTurn(true);
                     }
@@ -193,7 +191,7 @@ namespace Lines.GameEngine
                     {
                         _selectedCell = null;
 
-                        if (!_checkLine.Check(row, col))
+                        if (!_checkLine.Check())
                         {
                             GenerateBubble(BubbleSize.Small, CurrentCell.Color);
                             NextTurn(true);

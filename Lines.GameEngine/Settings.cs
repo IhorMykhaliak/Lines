@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine
 {
-    public class Settings
+    public static class Settings
     {
         public static int Width { get; set; }
         public static int Height { get; set; }
@@ -17,7 +17,7 @@ namespace Lines.GameEngine
 
         public static string Messege { get; set; }
 
-        public Settings()
+        static Settings()
         {
             Width = 10;
             Height = 10;

@@ -17,19 +17,19 @@ namespace LinesForms
 
         static void Main(string[] args)
         {
-            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 5].Color = BubbleColor.Red;
-
+            //game.Field.Cells[1, 1].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 1].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 2].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 2].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 3].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 3].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 8].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 8].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 4].Contain = BubbleSize.Small;
+            //game.Field.Cells[1, 4].Color = BubbleColor.Blue;
+            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 5].Color = BubbleColor.Red;
+           
             game.Start();
 
             Console.WindowHeight *= 2;
@@ -71,7 +71,7 @@ namespace LinesForms
         public static void Move(int x, int y)
         {
             curX = (curX + x > Settings.Width - 1 || curX + x < 0) ? curX : curX + x;
-            curY = (curY + y > Settings.Height - 1|| curY + y < 0) ? curY : curY + y;
+            curY = (curY + y > Settings.Height - 1 || curY + y < 0) ? curY : curY + y;
             DrawConsole();
         }
 
@@ -80,7 +80,7 @@ namespace LinesForms
             int scale = Settings.RecomededConsoleScale;
             int radius;
 
-            
+
             for (int i = 0; i < game.Field.Height; i++)
             {
                 for (int j = 0; j < game.Field.Width; j++)
@@ -147,7 +147,7 @@ namespace LinesForms
                 }
 
                 // Highlight current Cell
-            
+
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.SetCursorPosition(x + (scale + 1) * curX, y + scale * curY);
@@ -167,10 +167,10 @@ namespace LinesForms
             }
 
             Console.SetCursorPosition(50, 10);
-            Console.Write("Score {0}",Settings.Score.ToString());
+            Console.Write("Score {0}", Settings.Score.ToString());
 
             Console.SetCursorPosition(50, 5);
-            Console.WriteLine("Turn: {0}",game.Turn);
+            Console.WriteLine("Turn: {0}", game.Turn);
 
         }
 
@@ -186,6 +186,10 @@ namespace LinesForms
                     return ConsoleColor.Blue;
                 case BubbleColor.Yellow:
                     return ConsoleColor.Yellow;
+                case BubbleColor.Purple:
+                    return ConsoleColor.DarkMagenta;
+                case BubbleColor.Pink:
+                    return ConsoleColor.Cyan;
 
                 default:
                     return null;
