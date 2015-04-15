@@ -13,6 +13,8 @@ namespace Lines.GameEngine
         public int Column { get; set; }
         public int LineLength { get; set; }
 
+        public event Action UpdateScoreLabelHandler;
+
         public CheckLines(NetOfCells field, int row, int col)
         {
             Field = field;
@@ -21,6 +23,14 @@ namespace Lines.GameEngine
         }
 
         #region Checking score conditions
+
+        public void UpdateScore()
+        {
+            if (UpdateScoreLabelHandler != null)
+            {
+                UpdateScoreLabelHandler();
+            }
+        }
 
         public bool Check()
         {
@@ -35,9 +45,9 @@ namespace Lines.GameEngine
 
             int length;
 
-            #region Vertical Check
+            #region Horizontal Check
 
-            if (CheckLine_Vertical(out length, out lineBegin, out lineEnd))
+            if (CheckLine_Horizontal(out length, out lineBegin, out lineEnd))
             {
                 numberOfLines++;
                 lineLength += length;
@@ -47,14 +57,15 @@ namespace Lines.GameEngine
 
             #endregion
 
-            #region Horizontal Check
+            #region Vertical Check
 
-            if (CheckLine_Horizontal(out length, out lineBegin, out lineEnd))
+            if (CheckLine_Vertical(out length, out lineBegin, out lineEnd))
             {
                 numberOfLines++;
                 lineLength += length;
                 lines[2] = lineBegin;
                 lines[3] = lineEnd;
+                Settings.Messege = "horizontal";
             }
 
             #endregion
@@ -89,6 +100,7 @@ namespace Lines.GameEngine
             if (numberOfLines > 0)
             {
                 Settings.Score += (lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1);
+                UpdateScore();
                 LineLength += lineLength - numberOfLines + 1;
             }
             // Delete null objects
@@ -102,7 +114,7 @@ namespace Lines.GameEngine
             return lines.Length > 1;
         }
 
-        public bool CheckLine_Vertical(out int length, out Cell lineBegin, out Cell lineEnd)
+        public bool CheckLine_Horizontal(out int length, out Cell lineBegin, out Cell lineEnd)
         {
             Cell currentCell = Field.Cells[Row, Column];
             lineBegin = currentCell;
@@ -129,7 +141,7 @@ namespace Lines.GameEngine
             return length > 4 ? true : false;
         }
 
-        public bool CheckLine_Horizontal(out int length, out Cell lineBegin, out Cell lineEnd)
+        public bool CheckLine_Vertical(out int length, out Cell lineBegin, out Cell lineEnd)
         {
             Cell currentCell = Field.Cells[Row, Column];
             lineBegin = currentCell;

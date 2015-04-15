@@ -27,7 +27,7 @@ namespace Lines.GameEngine.Test
 
             CheckLines _checkLines = new CheckLines(Field, 1, 3);
 
-            Assert.AreEqual(_checkLines.CheckLine_Vertical(out length, out from, out to), true);
+            Assert.AreEqual(_checkLines.CheckLine_Horizontal(out length, out from, out to), true);
             Assert.AreEqual(length, 5);
             Assert.AreSame(from, Field.Cells[1, 1]);
             Assert.AreSame(to, Field.Cells[1, 5]);

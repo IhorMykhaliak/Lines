@@ -17,18 +17,21 @@ namespace LinesForms
 
         static void Main(string[] args)
         {
-            //game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            //game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 5].Color = BubbleColor.Red;
+            game.DrawFieldHandler += DrawConsole;
+            game.UpdateScoreLabelHandler += UpdateScoreLabel;
+
+            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 1].Color = BubbleColor.Red;
+            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 2].Color = BubbleColor.Red;
+            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 3].Color = BubbleColor.Red;
+            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 8].Color = BubbleColor.Red;
+            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
+            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
+            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 5].Color = BubbleColor.Red;
            
             game.Start();
 
@@ -61,11 +64,15 @@ namespace LinesForms
 
                     case ConsoleKey.Enter:
                         game.SelectCell(curX, curY);
-                        DrawConsole();
                         break;
                 }
             }
+        }
 
+        private static void UpdateScoreLabel()
+        {
+            Console.SetCursorPosition(50, 10);
+            Console.Write("Score {0}", Settings.Score.ToString());
         }
 
         public static void Move(int x, int y)
@@ -166,8 +173,6 @@ namespace LinesForms
 
             }
 
-            Console.SetCursorPosition(50, 10);
-            Console.Write("Score {0}", Settings.Score.ToString());
 
             Console.SetCursorPosition(50, 5);
             Console.WriteLine("Turn: {0}", game.Turn);
@@ -194,9 +199,6 @@ namespace LinesForms
                 default:
                     return null;
             }
-
         }
-
-
     }
 }

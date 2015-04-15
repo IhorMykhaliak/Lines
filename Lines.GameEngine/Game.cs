@@ -19,6 +19,14 @@ namespace Lines.GameEngine
         private int _emptyCells;
         private CheckLines _checkLine;
         private FindPath _findPath;
+
+        #endregion
+
+        #region Events
+
+        public event Action UpdateScoreLabelHandler;
+        public event Action DrawFieldHandler;
+
         #endregion
 
         #region Constructor
@@ -33,6 +41,26 @@ namespace Lines.GameEngine
         #endregion
 
         #region Methods
+
+        #region methods which using events
+
+        public void UpdateScore()
+        {
+            if (UpdateScoreLabelHandler != null)
+            {
+                UpdateScoreLabelHandler();
+            }
+        }
+
+        public void Draw()
+        {
+            if (DrawFieldHandler != null)
+            {
+                DrawFieldHandler();
+            }
+        }
+
+        #endregion
 
         public void Start()
         {
@@ -135,6 +163,8 @@ namespace Lines.GameEngine
             else
             {
                 TryMoveBubble(row, col);
+
+                Draw();
             }
         }
 
@@ -158,6 +188,8 @@ namespace Lines.GameEngine
             if (Field.Cells[row, col].Contain == null)
             {
                 _checkLine = new CheckLines(Field, row, col);
+                _checkLine.UpdateScoreLabelHandler += UpdateScore;
+
                 if (MoveBubble(_selectedCell, Field.Cells[row, col]))
                 {
 
@@ -179,6 +211,7 @@ namespace Lines.GameEngine
                 if (Field.Cells[row, col].Contain == BubbleSize.Small)
                 {
                     _checkLine = new CheckLines(Field, row, col);
+                    _checkLine.UpdateScoreLabelHandler += UpdateScore;
                     CurrentCell = new Cell()
                     {
                         Row = row,
@@ -222,7 +255,10 @@ namespace Lines.GameEngine
 
                 cellFrom.Contain = null;
                 cellFrom.Color = null;
+
                 return true;
+
+                
             }
             else
             {
@@ -230,7 +266,6 @@ namespace Lines.GameEngine
                 return false;
             }
         }
-        
         
         #endregion
 
