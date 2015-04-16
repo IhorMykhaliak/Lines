@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
-    class Map
+    public class Map
     {
         #region Properties
 
@@ -17,7 +17,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
         #endregion
 
         #region Constructor
-
+        
         public Map(NetOfCells Field)
         {
             this.Width = Field.Width;
@@ -37,7 +37,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #endregion
 
-        public MapElement[] GetNeighboors(MapElement current)
+        public MapElement[] GetAvailableNeighboors(MapElement current)
         {
             if (current == null)
                 return null;
@@ -66,6 +66,10 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         public MapElement GetElementById(int id)
         {
+            if (id >= Width * Height)
+            {
+                throw new InvalidOperationException("This id dont exsist!");
+            }
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)

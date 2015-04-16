@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
-    class FindPath
+    public class FindPath
     {
         private List<MapElement> _openList = new List<MapElement>();
         private List<MapElement> _closeList = new List<MapElement>();
+        private NetOfCells _field;
         private int _lineWeight = 10;
         private int _turn = 0;
 
@@ -19,14 +20,30 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         public FindPath(NetOfCells Field, Cell cellFrom, Cell cellTo)
         {
+            //#region Validation
+            //if (Field == null)
+            //{
+            //    throw new ArgumentNullException("Field wasn't initialized");
+            //}
+            //if (cellFrom.Row < 0 && cellFrom.Column < 0 && cellFrom.Row >= Field.Width && cellFrom.Column >= Field.Height)
+            //{
+            //    throw new InvalidOperationException("Impossible starting cell");
+            //}
+            //if (cellTo.Row < 0 && cellTo.Column < 0 && cellTo.Row >= Field.Width && cellTo.Column >= Field.Height)
+            //{
+            //    throw new InvalidOperationException("Impossible final cell");
+            //}
+            //#endregion
+            _field = Field;
             Map = new Map(Field);
             ElementFrom = Map.Elements[cellFrom.Row, cellFrom.Column];
             ElementTo = Map.Elements[cellTo.Row, cellTo.Column];
         }
 
-        public bool GetWay(out List<MapElement> Way)
+        public bool GetWay(out List<Cell> FieldWay)
         {
-            Way = new List<MapElement>();
+            var Way = new List<MapElement>();
+
             MapElement currElement = new MapElement(
                 ElementFrom.Row,
                 ElementFrom.Column,
@@ -34,6 +51,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
                 0,
                 (Math.Abs(ElementFrom.Row - ElementTo.Row) + Math.Abs(ElementFrom.Column - ElementTo.Column)) * _lineWeight,
                 true);
+
             Map.Elements[currElement.Row, currElement.Column] = currElement;
             _openList.Add(currElement);
             while (_openList.Count > 0 && !WayFound())
@@ -45,17 +63,24 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             }
             if (WayFound())
             {
+                Way.Add(ElementTo);
                 Way.Add(currElement);
                 while (currElement.ParentId >= 0)
                 {
                     currElement = Map.GetElementById(currElement.ParentId);
                     Way.Add(currElement);
                 }
+                Way.Reverse();
+                FieldWay = ConvertToField(Way);
+                _openList.Clear();
+                _closeList.Clear();
                 return true;
             }
             else
             {
-                Way = null;
+                FieldWay = null;
+                _openList.Clear();
+                _closeList.Clear();
                 return false;
             }
         }
@@ -71,7 +96,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             {
                 return;
             }
-            foreach (var item in Map.GetNeighboors(element))
+            foreach (var item in Map.GetAvailableNeighboors(element))
             {
                 var temp = new MapElement(
                     item.Row,
@@ -103,6 +128,17 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             }
             _closeList.Add(element);
             _openList.Remove(element);
+        }
+
+        private List<Cell> ConvertToField(List<MapElement> MapWay)
+        {
+            List<Cell> FieldWay = new List<Cell>();
+            foreach (var item in MapWay)
+            {
+                FieldWay.Add(_field.Cells[item.Row, item.Column]);
+            }
+
+            return FieldWay;
         }
     }
 }

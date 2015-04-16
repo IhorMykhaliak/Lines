@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="CheckLinesTest.cs" />
     <Compile Include="GameTest.cs" />
+    <Compile Include="PathFinding Algorithm\FindPathTest.cs" />
+    <Compile Include="PathFinding Algorithm\MapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

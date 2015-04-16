@@ -63,7 +63,7 @@ namespace LinesForms
                         break;
 
                     case ConsoleKey.Enter:
-                        game.SelectCell(curX, curY);
+                        game.SelectCell(curY, curX);
                         break;
                 }
             }
@@ -98,23 +98,23 @@ namespace LinesForms
 
                     Console.BackgroundColor = Console.ForegroundColor;
                     //Console.BackgroundColor = ConsoleColor.Red;
-                    Console.SetCursorPosition(x + (scale + 1) * i, y + scale * j);
+                    Console.SetCursorPosition(x + (scale + 1) * j, y + scale * i);
                     Console.Write('\u2588');
-                    Console.SetCursorPosition(x + (scale + 1) * i + 1, y + scale * j);
+                    Console.SetCursorPosition(x + (scale + 1) * j + 1, y + scale * i);
                     Console.Write('\u2588');
-                    Console.SetCursorPosition(x + (scale + 1) * i, y + scale * j + 1);
+                    Console.SetCursorPosition(x + (scale + 1) * j, y + scale * i + 1);
                     Console.Write('\u2588');
-                    Console.SetCursorPosition(x + (scale + 1) * i + 1, y + scale * j + 1);
+                    Console.SetCursorPosition(x + (scale + 1) * j + 1, y + scale * i + 1);
                     Console.Write('\u2588');
-                    Console.SetCursorPosition(x + (scale + 1) * i + 2, y + scale * j);
+                    Console.SetCursorPosition(x + (scale + 1) * j + 2, y + scale * i);
                     Console.Write('\u2588');
-                    Console.SetCursorPosition(x + (scale + 1) * i + 2, y + scale * j + 1);
+                    Console.SetCursorPosition(x + (scale + 1) * j + 2, y + scale * i + 1);
                     Console.Write('\u2588');
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.Black;
-                    Console.SetCursorPosition(x + (scale + 1) * i + 1, y + 3 * j + 2);
+                    Console.SetCursorPosition(x + (scale + 1) * j + 1, y + 3 * i + 2);
                     Console.Write('\u2588');
-                    Console.SetCursorPosition(x + (scale + 1) * i + 2, y + 3 * j + 2);
+                    Console.SetCursorPosition(x + (scale + 1) * j + 2, y + 3 * i + 2);
                     Console.Write('\u2588');
 
 
@@ -125,28 +125,28 @@ namespace LinesForms
 
                         Console.BackgroundColor = Console.ForegroundColor;
                         //Console.BackgroundColor = ConsoleColor.Red;
-                        Console.SetCursorPosition(x + (scale + 1) * i, y + 3 * j);
+                        Console.SetCursorPosition(x + (scale + 1) * j, y + 3 * i);
                         Console.Write('\u2588');
                         if (game.Field.Cells[i, j].Contain == BubbleSize.Big)
                         {
 
-                            Console.SetCursorPosition(x + (scale + 1) * i + 1, y + scale * j);
+                            Console.SetCursorPosition(x + (scale + 1) * j + 1, y + scale * i);
                             Console.Write('\u2588');
 
-                            Console.SetCursorPosition(x + (scale + 1) * i, y + scale * j + 1);
+                            Console.SetCursorPosition(x + (scale + 1) * j, y + scale * i + 1);
                             Console.Write('\u2588');
-                            Console.SetCursorPosition(x + (scale + 1) * i + 1, y + scale * j + 1);
+                            Console.SetCursorPosition(x + (scale + 1) * j + 1, y + scale * i + 1);
                             Console.Write('\u2588');
 
-                            Console.SetCursorPosition(x + (scale + 1) * i + 2, y + scale * j);
+                            Console.SetCursorPosition(x + (scale + 1) * j + 2, y + scale * i);
                             Console.Write('\u2588');
-                            Console.SetCursorPosition(x + (scale + 1) * i + 2, y + scale * j + 1);
+                            Console.SetCursorPosition(x + (scale + 1) * j + 2, y + scale * i + 1);
                             Console.Write('\u2588');
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.BackgroundColor = ConsoleColor.Black;
-                            Console.SetCursorPosition(x + (scale + 1) * i + 1, y + scale * j + 2);
+                            Console.SetCursorPosition(x + (scale + 1) * j + 1, y + scale * i + 2);
                             Console.Write('\u2588');
-                            Console.SetCursorPosition(x + (scale + 1) * i + 2, y + scale * j + 2);
+                            Console.SetCursorPosition(x + (scale + 1) * j + 2, y + scale * i + 2);
                             Console.Write('\u2588');
                             Console.BackgroundColor = ConsoleColor.Black;
                         }

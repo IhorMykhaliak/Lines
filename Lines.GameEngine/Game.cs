@@ -247,7 +247,7 @@ namespace Lines.GameEngine
         public bool MoveBubble(Cell cellFrom, Cell cellTo)
         {
             _findPath = new FindPath(Field, cellFrom, cellTo);
-            List<MapElement> Way;
+            List<Cell> Way;
             if (_findPath.GetWay(out Way))
             {
                 cellTo.Contain = cellFrom.Contain;
