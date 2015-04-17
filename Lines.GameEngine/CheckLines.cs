@@ -24,14 +24,6 @@ namespace Lines.GameEngine
 
         #region Checking score conditions
 
-        public void UpdateScore()
-        {
-            if (UpdateScoreLabelHandler != null)
-            {
-                UpdateScoreLabelHandler();
-            }
-        }
-
         public bool Check()
         {
             int lineLength = 0;
@@ -65,7 +57,6 @@ namespace Lines.GameEngine
                 lineLength += length;
                 lines[2] = lineBegin;
                 lines[3] = lineEnd;
-                Settings.Messege = "horizontal";
             }
 
             #endregion
@@ -100,7 +91,7 @@ namespace Lines.GameEngine
             if (numberOfLines > 0)
             {
                 Settings.Score += (lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1);
-                UpdateScore();
+                UpdateScoreLabelHandler();
                 LineLength += lineLength - numberOfLines + 1;
             }
             // Delete null objects

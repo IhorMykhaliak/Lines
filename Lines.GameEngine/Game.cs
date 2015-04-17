@@ -18,7 +18,6 @@ namespace Lines.GameEngine
         private Random _random = new Random();
         private int _emptyCells;
         private CheckLines _checkLine;
-        private FindPath _findPath;
 
         #endregion
 
@@ -44,7 +43,7 @@ namespace Lines.GameEngine
 
         #region methods which using events
 
-        public void UpdateScore()
+        private void UpdateScore()
         {
             if (UpdateScoreLabelHandler != null)
             {
@@ -52,7 +51,7 @@ namespace Lines.GameEngine
             }
         }
 
-        public void Draw()
+        private void Draw()
         {
             if (DrawFieldHandler != null)
             {
@@ -246,9 +245,8 @@ namespace Lines.GameEngine
 
         public bool MoveBubble(Cell cellFrom, Cell cellTo)
         {
-            _findPath = new FindPath(Field, cellFrom, cellTo);
             List<Cell> Way;
-            if (_findPath.GetWay(out Way))
+            if (FindPath.GetWay(Field, cellFrom, cellTo,out Way))
             {
                 cellTo.Contain = cellFrom.Contain;
                 cellTo.Color = cellFrom.Color;
@@ -257,8 +255,6 @@ namespace Lines.GameEngine
                 cellFrom.Color = null;
 
                 return true;
-
-                
             }
             else
             {

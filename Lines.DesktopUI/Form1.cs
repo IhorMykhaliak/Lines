@@ -71,6 +71,7 @@ namespace Lines.DesktopUI
         {
 
             int radius;
+            int smallBubbleCentre;
             Graphics canvas = e.Graphics;
             for (int i = 0; i < game.Field.Height; i++)
             {
@@ -80,7 +81,8 @@ namespace Lines.DesktopUI
                     if (game.Field.Cells[i, j].Contain != null)
                     {
                         radius = (game.Field.Cells[i, j].Contain == BubbleSize.Big) ? 2 : 1;
-                        canvas.FillEllipse(new SolidBrush(GetColor(game.Field.Cells[i, j].Color) ?? Color.Black), scale * j - 2, scale * i - 2, scale / 2 * radius, scale / 2 * radius);
+                        smallBubbleCentre = (game.Field.Cells[i, j].Contain == BubbleSize.Small) ? scale / 4 : 0;
+                        canvas.FillEllipse(new SolidBrush(GetColor(game.Field.Cells[i, j].Color) ?? Color.Black), scale * j + smallBubbleCentre - 2, scale * i + smallBubbleCentre - 2, scale / 2 * radius, scale / 2 * radius);
                     }
                 }
             }

@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
-    public class FindPath
+    public static class FindPath
     {
-        private List<MapElement> _openList = new List<MapElement>();
-        private List<MapElement> _closeList = new List<MapElement>();
-        private NetOfCells _field;
-        private int _lineWeight = 10;
-        private int _turn = 0;
+        private static List<MapElement> _openList = new List<MapElement>();
+        private static List<MapElement> _closeList = new List<MapElement>();
+        private static NetOfCells _field;
+        private static int _lineWeight = 10;
+        private static int _turn = 0;
 
-        public Map Map { get; set; }
-        public MapElement ElementTo { get; set; }
-        public MapElement ElementFrom { get; set; }
+        public static Map Map { get; set; }
+        public static MapElement ElementTo { get; set; }
+        public static MapElement ElementFrom { get; set; }
 
-        public FindPath(NetOfCells Field, Cell cellFrom, Cell cellTo)
+        public static bool GetWay(NetOfCells Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
         {
-            //#region Validation
+            #region Validation
             //if (Field == null)
             //{
             //    throw new ArgumentNullException("Field wasn't initialized");
@@ -33,15 +33,13 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             //{
             //    throw new InvalidOperationException("Impossible final cell");
             //}
-            //#endregion
+            #endregion
+
             _field = Field;
             Map = new Map(Field);
             ElementFrom = Map.Elements[cellFrom.Row, cellFrom.Column];
             ElementTo = Map.Elements[cellTo.Row, cellTo.Column];
-        }
 
-        public bool GetWay(out List<Cell> FieldWay)
-        {
             var Way = new List<MapElement>();
 
             MapElement currElement = new MapElement(
@@ -85,12 +83,12 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             }
         }
 
-        private bool WayFound()
+        private static bool WayFound()
         {
             return (_openList.Find(x => x.Id == ElementTo.Id) != null) ? true : false;
         }
 
-        private void Step(MapElement element)
+        private static void Step(MapElement element)
         {
             if (element == null)
             {
@@ -130,7 +128,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             _openList.Remove(element);
         }
 
-        private List<Cell> ConvertToField(List<MapElement> MapWay)
+        private static List<Cell> ConvertToField(List<MapElement> MapWay)
         {
             List<Cell> FieldWay = new List<Cell>();
             foreach (var item in MapWay)
