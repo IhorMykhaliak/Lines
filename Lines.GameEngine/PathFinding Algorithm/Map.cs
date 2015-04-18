@@ -39,8 +39,6 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         public MapElement[] GetAvailableNeighboors(MapElement current)
         {
-            if (current == null)
-                return null;
             MapElement[] neighboors = new MapElement[4];
             if (current.Row - 1 >= 0 && Elements[current.Row - 1, current.Column].IsAvailable)
             {
@@ -66,10 +64,6 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         public MapElement GetElementById(int id)
         {
-            if (id >= Width * Height)
-            {
-                throw new InvalidOperationException("This id dont exsist!");
-            }
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
@@ -80,7 +74,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
                     }
                 }
             }
-            return null;
+            throw new InvalidOperationException("This id dont exsist!");
         }
     }
 }

@@ -16,9 +16,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
             Cell from = Field.Cells[0, 2];
             Cell to = Field.Cells[3, 4];
 
-            FindPath findPath = new FindPath(Field, from, to);
             List<Cell> Way;
-            //findPath.GetWay(out Way);
             List<Cell> ExpectedWay = new List<Cell>()
             {
                 Field.Cells[0, 2],
@@ -28,7 +26,8 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
                 Field.Cells[3, 3],
                 Field.Cells[3, 4]
             };
-            Assert.IsTrue(findPath.GetWay(out Way));
+
+            Assert.IsTrue(FindPath.GetWay(Field, from, to, out Way));
             CollectionAssert.AllItemsAreNotNull(Way);
             CollectionAssert.AllItemsAreUnique(Way);
             CollectionAssert.AreEqual(ExpectedWay, Way);
@@ -43,9 +42,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
             Cell from = Field.Cells[0, 2];
             Cell to = Field.Cells[3, 4];
 
-            FindPath findPath = new FindPath(Field, from, to);
             List<Cell> Way;
-            //findPath.GetWay(out Way);
             List<Cell> ExpectedWay = new List<Cell>()
             {
                 Field.Cells[0, 2],
@@ -57,15 +54,58 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
                 Field.Cells[3, 3],
                 Field.Cells[3, 4]
             };
-            Assert.IsTrue(findPath.GetWay(out Way));
+
+            Assert.IsTrue(FindPath.GetWay(Field, from, to, out Way));
             CollectionAssert.AllItemsAreNotNull(Way);
             CollectionAssert.AllItemsAreUnique(Way);
             CollectionAssert.AreEqual(ExpectedWay, Way);
         }
 
-       
+        [TestMethod]
+        public void TestGetWay3()
+        {
+            NetOfCells Field = new NetOfCells();
 
+            Cell from = Field.Cells[0, 2];
+            Cell to = Field.Cells[0, 2];
 
+            List<Cell> Way;
+            List<Cell> ExpectedWay = new List<Cell>()
+            {
+                Field.Cells[0, 2]
+            };
+
+            Assert.IsTrue(FindPath.GetWay(Field, from, to, out Way));
+            CollectionAssert.AllItemsAreNotNull(Way);
+            CollectionAssert.AllItemsAreUnique(Way);
+            CollectionAssert.AreEqual(ExpectedWay, Way);
+        }
+
+        [TestMethod]
+        public void TestGetWay_WayDoesntExsist()
+        {
+            NetOfCells Field = new NetOfCells();
+            Field.Cells[1, 2].Contain = BubbleSize.Big;
+            Field.Cells[0, 3].Contain = BubbleSize.Big;
+            Field.Cells[0, 1].Contain = BubbleSize.Big;
+            Cell from = Field.Cells[0, 2];
+            Cell to = Field.Cells[3, 4];
+            List<Cell> Way;
+
+            Assert.IsFalse(FindPath.GetWay(Field, from, to, out Way));
+        }
+
+        [TestMethod]
+        public void TestGetWay_WayDoesntExsist2()
+        {
+            NetOfCells Field = new NetOfCells();
+            Field.Cells[3, 4].Contain = BubbleSize.Big;
+            Cell from = Field.Cells[0, 2];
+            Cell to = Field.Cells[3, 4];
+            List<Cell> Way;
+
+            Assert.IsFalse(FindPath.GetWay(Field, from, to, out Way));
+        }
 
     }
 }

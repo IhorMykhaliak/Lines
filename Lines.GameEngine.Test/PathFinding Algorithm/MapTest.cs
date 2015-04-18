@@ -25,7 +25,27 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
             NetOfCells Field = new NetOfCells();
             Map Map = new Map(Field);
 
-            Assert.AreEqual(Map.GetElementById(311), Map.Elements[3, 1]);
+            Map.GetElementById(311);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestGetElementByIdException2()
+        {
+            NetOfCells Field = new NetOfCells();
+            Map Map = new Map(Field);
+
+            Map.GetElementById(-3);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestGetElementByIdException3()
+        {
+            NetOfCells Field = new NetOfCells();
+            Map Map = new Map(Field);
+
+            Map.GetElementById(-1);
         }
 
         #endregion
@@ -153,5 +173,6 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         }
 
         #endregion
+
     }
 }

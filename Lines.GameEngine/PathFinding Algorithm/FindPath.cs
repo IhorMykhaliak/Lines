@@ -42,6 +42,13 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
             var Way = new List<MapElement>();
 
+            if (ElementFrom == ElementTo)
+            {
+                Way.Add(ElementTo);
+                FieldWay = ConvertToField(Way);
+                return true;
+            }
+
             MapElement currElement = new MapElement(
                 ElementFrom.Row,
                 ElementFrom.Column,
@@ -90,10 +97,6 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         private static void Step(MapElement element)
         {
-            if (element == null)
-            {
-                return;
-            }
             foreach (var item in Map.GetAvailableNeighboors(element))
             {
                 var temp = new MapElement(
@@ -115,7 +118,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
                     }
                     else
                     {
-                        if (dublicateOpenList.F > temp.F)
+                        if (dublicateOpenList.F >= temp.F)
                         {
                             _openList.Remove(dublicateOpenList);
                             _openList.Add(item);
