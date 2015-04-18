@@ -8,18 +8,29 @@ namespace Lines.GameEngine
 {
     public class CheckLines
     {
-        public NetOfCells Field { get; set; }
+        public Field Field { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
         public int LineLength { get; set; }
 
+        private DestroyLines _destroyLines;
+
         public event Action UpdateScoreLabelHandler;
 
-        public CheckLines(NetOfCells field, int row, int col)
+        public CheckLines(Field field, int row, int col)
         {
             Field = field;
             Row = row;
             Column = col;
+            _destroyLines = new DestroyLines(Field);
+        }
+
+        private void UpdateScore()
+        {
+            if (UpdateScoreLabelHandler != null)
+            {
+                UpdateScoreLabelHandler();
+            }
         }
 
         #region Checking score conditions
@@ -91,7 +102,7 @@ namespace Lines.GameEngine
             if (numberOfLines > 0)
             {
                 Settings.Score += (lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1);
-                UpdateScoreLabelHandler();
+                UpdateScore();
                 LineLength += lineLength - numberOfLines + 1;
             }
             // Delete null objects
@@ -99,7 +110,7 @@ namespace Lines.GameEngine
 
             for (int i = 0; i < lines.Length; i += 2)
             {
-                DestroyLines(lines[i], lines[i + 1]);
+                _destroyLines.Destroy(lines[i], lines[i + 1]);
             }
 
             return lines.Length > 1;
@@ -216,57 +227,7 @@ namespace Lines.GameEngine
             return length > 4 ? true : false;
         }
 
-        private void DestroyLines(Cell cellFrom, Cell cellTo)
-        {
-            int cell1_row = cellFrom.Row;
-            int cell1_col = cellFrom.Column;
-
-            int cell2_row = cellTo.Row;
-            int cell2_col = cellTo.Column;
-
-
-            if (cell1_row == cell2_row)
-            {
-                for (int j = cell1_col; j <= cell2_col; j++)
-                {
-                    Field.Cells[cell1_row, j].Contain = null;
-                    Field.Cells[cell1_row, j].Color = null;
-                }
-                return;
-            }
-
-
-            if (cell1_col == cell2_col)
-            {
-                for (int i = cell1_row; i <= cell2_row; i++)
-                {
-                    Field.Cells[i, cell1_col].Contain = null;
-                    Field.Cells[i, cell1_col].Color = null;
-                }
-                return;
-            }
-
-            if (cell1_row <= cell2_row && cell1_col <= cell2_col)
-            {
-                for (int i = 0; i < cell2_row - cell1_row + 1; i++)
-                {
-                    Field.Cells[cell1_row + i, cell1_col + i].Contain = null;
-                    Field.Cells[cell1_row + i, cell1_col + i].Color = null;
-                }
-                return;
-            }
-
-            if (cell1_row <= cell2_row && cell1_col >= cell2_col)
-            {
-                for (int i = 0; i < cell2_row - cell1_row + 1; i++)
-                {
-                    Field.Cells[cell1_row + i, cell1_col - i].Contain = null;
-                    Field.Cells[cell1_row + i, cell1_col - i].Color = null;
-                }
-                return;
-            }
-        }
-
+       
         #endregion
     }
 }

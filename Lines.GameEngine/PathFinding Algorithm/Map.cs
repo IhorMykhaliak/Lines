@@ -18,7 +18,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #region Constructor
         
-        public Map(NetOfCells Field)
+        public Map(Field Field)
         {
             this.Width = Field.Width;
             this.Height = Field.Height;

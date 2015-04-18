@@ -10,7 +10,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
     {
         private static List<MapElement> _openList = new List<MapElement>();
         private static List<MapElement> _closeList = new List<MapElement>();
-        private static NetOfCells _field;
+        private static Field _field;
         private static int _lineWeight = 10;
         private static int _turn = 0;
 
@@ -18,7 +18,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
         public static MapElement ElementTo { get; set; }
         public static MapElement ElementFrom { get; set; }
 
-        public static bool GetWay(NetOfCells Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
+        public static bool GetWay(Field Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
         {
             #region Validation
             //if (Field == null)

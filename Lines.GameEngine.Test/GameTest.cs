@@ -7,7 +7,7 @@ namespace Lines.GameEngine.Test
     public class GameTest
     {
         [TestMethod]
-        public void TestVerticalLine()
+        public void TestInGameVerticalLine()
         {
             Game game = new Game();
             game.Field.Cells[1, 1].Contain = BubbleSize.Big;

@@ -8,7 +8,7 @@ using System.Drawing;
 namespace Lines.GameEngine
 {
     
-    public class NetOfCells
+    public class Field
     {
         #region Properties
 
@@ -20,7 +20,7 @@ namespace Lines.GameEngine
 
         #region Constructor
 
-        public NetOfCells()
+        public Field()
         {
             this.Width = Settings.Width;
             this.Height = Settings.Height;

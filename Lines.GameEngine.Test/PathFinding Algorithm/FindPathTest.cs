@@ -9,9 +9,9 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
     public class FindPathTest
     {
         [TestMethod]
-        public void TestGetWay()
+        public void TestGetWay1()
         {
-            NetOfCells Field = new NetOfCells();
+            Field Field = new Field();
 
             Cell from = Field.Cells[0, 2];
             Cell to = Field.Cells[3, 4];
@@ -36,7 +36,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetWay2()
         {
-            NetOfCells Field = new NetOfCells();
+            Field Field = new Field();
             Field.Cells[1, 2].Contain = BubbleSize.Big;
             Field.Cells[0, 3].Contain = BubbleSize.Big;
             Cell from = Field.Cells[0, 2];
@@ -64,7 +64,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetWay3()
         {
-            NetOfCells Field = new NetOfCells();
+            Field Field = new Field();
 
             Cell from = Field.Cells[0, 2];
             Cell to = Field.Cells[0, 2];
@@ -82,9 +82,9 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         }
 
         [TestMethod]
-        public void TestGetWay_WayDoesntExsist()
+        public void TestGetWay_WayDoesntExsist1()
         {
-            NetOfCells Field = new NetOfCells();
+            Field Field = new Field();
             Field.Cells[1, 2].Contain = BubbleSize.Big;
             Field.Cells[0, 3].Contain = BubbleSize.Big;
             Field.Cells[0, 1].Contain = BubbleSize.Big;
@@ -98,7 +98,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetWay_WayDoesntExsist2()
         {
-            NetOfCells Field = new NetOfCells();
+            Field Field = new Field();
             Field.Cells[3, 4].Contain = BubbleSize.Big;
             Cell from = Field.Cells[0, 2];
             Cell to = Field.Cells[3, 4];

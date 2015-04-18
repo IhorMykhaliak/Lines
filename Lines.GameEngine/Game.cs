@@ -11,7 +11,7 @@ namespace Lines.GameEngine
     {
         #region Properties
 
-        public NetOfCells Field { get; set; }
+        public Field Field { get; set; }
         public int Turn { get; private set; }
 
         private Cell _selectedCell = null;
@@ -32,7 +32,7 @@ namespace Lines.GameEngine
 
         public Game()
         {
-            Field = new NetOfCells();
+            Field = new Field();
             _emptyCells = 0;
             Turn = 0;
         }
