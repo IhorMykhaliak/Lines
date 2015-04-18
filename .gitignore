@@ -17,11 +17,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Other=====================
+# Other===========================================
 bin
 obj
 TestResults
 *.suo
+*.sln.DotSettings.user
 
 # =========================
 # Operating System Files

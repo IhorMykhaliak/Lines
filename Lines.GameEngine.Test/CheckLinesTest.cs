@@ -7,7 +7,7 @@ namespace Lines.GameEngine.Test
     public class CheckLinesTest
     {
         [TestMethod]
-        public void TestVerticalLine()
+        public void TestHorizontalLine()
         {
             NetOfCells Field = new NetOfCells();
             int length;
