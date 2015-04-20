@@ -8,6 +8,8 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 {
     public class MapElement : IComparable<MapElement>
     {
+        #region Public Properties
+
         public int Row { get; set; }
         public int Column { get; set; }
         public int Id { get; set; }
@@ -16,6 +18,10 @@ namespace Lines.GameEngine.PathFinding_Algorithm
         public int H { get; set; }
         public int F { get; set; }
         public bool IsAvailable { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         public MapElement(int row, int col, int parendId, int g, int h, bool isAvailable)
         {
@@ -28,6 +34,8 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             this.F = g + h;
             this.IsAvailable = isAvailable;
         }
+
+        #endregion
 
         int IComparable<MapElement>.CompareTo(MapElement other)
         {

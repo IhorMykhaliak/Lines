@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lines.GameEngine
+namespace Lines.GameEngine.Scoring
 {
     public class CheckLines
     {
@@ -133,7 +133,7 @@ namespace Lines.GameEngine
             }
 
             step = 0;
-            while ((Column + step + 1) < Settings.Height && Field.Cells[Row, Column + step + 1].Color == currentCell.Color && Field.Cells[Row, Column + step + 1].Contain == BubbleSize.Big)
+            while ((Column + step + 1) < Field.Width && Field.Cells[Row, Column + step + 1].Color == currentCell.Color && Field.Cells[Row, Column + step + 1].Contain == BubbleSize.Big)
             {
                 lineEnd = Field.Cells[Row, Column + step + 1];
                 step++;
@@ -161,7 +161,7 @@ namespace Lines.GameEngine
             }
 
             step = 0;
-            while ((Row + step + 1) < Settings.Height && Field.Cells[Row + step + 1, Column].Color == currentCell.Color && Field.Cells[Row + step + 1, Column].Contain == BubbleSize.Big)
+            while ((Row + step + 1) < Field.Height && Field.Cells[Row + step + 1, Column].Color == currentCell.Color && Field.Cells[Row + step + 1, Column].Contain == BubbleSize.Big)
             {
                 lineEnd = Field.Cells[Row + step + 1, Column];
                 step++;
@@ -189,7 +189,7 @@ namespace Lines.GameEngine
             }
 
             step = 0;
-            while ((Column + step + 1) < Settings.Height && (Row + step + 1) < Settings.Height && Field.Cells[Row + step + 1, Column + step + 1].Color == currentCell.Color && Field.Cells[Row + step + 1, Column + step + 1].Contain == BubbleSize.Big)
+            while ((Column + step + 1) < Field.Width && (Row + step + 1) < Field.Height && Field.Cells[Row + step + 1, Column + step + 1].Color == currentCell.Color && Field.Cells[Row + step + 1, Column + step + 1].Contain == BubbleSize.Big)
             {
                 lineEnd = Field.Cells[Row + step + 1, Column + step + 1];
                 step++;
@@ -209,7 +209,7 @@ namespace Lines.GameEngine
             int step = 0;
             lineBegin = lineEnd = currentCell;
 
-            while ((Row - step - 1) >= 0 && (Column + step + 1) < Settings.Height && Field.Cells[Row - step - 1, Column + step + 1].Color == currentCell.Color && Field.Cells[Row - step - 1, Column + step + 1].Contain == BubbleSize.Big)
+            while ((Row - step - 1) >= 0 && (Column + step + 1) < Field.Width && Field.Cells[Row - step - 1, Column + step + 1].Color == currentCell.Color && Field.Cells[Row - step - 1, Column + step + 1].Contain == BubbleSize.Big)
             {
                 lineBegin = Field.Cells[Row - step - 1, Column + step + 1];
                 step++;
@@ -217,7 +217,7 @@ namespace Lines.GameEngine
             }
 
             step = 0;
-            while ((Column - step - 1) >= 0 && (Row + step + 1) < Settings.Height && Field.Cells[Row + step + 1, Column - step - 1].Color == currentCell.Color && Field.Cells[Row + step + 1, Column - step - 1].Contain == BubbleSize.Big)
+            while ((Column - step - 1) >= 0 && (Row + step + 1) < Field.Height && Field.Cells[Row + step + 1, Column - step - 1].Color == currentCell.Color && Field.Cells[Row + step + 1, Column - step - 1].Contain == BubbleSize.Big)
             {
                 lineEnd = Field.Cells[Row + step + 1, Column - step - 1];
                 step++;

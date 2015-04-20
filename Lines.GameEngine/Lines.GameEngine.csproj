@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DestroyLines.cs" />
+    <Compile Include="BubbleGenerator.cs" />
+    <Compile Include="Logic\GameLogic.cs" />
+    <Compile Include="Scoring\DestroyLines.cs" />
     <Compile Include="Enums\BubbleColor.cs" />
     <Compile Include="Enums\BubbleSize.cs" />
     <Compile Include="Cell.cs" />
-    <Compile Include="CheckLines.cs" />
+    <Compile Include="Scoring\CheckLines.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="PathFinding Algorithm\FindPath.cs" />

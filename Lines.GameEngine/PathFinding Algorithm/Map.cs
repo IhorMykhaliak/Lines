@@ -8,7 +8,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 {
     public class Map
     {
-        #region Properties
+        #region Public Properties
 
         public int Width { get; set; }
         public int Height { get; set; }
@@ -16,14 +16,14 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #endregion
 
-        #region Constructor
+        #region Constructors
         
         public Map(Field Field)
         {
-            this.Width = Field.Width;
             this.Height = Field.Height;
+            this.Width = Field.Width;
 
-            Elements = new MapElement[Width, Height];
+            Elements = new MapElement[Height, Width];
 
             for (int i = 0; i < Height; i++)
             {
@@ -37,6 +37,8 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #endregion
 
+        #region Public Methods
+
         public MapElement[] GetAvailableNeighboors(MapElement current)
         {
             MapElement[] neighboors = new MapElement[4];
@@ -44,7 +46,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             {
                 neighboors[0] = Elements[current.Row - 1, current.Column];
             }
-            if (current.Row + 1 <= Width - 1 && Elements[current.Row + 1, current.Column].IsAvailable)
+            if (current.Row + 1 <= Height - 1 && Elements[current.Row + 1, current.Column].IsAvailable)
             {
                 neighboors[1] = Elements[current.Row + 1, current.Column];
             }
@@ -52,7 +54,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             {
                 neighboors[2] = Elements[current.Row, current.Column - 1];
             }
-            if (current.Column + 1 <= Height - 1 && Elements[current.Row, current.Column + 1].IsAvailable)
+            if (current.Column + 1 <= Width - 1 && Elements[current.Row, current.Column + 1].IsAvailable)
             {
                 neighboors[3] = Elements[current.Row, current.Column + 1];
             }
@@ -76,5 +78,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             }
             throw new InvalidOperationException("This id dont exsist!");
         }
+
+        #endregion
     }
 }

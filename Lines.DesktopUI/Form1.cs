@@ -21,8 +21,12 @@ namespace Lines.DesktopUI
         {
             InitializeComponent();
 
+            PbGameBoard.Width = game.Field.Width * scale;
+            PbGameBoard.Height = game.Field.Height * scale;
+
             game.UpdateScoreLabelHandler += UpdateScoreLabel;
             game.DrawFieldHandler += DrawEvent;
+
             //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             //game.Field.Cells[1, 5].Color = Color.Black;
 
@@ -35,31 +39,31 @@ namespace Lines.DesktopUI
             //        game.Field.Cells[i, j].Color = BubbleColor.Red;
             //    }
             //}
-            //game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            //game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 5].Color = BubbleColor.Red;
-
-            game.Field.Cells[5, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[5, 1].Color = BubbleColor.Red;
-            game.Field.Cells[4, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[4, 2].Color = BubbleColor.Red;
-            game.Field.Cells[3, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[3, 3].Color = BubbleColor.Red;
-            game.Field.Cells[2, 4].Contain = BubbleSize.Big;
-            game.Field.Cells[2, 4].Color = BubbleColor.Red;
+            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 1].Color = BubbleColor.Red;
+            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 2].Color = BubbleColor.Red;
+            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 3].Color = BubbleColor.Red;
+            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 8].Color = BubbleColor.Red;
+            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
+            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
             game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             game.Field.Cells[1, 5].Color = BubbleColor.Red;
 
-            game.Start();
+            //game.Field.Cells[5, 1].Contain = BubbleSize.Big;
+            //game.Field.Cells[5, 1].Color = BubbleColor.Red;
+            //game.Field.Cells[4, 2].Contain = BubbleSize.Big;
+            //game.Field.Cells[4, 2].Color = BubbleColor.Red;
+            //game.Field.Cells[3, 3].Contain = BubbleSize.Big;
+            //game.Field.Cells[3, 3].Color = BubbleColor.Red;
+            //game.Field.Cells[2, 4].Contain = BubbleSize.Big;
+            //game.Field.Cells[2, 4].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 5].Color = BubbleColor.Red;
+
+            //game.Start();
         }
 
 
@@ -75,7 +79,7 @@ namespace Lines.DesktopUI
 
         private void DrawEvent()
         {
-            pictureBox1.Refresh();
+            PbGameBoard.Refresh();
         }
 
         private void DrawForm(object sender, PaintEventArgs e)

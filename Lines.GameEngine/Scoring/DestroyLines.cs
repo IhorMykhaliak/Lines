@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lines.GameEngine
+namespace Lines.GameEngine.Scoring
 {
     public class DestroyLines
     {
@@ -63,8 +63,6 @@ namespace Lines.GameEngine
                 }
                 return;
             }
-
-            throw new InvalidOperationException("Wrong begin/end of the line!");
         }
     }
 }

@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PbGameBoard = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbScore = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.lbTurn = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbGameBoard)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // PbGameBoard
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(56, 75);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(500, 500);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.Drawing);
-            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SelectedCell);
+            this.PbGameBoard.Location = new System.Drawing.Point(56, 75);
+            this.PbGameBoard.Name = "PbGameBoard";
+            this.PbGameBoard.Size = new System.Drawing.Size(500, 500);
+            this.PbGameBoard.TabIndex = 1;
+            this.PbGameBoard.TabStop = false;
+            this.PbGameBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.Drawing);
+            this.PbGameBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SelectedCell);
             // 
             // label1
             // 
@@ -103,10 +103,10 @@
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lbScore);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.PbGameBoard);
             this.Name = "Lines";
             this.Text = "Lines";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PbGameBoard)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -114,7 +114,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox PbGameBoard;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbScore;
         private System.Windows.Forms.RichTextBox richTextBox1;

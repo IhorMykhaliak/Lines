@@ -8,15 +8,20 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 {
     public static class FindPath
     {
+        #region Private Fields
+
         private static List<MapElement> _openList = new List<MapElement>();
         private static List<MapElement> _closeList = new List<MapElement>();
         private static Field _field;
         private static int _lineWeight = 10;
         private static int _turn = 0;
+        private static Map _map;
+        private static MapElement _elementTo;
+        private static MapElement _elementFrom;
 
-        public static Map Map { get; set; }
-        public static MapElement ElementTo { get; set; }
-        public static MapElement ElementFrom { get; set; }
+        #endregion
+
+        #region Public Methods
 
         public static bool GetWay(Field Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
         {
@@ -36,43 +41,43 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             #endregion
 
             _field = Field;
-            Map = new Map(Field);
-            ElementFrom = Map.Elements[cellFrom.Row, cellFrom.Column];
-            ElementTo = Map.Elements[cellTo.Row, cellTo.Column];
+            _map = new Map(Field);
+            _elementFrom = _map.Elements[cellFrom.Row, cellFrom.Column];
+            _elementTo = _map.Elements[cellTo.Row, cellTo.Column];
 
             var Way = new List<MapElement>();
 
-            if (ElementFrom == ElementTo)
+            if (_elementFrom == _elementTo)
             {
-                Way.Add(ElementTo);
+                Way.Add(_elementTo);
                 FieldWay = ConvertToField(Way);
                 return true;
             }
 
             MapElement currElement = new MapElement(
-                ElementFrom.Row,
-                ElementFrom.Column,
+                _elementFrom.Row,
+                _elementFrom.Column,
                 -1,
                 0,
-                (Math.Abs(ElementFrom.Row - ElementTo.Row) + Math.Abs(ElementFrom.Column - ElementTo.Column)) * _lineWeight,
+                (Math.Abs(_elementFrom.Row - _elementTo.Row) + Math.Abs(_elementFrom.Column - _elementTo.Column)) * _lineWeight,
                 true);
 
-            Map.Elements[currElement.Row, currElement.Column] = currElement;
+            _map.Elements[currElement.Row, currElement.Column] = currElement;
             _openList.Add(currElement);
             while (_openList.Count > 0 && !WayFound())
             {
                 _turn++;
                 currElement = _openList.Min();
-                Map.Elements[currElement.Row, currElement.Column] = currElement;
+                _map.Elements[currElement.Row, currElement.Column] = currElement;
                 Step(currElement);
             }
             if (WayFound())
             {
-                Way.Add(ElementTo);
+                Way.Add(_elementTo);
                 Way.Add(currElement);
                 while (currElement.ParentId >= 0)
                 {
-                    currElement = Map.GetElementById(currElement.ParentId);
+                    currElement = _map.GetElementById(currElement.ParentId);
                     Way.Add(currElement);
                 }
                 Way.Reverse();
@@ -92,19 +97,19 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         private static bool WayFound()
         {
-            return (_openList.Find(x => x.Id == ElementTo.Id) != null) ? true : false;
+            return (_openList.Find(x => x.Id == _elementTo.Id) != null) ? true : false;
         }
 
         private static void Step(MapElement element)
         {
-            foreach (var item in Map.GetAvailableNeighboors(element))
+            foreach (var item in _map.GetAvailableNeighboors(element))
             {
                 var temp = new MapElement(
                     item.Row,
                     item.Column,
                     element.Id,
                     element.G + _lineWeight,
-                    (Math.Abs(item.Row - ElementTo.Row) + Math.Abs(item.Column - ElementTo.Column)) * _lineWeight,
+                    (Math.Abs(item.Row - _elementTo.Row) + Math.Abs(item.Column - _elementTo.Column)) * _lineWeight,
                      true);
                 MapElement dublicateCloseList = _closeList.Find(x => x.Id == temp.Id);
                 MapElement dublicateOpenList = _openList.Find(x => x.Id == temp.Id);
@@ -113,7 +118,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
                     if (dublicateOpenList == null)
                     {
                         _openList.Add(temp);
-                        Map.Elements[temp.Row, temp.Column] = temp;
+                        _map.Elements[temp.Row, temp.Column] = temp;
 
                     }
                     else
@@ -122,7 +127,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
                         {
                             _openList.Remove(dublicateOpenList);
                             _openList.Add(item);
-                            Map.Elements[temp.Row, temp.Column] = temp;
+                            _map.Elements[temp.Row, temp.Column] = temp;
                         }
                     }
                 }
@@ -141,5 +146,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
             return FieldWay;
         }
+
+        #endregion
     }
 }

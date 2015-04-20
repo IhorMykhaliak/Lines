@@ -50,11 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CheckLinesTest.cs" />
+    <Compile Include="Scoring\CheckLinesTest.cs" />
     <Compile Include="GameTest.cs" />
     <Compile Include="PathFinding Algorithm\FindPathTest.cs" />
     <Compile Include="PathFinding Algorithm\MapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scoring\DestroyLinesTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lines.GameEngine\Lines.GameEngine.csproj">

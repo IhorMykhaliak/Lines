@@ -10,22 +10,14 @@ namespace Lines.GameEngine
     
     public class Field
     {
-        #region Properties
-
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public Cell[,] Cells { get; set; }
-
-        #endregion
-
-        #region Constructor
+        #region Constructors
 
         public Field()
         {
-            this.Width = Settings.Width;
             this.Height = Settings.Height;
+            this.Width = Settings.Width;
 
-            Cells = new Cell[Width, Height];
+            Cells = new Cell[Height, Width];
 
             for (int i = 0; i < Height; i++)
             {
@@ -35,6 +27,14 @@ namespace Lines.GameEngine
                 }
             }
         }
+
+        #endregion
+
+        #region Public Properties
+
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public Cell[,] Cells { get; set; }
 
         #endregion
     }

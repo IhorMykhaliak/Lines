@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Lines.GameEngine.Scoring;
 
-namespace Lines.GameEngine.Test
+namespace Lines.GameEngine.Test.Scoring
 {
     [TestClass]
     public class CheckLinesTest
@@ -32,7 +33,7 @@ namespace Lines.GameEngine.Test
             Assert.AreSame(from, Field.Cells[1, 1]);
             Assert.AreSame(to, Field.Cells[1, 5]);
         }
-       
+        
         [TestMethod]
         public void TestVerticalLine()
         {
