@@ -8,32 +8,55 @@ namespace Lines.GameEngine.Scoring
 {
     public class CheckLines
     {
-        public Field Field { get; set; }
-        public int Row { get; set; }
-        public int Column { get; set; }
-        public int LineLength { get; set; }
+        #region Private Fields
 
+        private Field _field;
+        private int _row;
+        private int _column;
+        private Cell _cell;
         private DestroyLines _destroyLines;
 
-        public event Action UpdateScoreLabelHandler;
+        #endregion
 
-        public CheckLines(Field field, int row, int col)
+        #region Events
+
+        public event Action<int> UpdateScoreLabelHandler;
+        
+        #endregion
+
+        #region Constructors
+
+        public CheckLines(Field field, Cell cell)
         {
-            Field = field;
-            Row = row;
-            Column = col;
-            _destroyLines = new DestroyLines(Field);
+            _field = field;
+            _cell = cell;
+            _destroyLines = new DestroyLines(_field);
+            _row = _cell.Row;
+            _column = _cell.Column;
         }
 
-        private void UpdateScore()
+        #endregion
+        
+        #region Public Properties
+
+        
+        public int LineLength { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        #region Methods which using events
+
+        private void UpdateScore(int points)
         {
             if (UpdateScoreLabelHandler != null)
             {
-                UpdateScoreLabelHandler();
+                UpdateScoreLabelHandler(points);
             }
         }
 
-        #region Checking score conditions
+        #endregion
 
         public bool Check()
         {
@@ -41,7 +64,6 @@ namespace Lines.GameEngine.Scoring
             int numberOfLines = 0;
 
             Cell[] lines = new Cell[8];
-            Cell currentCell = Field.Cells[Row, Column];
 
             Cell lineBegin;
             Cell lineEnd;
@@ -101,8 +123,7 @@ namespace Lines.GameEngine.Scoring
 
             if (numberOfLines > 0)
             {
-                Settings.Score += (lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1);
-                UpdateScore();
+                UpdateScore((lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1));
                 LineLength += lineLength - numberOfLines + 1;
             }
             // Delete null objects
@@ -118,24 +139,23 @@ namespace Lines.GameEngine.Scoring
 
         public bool CheckLine_Horizontal(out int length, out Cell lineBegin, out Cell lineEnd)
         {
-            Cell currentCell = Field.Cells[Row, Column];
-            lineBegin = currentCell;
+            lineBegin = _cell;
             lineEnd = lineBegin;
 
             length = 1;
             int step = 0;
 
-            while ((Column - step - 1) >= 0 && Field.Cells[Row, Column - step - 1].Color == currentCell.Color && Field.Cells[Row, Column - step - 1].Contain == BubbleSize.Big)
+            while ((_column - step - 1) >= 0 && _field.Cells[_row, _column - step - 1].Color == _cell.Color && _field.Cells[_row, _column - step - 1].Contain == BubbleSize.Big)
             {
-                lineBegin = Field.Cells[Row, Column - step - 1];
+                lineBegin = _field.Cells[_row, _column - step - 1];
                 step++;
                 length++;
             }
 
             step = 0;
-            while ((Column + step + 1) < Field.Width && Field.Cells[Row, Column + step + 1].Color == currentCell.Color && Field.Cells[Row, Column + step + 1].Contain == BubbleSize.Big)
+            while ((_column + step + 1) < _field.Width && _field.Cells[_row, _column + step + 1].Color == _cell.Color && _field.Cells[_row, _column + step + 1].Contain == BubbleSize.Big)
             {
-                lineEnd = Field.Cells[Row, Column + step + 1];
+                lineEnd = _field.Cells[_row, _column + step + 1];
                 step++;
                 length++;
             }
@@ -145,25 +165,24 @@ namespace Lines.GameEngine.Scoring
 
         public bool CheckLine_Vertical(out int length, out Cell lineBegin, out Cell lineEnd)
         {
-            Cell currentCell = Field.Cells[Row, Column];
-            lineBegin = currentCell;
+            lineBegin = _cell;
             lineEnd = lineBegin;
 
             length = 1;
             int step = 0;
-            lineBegin = lineEnd = currentCell;
+            lineBegin = lineEnd = _cell;
 
-            while ((Row - step - 1) >= 0 && Field.Cells[Row - step - 1, Column].Color == currentCell.Color && Field.Cells[Row - step - 1, Column].Contain == BubbleSize.Big)
+            while ((_row - step - 1) >= 0 && _field.Cells[_row - step - 1, _column].Color == _cell.Color && _field.Cells[_row - step - 1, _column].Contain == BubbleSize.Big)
             {
-                lineBegin = Field.Cells[Row - step - 1, Column];
+                lineBegin = _field.Cells[_row - step - 1, _column];
                 step++;
                 length++;
             }
 
             step = 0;
-            while ((Row + step + 1) < Field.Height && Field.Cells[Row + step + 1, Column].Color == currentCell.Color && Field.Cells[Row + step + 1, Column].Contain == BubbleSize.Big)
+            while ((_row + step + 1) < _field.Height && _field.Cells[_row + step + 1, _column].Color == _cell.Color && _field.Cells[_row + step + 1, _column].Contain == BubbleSize.Big)
             {
-                lineEnd = Field.Cells[Row + step + 1, Column];
+                lineEnd = _field.Cells[_row + step + 1, _column];
                 step++;
                 length++;
             }
@@ -173,25 +192,24 @@ namespace Lines.GameEngine.Scoring
 
         public bool CheckLine_LeftDiagonal(out int length, out Cell lineBegin, out Cell lineEnd)
         {
-            Cell currentCell = Field.Cells[Row, Column];
-            lineBegin = currentCell;
+            lineBegin = _cell;
             lineEnd = lineBegin;
 
             length = 1;
             int step = 0;
-            lineBegin = lineEnd = currentCell;
+            lineBegin = lineEnd = _cell;
 
-            while ((Column - step - 1) >= 0 && (Row - step - 1) >= 0 && Field.Cells[Row - step - 1, Column - step - 1].Color == currentCell.Color && Field.Cells[Row - step - 1, Column - step - 1].Contain == BubbleSize.Big)
+            while ((_column - step - 1) >= 0 && (_row - step - 1) >= 0 && _field.Cells[_row - step - 1, _column - step - 1].Color == _cell.Color && _field.Cells[_row - step - 1, _column - step - 1].Contain == BubbleSize.Big)
             {
-                lineBegin = Field.Cells[Row - step - 1, Column - step - 1];
+                lineBegin = _field.Cells[_row - step - 1, _column - step - 1];
                 step++;
                 length++;
             }
 
             step = 0;
-            while ((Column + step + 1) < Field.Width && (Row + step + 1) < Field.Height && Field.Cells[Row + step + 1, Column + step + 1].Color == currentCell.Color && Field.Cells[Row + step + 1, Column + step + 1].Contain == BubbleSize.Big)
+            while ((_column + step + 1) < _field.Width && (_row + step + 1) < _field.Height && _field.Cells[_row + step + 1, _column + step + 1].Color == _cell.Color && _field.Cells[_row + step + 1, _column + step + 1].Contain == BubbleSize.Big)
             {
-                lineEnd = Field.Cells[Row + step + 1, Column + step + 1];
+                lineEnd = _field.Cells[_row + step + 1, _column + step + 1];
                 step++;
                 length++;
             }
@@ -201,25 +219,24 @@ namespace Lines.GameEngine.Scoring
 
         public bool CheckLine_RightDiagonal(out int length, out Cell lineBegin, out Cell lineEnd)
         {
-            Cell currentCell = Field.Cells[Row, Column];
-            lineBegin = currentCell;
+            lineBegin = _cell;
             lineEnd = lineBegin;
 
             length = 1;
             int step = 0;
-            lineBegin = lineEnd = currentCell;
+            lineBegin = lineEnd = _cell;
 
-            while ((Row - step - 1) >= 0 && (Column + step + 1) < Field.Width && Field.Cells[Row - step - 1, Column + step + 1].Color == currentCell.Color && Field.Cells[Row - step - 1, Column + step + 1].Contain == BubbleSize.Big)
+            while ((_row - step - 1) >= 0 && (_column + step + 1) < _field.Width && _field.Cells[_row - step - 1, _column + step + 1].Color == _cell.Color && _field.Cells[_row - step - 1, _column + step + 1].Contain == BubbleSize.Big)
             {
-                lineBegin = Field.Cells[Row - step - 1, Column + step + 1];
+                lineBegin = _field.Cells[_row - step - 1, _column + step + 1];
                 step++;
                 length++;
             }
 
             step = 0;
-            while ((Column - step - 1) >= 0 && (Row + step + 1) < Field.Height && Field.Cells[Row + step + 1, Column - step - 1].Color == currentCell.Color && Field.Cells[Row + step + 1, Column - step - 1].Contain == BubbleSize.Big)
+            while ((_column - step - 1) >= 0 && (_row + step + 1) < _field.Height && _field.Cells[_row + step + 1, _column - step - 1].Color == _cell.Color && _field.Cells[_row + step + 1, _column - step - 1].Contain == BubbleSize.Big)
             {
-                lineEnd = Field.Cells[Row + step + 1, Column - step - 1];
+                lineEnd = _field.Cells[_row + step + 1, _column - step - 1];
                 step++;
                 length++;
             }
@@ -227,7 +244,7 @@ namespace Lines.GameEngine.Scoring
             return length > 4 ? true : false;
         }
 
-       
+
         #endregion
     }
 }

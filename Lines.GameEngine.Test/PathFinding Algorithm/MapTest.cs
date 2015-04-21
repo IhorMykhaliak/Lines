@@ -12,7 +12,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetElementById()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
 
             Assert.AreEqual(Map.GetElementById(31), Map.Elements[3, 1]);
@@ -22,7 +22,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestGetElementByIdException1()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
 
             Map.GetElementById(311);
@@ -32,7 +32,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestGetElementByIdException2()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
 
             Map.GetElementById(-3);
@@ -42,7 +42,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestGetElementByIdException3()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
 
             Map.GetElementById(-1);
@@ -55,7 +55,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetAvailableNeighboors1()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
             MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[0, 0]);
             MapElement[] ExpectedNeighboors = new MapElement[]
@@ -74,7 +74,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetAvailableNeighboors2()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
             MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[1, 0]);
             MapElement[] ExpectedNeighboors = new MapElement[]
@@ -94,7 +94,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetAvailableNeighboors3()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Map Map = new Map(Field);
             MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[1, 1]);
             MapElement[] ExpectedNeighboors = new MapElement[]
@@ -119,7 +119,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetAvailableNeighboors4()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Field.Cells[0, 1].Contain = BubbleSize.Big;
             Map Map = new Map(Field);
             MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[0, 0]);
@@ -138,7 +138,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetAvailableNeighboors5()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Field.Cells[0, 0].Contain = BubbleSize.Big;
             Field.Cells[1, 1].Contain = BubbleSize.Big;
             Map Map = new Map(Field);
@@ -159,7 +159,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetAvailableNeighboors6()
         {
-            Field Field = new Field();
+            Field Field = new Field(10, 10);
             Field.Cells[0, 0].Contain = BubbleSize.Big;
             Field.Cells[1, 1].Contain = BubbleSize.Big;
             Field.Cells[2, 0].Contain = BubbleSize.Big;
@@ -173,6 +173,5 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         }
 
         #endregion
-
     }
 }

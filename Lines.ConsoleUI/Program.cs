@@ -73,13 +73,13 @@ namespace LinesForms
         private static void UpdateScoreLabel()
         {
             Console.SetCursorPosition(50, 10);
-            Console.Write("Score {0}", Settings.Score.ToString());
+            Console.Write("Score {0}", game.Score.ToString());
         }
 
         public static void Move(int x, int y)
         {
-            curX = (curX + x > Settings.Width - 1 || curX + x < 0) ? curX : curX + x;
-            curY = (curY + y > Settings.Height - 1 || curY + y < 0) ? curY : curY + y;
+            curX = (curX + x > game.Field.Width - 1 || curX + x < 0) ? curX : curX + x;
+            curY = (curY + y > game.Field.Height - 1 || curY + y < 0) ? curY : curY + y;
             DrawConsole();
         }
 

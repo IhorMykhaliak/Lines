@@ -12,18 +12,31 @@ namespace Lines.GameEngine
     {
         #region Constructors
 
-        public Field()
+        public Field(int height, int width)
         {
-            this.Height = Settings.Height;
-            this.Width = Settings.Width;
+            #region Validation
 
-            Cells = new Cell[Height, Width];
-
-            for (int i = 0; i < Height; i++)
+            if (width <= 5)
             {
-                for (int j = 0; j < Width; j++)
+                throw new ArgumentException("'width' cannot be <= 5");
+            }
+
+            if (height <= 5)
+            {
+                throw new ArgumentException("'height' cannot be <= 5");
+            }
+
+            #endregion
+            this.Height = height;
+            this.Width = width;
+
+            Cells = new Cell[this.Height, this.Width];
+
+            for (int i = 0; i < this.Height; i++)
+            {
+                for (int j = 0; j < this.Width; j++)
                 {
-                    Cells[i, j] = new Cell() { Row = i, Column = j, Contain = null, Color = null };
+                    this.Cells[i, j] = new Cell() { Row = i, Column = j, Contain = null, Color = null };
                 }
             }
         }

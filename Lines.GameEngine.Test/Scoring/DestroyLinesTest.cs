@@ -10,7 +10,7 @@ namespace Lines.GameEngine.Test.Scoring
         [TestMethod]
         public void TestDestroyHorizontalLine()
         {
-            Field field = new Field();
+            Field field = new Field(10, 10);
 
             field.Cells[1, 1].Contain = BubbleSize.Big;
             field.Cells[1, 1].Color = BubbleColor.Red;
@@ -41,7 +41,7 @@ namespace Lines.GameEngine.Test.Scoring
         [TestMethod]
         public void TestDestroyVerticalLine()
         {
-            Field field = new Field();
+            Field field = new Field(10, 10);
 
             field.Cells[1, 1].Contain = BubbleSize.Big;
             field.Cells[1, 1].Color = BubbleColor.Red;
@@ -71,7 +71,7 @@ namespace Lines.GameEngine.Test.Scoring
         [TestMethod]
         public void TestDestroyLeftDiagonallLine()
         {
-            Field field = new Field();
+            Field field = new Field(10, 10);
 
             field.Cells[1, 1].Contain = BubbleSize.Big;
             field.Cells[1, 1].Color = BubbleColor.Red;
@@ -101,7 +101,7 @@ namespace Lines.GameEngine.Test.Scoring
         [TestMethod]
         public void TestDestroyRightDiagonalLine()
         {
-            Field field = new Field();
+            Field field = new Field(10, 10);
 
             field.Cells[5, 1].Contain = BubbleSize.Big;
             field.Cells[5, 1].Color = BubbleColor.Red;

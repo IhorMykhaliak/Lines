@@ -8,23 +8,15 @@ namespace Lines.GameEngine
 {
     public static class Settings
     {
-        public static int Width { get; set; }
-        public static int Height { get; set; }
-        public static int RecomededConsoleScale { get; set; }
-        public static int RecomededFormScale { get; set; }
-        public static int Score { get; set; }
-        public static bool GameOver { get; set; }
+        public static int RecomededConsoleScale;
+        public static int RecomededFormScale;
 
-        public static string Messege { get; set; }
+        public static string Messege;
 
         static Settings()
         {
-            Width = 10;
-            Height = 10;
             RecomededFormScale = 50;
             RecomededConsoleScale = 3;
-            Score = 0;
-            GameOver = false;
             Messege = "";
         }
     }

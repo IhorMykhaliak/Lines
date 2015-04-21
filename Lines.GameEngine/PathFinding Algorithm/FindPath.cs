@@ -26,15 +26,15 @@ namespace Lines.GameEngine.PathFinding_Algorithm
         public static bool GetWay(Field Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
         {
             #region Validation
-            //if (Field == null)
+            //if (_field == null)
             //{
-            //    throw new ArgumentNullException("Field wasn't initialized");
+            //    throw new ArgumentNullException("_field wasn't initialized");
             //}
-            //if (cellFrom.Row < 0 && cellFrom.Column < 0 && cellFrom.Row >= Field.Width && cellFrom.Column >= Field.Height)
+            //if (cellFrom._row < 0 && cellFrom._column < 0 && cellFrom._row >= _field.Width && cellFrom._column >= _field.Height)
             //{
             //    throw new InvalidOperationException("Impossible starting cell");
             //}
-            //if (cellTo.Row < 0 && cellTo.Column < 0 && cellTo.Row >= Field.Width && cellTo.Column >= Field.Height)
+            //if (cellTo._row < 0 && cellTo._column < 0 && cellTo._row >= _field.Width && cellTo._column >= _field.Height)
             //{
             //    throw new InvalidOperationException("Impossible final cell");
             //}

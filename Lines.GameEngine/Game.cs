@@ -11,9 +11,10 @@ namespace Lines.GameEngine
 {
     public class Game
     {
-        
+
         #region Private Fields
         private GameLogic _gameLogic;
+        private int _score;
         #endregion
 
         #region Events
@@ -26,13 +27,18 @@ namespace Lines.GameEngine
 
         #region Constructors
 
-        public Game()
+        public Game(int Fieldheight, int fieldWidth)
         {
-            Field = new Field();
+            Field = new Field(Fieldheight, fieldWidth);
             _gameLogic = new GameLogic(Field);
-            _gameLogic.DrawEventHandler += Draw;
-            _gameLogic.UpdateScoreEventHandler += UpdateScore;
+            _gameLogic.DrawHandler += Draw;
+            _gameLogic.UpdateScoreHandler += UpdateScore;
             _gameLogic.GameOverHandler += GameOver;
+        }
+
+        public Game()
+            : this(10, 10)
+        {
         }
 
         #endregion
@@ -40,9 +46,21 @@ namespace Lines.GameEngine
         #region Public Properties
 
         public Field Field { get; set; }
+
         public int Turn
         {
-            get { return this._gameLogic.Turn; }
+            get
+            {
+                return this._gameLogic.Turn;
+            }
+        }
+
+        public int Score
+        {
+            get
+            {
+                return this._score;
+            }
         }
 
         #endregion
@@ -51,8 +69,10 @@ namespace Lines.GameEngine
 
         #region methods which using events
 
-        private void UpdateScore()
+        private void UpdateScore(int points)
         {
+            _score += points;
+
             if (UpdateScoreLabelHandler != null)
             {
                 UpdateScoreLabelHandler();
@@ -71,6 +91,7 @@ namespace Lines.GameEngine
         {
             if (GameOverHandler != null)
             {
+                Draw();
                 GameOverHandler();
             }
         }
@@ -96,7 +117,7 @@ namespace Lines.GameEngine
                 smallBubbles--;
             }
 
-            UpdateScore();
+            UpdateScore(0);
         }
 
         public void SelectCell(int row, int col)
@@ -104,7 +125,7 @@ namespace Lines.GameEngine
             _gameLogic.SelectCell(row, col);
         }
 
-       
+
         #endregion
 
         #region Helpers

@@ -19,8 +19,8 @@ namespace Lines.GameEngine.Logic
         #endregion
 
         #region Events
-        public event Action DrawEventHandler;
-        public event Action UpdateScoreEventHandler;
+        public event Action DrawHandler;
+        public event Action<int> UpdateScoreHandler;
         public event Action GameOverHandler;
         #endregion
 
@@ -30,6 +30,7 @@ namespace Lines.GameEngine.Logic
         {
             EmptyCells = 0;
             Turn = 0;
+            Score = 0;
             _field = field;
         }
 
@@ -39,6 +40,7 @@ namespace Lines.GameEngine.Logic
 
         public int EmptyCells { get; set; }
         public int Turn { get; set; }
+        public int Score { get; set; }
 
         #endregion
 
@@ -48,17 +50,17 @@ namespace Lines.GameEngine.Logic
 
         private void Draw()
         {
-            if (DrawEventHandler != null)
+            if (DrawHandler != null)
             {
-                DrawEventHandler();
+                DrawHandler();
             }
         }
 
-        private void UpdateScore()
+        private void UpdateScore(int points)
         {
-            if (UpdateScoreEventHandler != null)
+            if (UpdateScoreHandler != null)
             {
-                UpdateScoreEventHandler();
+                UpdateScoreHandler(points);
             }
             else
             {
@@ -81,7 +83,6 @@ namespace Lines.GameEngine.Logic
             Turn++;
             if (generateBubbles)
             {
-                Settings.Messege = EmptyCells.ToString();
                 // Small bubbles raize into Big ones
                 for (int i = 0; i < _field.Height; i++)
                 {
@@ -100,36 +101,35 @@ namespace Lines.GameEngine.Logic
                 if (EmptyCells == 0)
                 {
                     Settings.Messege = "Game Over";
-                    Settings.GameOver = true;
                     GameOver();
                 }
 
                 BubbleGenerator.Generate(_field, smallBubbles);
-
-                Settings.Messege += "  " + EmptyCells.ToString();
             }
         }
 
         public void SelectCell(int row, int col)
         {
+            Cell currentCell = _field.Cells[row, col];
+
             if (_selectedCell == null)
             {
-                TrySelectBubble(row, col);
+                TrySelectBubble(currentCell);
             }
             else
             {
-                TryMoveBubble(row, col);
+                TryMoveBubble(currentCell);
 
                 Draw();
             }
         }
 
-        private void TrySelectBubble(int row, int col)
+        private void TrySelectBubble(Cell currentCell)
         {
 
-            if (_field.Cells[row, col].Contain == BubbleSize.Big)
+            if (currentCell.Contain == BubbleSize.Big)
             {
-                _selectedCell = _field.Cells[row, col];
+                SelectBubble(currentCell);
             }
             else
             {
@@ -137,15 +137,15 @@ namespace Lines.GameEngine.Logic
             }
         }
 
-        private void TryMoveBubble(int row, int col)
+        private void TryMoveBubble(Cell currentCell)
         {
-            Cell CurrentCell = null;
-            _checkLine = new CheckLines(_field, row, col);
+            Cell CurrentCellDuplicate;
+            _checkLine = new CheckLines(_field, currentCell);
             _checkLine.UpdateScoreLabelHandler += UpdateScore;
 
-            if (_field.Cells[row, col].Contain == null)
+            if (currentCell.Contain == null)
             {
-                if (MoveBubble(_selectedCell, _field.Cells[row, col]))
+                if (MoveBubble(_selectedCell, currentCell))
                 {
                     _selectedCell = null;
 
@@ -162,36 +162,36 @@ namespace Lines.GameEngine.Logic
             }
             else
             {
-                if (_field.Cells[row, col].Contain == BubbleSize.Small)
+                if (currentCell.Contain == BubbleSize.Small)
                 {
-                    CurrentCell = new Cell()
+                    CurrentCellDuplicate = new Cell()
                     {
-                        Row = row,
-                        Column = col,
-                        Contain = _field.Cells[row, col].Contain,
-                        Color = _field.Cells[row, col].Color
+                        Row = currentCell.Row,
+                        Column = currentCell.Column,
+                        Contain = currentCell.Contain,
+                        Color = currentCell.Color
                     };
 
-                    if (MoveBubble(_selectedCell, _field.Cells[row, col]))
+                    if (MoveBubble(_selectedCell, currentCell))
                     {
                         _selectedCell = null;
 
                         if (!_checkLine.Check())
                         {
-                            BubbleGenerator.GenerateSmallBubble(_field, BubbleSize.Small, CurrentCell.Color);
+                            BubbleGenerator.GenerateSmallBubble(_field, BubbleSize.Small, CurrentCellDuplicate.Color);
                             NextTurn(true);
                         }
                         else
                         {
                             EmptyCells += _checkLine.LineLength;
-                            _field.Cells[row, col] = CurrentCell;
+                            _field.Cells[currentCell.Row, currentCell.Column] = CurrentCellDuplicate;
                             NextTurn(false);
                         }
                     }
                 }
                 else
                 {
-                    _selectedCell = _field.Cells[row, col];
+                    SelectBubble(currentCell);
                 }
             }
         }
@@ -215,6 +215,16 @@ namespace Lines.GameEngine.Logic
                 return false;
             }
         }
+
+        #region Helpers
+
+        private void SelectBubble(Cell bubble)
+        {
+            _selectedCell = bubble;
+        }
+
+        #endregion
+
 
         #endregion
     }
