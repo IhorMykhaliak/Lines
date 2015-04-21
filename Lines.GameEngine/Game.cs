@@ -15,6 +15,7 @@ namespace Lines.GameEngine
         #region Private Fields
         private GameLogic _gameLogic;
         private int _score;
+        private int _turn;
         #endregion
 
         #region Events
@@ -27,17 +28,23 @@ namespace Lines.GameEngine
 
         #region Constructors
 
-        public Game(int Fieldheight, int fieldWidth)
+        public Game(int fieldheight, int fieldWidth)
         {
-            Field = new Field(Fieldheight, fieldWidth);
+            Field = new Field(fieldheight, fieldWidth);
             _gameLogic = new GameLogic(Field);
             _gameLogic.DrawHandler += Draw;
             _gameLogic.UpdateScoreHandler += UpdateScore;
             _gameLogic.GameOverHandler += GameOver;
+            _gameLogic.TurnHandler += NextTurn;
         }
 
         public Game()
             : this(10, 10)
+        {
+        }
+
+        public Game(int size)
+            :this(size, size)
         {
         }
 
@@ -51,7 +58,7 @@ namespace Lines.GameEngine
         {
             get
             {
-                return this._gameLogic.Turn;
+                return this._turn;
             }
         }
 
@@ -100,7 +107,7 @@ namespace Lines.GameEngine
 
         public void Start()
         {
-            _gameLogic.EmptyCells = CountEmptyCells();
+            Field.EmptyCells = CountEmptyCells();
 
             int generateBigBubbles = 3;
             int smallBubbles = 3;
@@ -109,7 +116,7 @@ namespace Lines.GameEngine
             {
                 BubbleGenerator.GenerateSmallBubble(Field, BubbleSize.Big);
                 generateBigBubbles--;
-                _gameLogic.EmptyCells--;
+                Field.EmptyCells--;
             }
             while (smallBubbles != 0)
             {
@@ -129,6 +136,36 @@ namespace Lines.GameEngine
         #endregion
 
         #region Helpers
+
+        public void NextTurn(bool generateBubbles)
+        {
+            _turn++;
+            if (generateBubbles)
+            {
+                // Small bubbles raize into Big ones
+                for (int i = 0; i < Field.Height; i++)
+                {
+                    for (int j = 0; j < Field.Width; j++)
+                    {
+                        if (Field.Cells[i, j].Contain == BubbleSize.Small)
+                        {
+                            Field.EmptyCells--;
+                            Field.Cells[i, j].Contain = BubbleSize.Big;
+                        }
+                    }
+                }
+
+                int smallBubbles = (Field.EmptyCells > 2) ? 3 : Field.EmptyCells;
+
+                if (Field.EmptyCells == 0)
+                {
+                    Settings.Messege = "Game Over";
+                    GameOver();
+                }
+
+                BubbleGenerator.Generate(Field, smallBubbles);
+            }
+        }
 
         private int CountEmptyCells()
         {

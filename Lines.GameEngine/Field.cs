@@ -39,6 +39,8 @@ namespace Lines.GameEngine
                     this.Cells[i, j] = new Cell() { Row = i, Column = j, Contain = null, Color = null };
                 }
             }
+
+            EmptyCells = 0;
         }
 
         #endregion
@@ -48,7 +50,7 @@ namespace Lines.GameEngine
         public int Width { get; set; }
         public int Height { get; set; }
         public Cell[,] Cells { get; set; }
-
+        public int EmptyCells { get; set; }
         #endregion
     }
 }
