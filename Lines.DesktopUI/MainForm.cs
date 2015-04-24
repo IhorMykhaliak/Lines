@@ -14,7 +14,7 @@ namespace Lines.DesktopUI
     public partial class Lines : Form
     {
 
-        Game game = new Game(7, 7);
+        Game game = new Game(10, 10);
         int scale = Settings.RecomededFormScale;
         
         public Lines()
@@ -24,9 +24,10 @@ namespace Lines.DesktopUI
             PbGameBoard.Width = game.Field.Width * scale;
             PbGameBoard.Height = game.Field.Height * scale;
 
-            game.UpdateScoreLabelHandler += UpdateScoreLabel;
+            game.UpdateScoreHandler += UpdateScore;
             game.DrawFieldHandler += DrawEvent;
             game.GameOverHandler += GameOver;
+            game.NextTurnHandler += NextTurn;
 
             #region Fill 9x10
 
@@ -46,29 +47,25 @@ namespace Lines.DesktopUI
             #endregion
 
             #region Fill with double line
-            //game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            //game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 5].Color = BubbleColor.Red;
+            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 1].Color = BubbleColor.Red;
+            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 2].Color = BubbleColor.Red;
+            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 3].Color = BubbleColor.Red;
+            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 8].Color = BubbleColor.Red;
+            game.Field.Cells[1, 4].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 4].Color = BubbleColor.Red;
 
-            //game.Field.Cells[5, 1].Contain = BubbleSize.Big;
-            //game.Field.Cells[5, 1].Color = BubbleColor.Red;
-            //game.Field.Cells[4, 2].Contain = BubbleSize.Big;
-            //game.Field.Cells[4, 2].Color = BubbleColor.Red;
-            //game.Field.Cells[3, 3].Contain = BubbleSize.Big;
-            //game.Field.Cells[3, 3].Color = BubbleColor.Red;
-            //game.Field.Cells[2, 4].Contain = BubbleSize.Big;
-            //game.Field.Cells[2, 4].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 5].Color = BubbleColor.Red;
+            game.Field.Cells[5, 1].Contain = BubbleSize.Big;
+            game.Field.Cells[5, 1].Color = BubbleColor.Red;
+            game.Field.Cells[4, 2].Contain = BubbleSize.Big;
+            game.Field.Cells[4, 2].Color = BubbleColor.Red;
+            game.Field.Cells[3, 3].Contain = BubbleSize.Big;
+            game.Field.Cells[3, 3].Color = BubbleColor.Red;
+            game.Field.Cells[2, 4].Contain = BubbleSize.Big;
+            game.Field.Cells[2, 4].Color = BubbleColor.Red;
 
             #endregion
 
@@ -99,11 +96,10 @@ namespace Lines.DesktopUI
                 }
             }
 
-            lbTurn.Text = game.Turn.ToString();
             richTextBox1.Text = Settings.Messege;
         }
 
-        private void SelectedCell(object sender, MouseEventArgs e)
+        private void SelectCell(object sender, MouseEventArgs e)
         {
             game.SelectCell((int)e.Y / scale, (int)e.X / scale);
         }
@@ -113,9 +109,14 @@ namespace Lines.DesktopUI
             PbGameBoard.Refresh();
         }
 
-        private void UpdateScoreLabel()
+        private void UpdateScore()
         {
             lbScore.Text = game.Score.ToString();
+        }
+
+        private void NextTurn()
+        {
+            lbTurn.Text = game.Turn.ToString();
         }
 
         public Color? GetColor(BubbleColor? color)
@@ -134,15 +135,10 @@ namespace Lines.DesktopUI
                     return Color.Purple;
                 case BubbleColor.Pink:
                     return Color.DeepPink;
-;
 
                 default:
                     return null;
             }
-
         }
-
-       
-
     }
 }

@@ -20,16 +20,16 @@ namespace Lines.GameEngine.Scoring
 
         #region Events
 
-        public event Action<int> UpdateScoreLabelHandler;
+        public event Action<int> UpdateScoreHandler;
         
         #endregion
 
         #region Constructors
 
-        public CheckLines(Field field, Cell cell)
+        public CheckLines(Field field, Cell cellToBegin)
         {
             _field = field;
-            _cell = cell;
+            _cell = cellToBegin;
             _destroyLines = new DestroyLines(_field);
             _row = _cell.Row;
             _column = _cell.Column;
@@ -38,7 +38,6 @@ namespace Lines.GameEngine.Scoring
         #endregion
         
         #region Public Properties
-
         
         public int LineLength { get; set; }
 
@@ -50,9 +49,9 @@ namespace Lines.GameEngine.Scoring
 
         private void UpdateScore(int points)
         {
-            if (UpdateScoreLabelHandler != null)
+            if (UpdateScoreHandler != null)
             {
-                UpdateScoreLabelHandler(points);
+                UpdateScoreHandler(points);
             }
         }
 
@@ -126,7 +125,7 @@ namespace Lines.GameEngine.Scoring
                 UpdateScore((lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1));
                 LineLength += lineLength - numberOfLines + 1;
             }
-            // Delete null objects
+
             lines = lines.Where(x => x != null).ToArray();
 
             for (int i = 0; i < lines.Length; i += 2)
@@ -143,20 +142,22 @@ namespace Lines.GameEngine.Scoring
             lineEnd = lineBegin;
 
             length = 1;
-            int step = 0;
+            int curRow = _row;
+            int curCol = _column - 1;
 
-            while ((_column - step - 1) >= 0 && _field.Cells[_row, _column - step - 1].Color == _cell.Color && _field.Cells[_row, _column - step - 1].Contain == BubbleSize.Big)
+            while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[_row, _column - step - 1];
-                step++;
+                lineBegin = _field.Cells[curRow, curCol];
+                curCol--;
                 length++;
             }
 
-            step = 0;
-            while ((_column + step + 1) < _field.Width && _field.Cells[_row, _column + step + 1].Color == _cell.Color && _field.Cells[_row, _column + step + 1].Contain == BubbleSize.Big)
+            curRow = _row;
+            curCol = _column + 1;
+            while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[_row, _column + step + 1];
-                step++;
+                lineEnd = _field.Cells[curRow, curCol];
+                curCol++;
                 length++;
             }
 
@@ -169,21 +170,22 @@ namespace Lines.GameEngine.Scoring
             lineEnd = lineBegin;
 
             length = 1;
-            int step = 0;
-            lineBegin = lineEnd = _cell;
+            int curRow = _row - 1;
+            int curCol = _column;
 
-            while ((_row - step - 1) >= 0 && _field.Cells[_row - step - 1, _column].Color == _cell.Color && _field.Cells[_row - step - 1, _column].Contain == BubbleSize.Big)
+            while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[_row - step - 1, _column];
-                step++;
+                lineBegin = _field.Cells[curRow, curCol];
+                curRow--;
                 length++;
             }
 
-            step = 0;
-            while ((_row + step + 1) < _field.Height && _field.Cells[_row + step + 1, _column].Color == _cell.Color && _field.Cells[_row + step + 1, _column].Contain == BubbleSize.Big)
+            curRow = _row + 1;
+            curCol = _column;
+            while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[_row + step + 1, _column];
-                step++;
+                lineEnd = _field.Cells[curRow, curCol];
+                curRow++;
                 length++;
             }
 
@@ -195,22 +197,25 @@ namespace Lines.GameEngine.Scoring
             lineBegin = _cell;
             lineEnd = lineBegin;
 
-            length = 1;
-            int step = 0;
-            lineBegin = lineEnd = _cell;
+            length = 1; 
+            int curRow = _row - 1;
+            int curCol = _column - 1;
 
-            while ((_column - step - 1) >= 0 && (_row - step - 1) >= 0 && _field.Cells[_row - step - 1, _column - step - 1].Color == _cell.Color && _field.Cells[_row - step - 1, _column - step - 1].Contain == BubbleSize.Big)
+            while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[_row - step - 1, _column - step - 1];
-                step++;
+                lineBegin = _field.Cells[curRow, curCol];
+                curRow--;
+                curCol--;
                 length++;
             }
 
-            step = 0;
-            while ((_column + step + 1) < _field.Width && (_row + step + 1) < _field.Height && _field.Cells[_row + step + 1, _column + step + 1].Color == _cell.Color && _field.Cells[_row + step + 1, _column + step + 1].Contain == BubbleSize.Big)
+            curRow = _row + 1;
+            curCol = _column + 1;
+            while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[_row + step + 1, _column + step + 1];
-                step++;
+                lineEnd = _field.Cells[curRow, curCol];
+                curRow++;
+                curCol++;
                 length++;
             }
 
@@ -223,27 +228,65 @@ namespace Lines.GameEngine.Scoring
             lineEnd = lineBegin;
 
             length = 1;
-            int step = 0;
-            lineBegin = lineEnd = _cell;
+            int curRow = _row - 1;
+            int curCol = _column + 1;
 
-            while ((_row - step - 1) >= 0 && (_column + step + 1) < _field.Width && _field.Cells[_row - step - 1, _column + step + 1].Color == _cell.Color && _field.Cells[_row - step - 1, _column + step + 1].Contain == BubbleSize.Big)
+            while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[_row - step - 1, _column + step + 1];
-                step++;
+                lineBegin = _field.Cells[curRow, curCol];
+                curRow--;
+                curCol++;
                 length++;
             }
 
-            step = 0;
-            while ((_column - step - 1) >= 0 && (_row + step + 1) < _field.Height && _field.Cells[_row + step + 1, _column - step - 1].Color == _cell.Color && _field.Cells[_row + step + 1, _column - step - 1].Contain == BubbleSize.Big)
+            curRow = _row + 1;
+            curCol = _column - 1;
+            while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[_row + step + 1, _column - step - 1];
-                step++;
+                lineEnd = _field.Cells[curRow, curCol];
+                curRow++;
+                curCol--;
                 length++;
             }
 
             return length > 4 ? true : false;
         }
 
+        #endregion
+
+        #region Helpers
+
+        private bool IsRowValid(int row)
+        {
+            if (row >= 0 &&  row <= _field.Height - 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsColumnValid(int col)
+        {
+            if (col >= 0 && col <= _field.Width - 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsCellValid(int row, int col)
+        {
+            if (row >= 0 && row <= _field.Height - 1 && col >= 0 && col <= _field.Width - 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool LineCondition(int curRow, int curCol)
+        {
+            return IsCellValid(curRow, curCol) && _field.Cells[curRow, curCol].Color == _cell.Color && _field.Cells[curRow, curCol].Contain == BubbleSize.Big;
+        }
 
         #endregion
     }

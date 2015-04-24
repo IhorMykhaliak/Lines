@@ -45,7 +45,7 @@
             this.PbGameBoard.TabIndex = 1;
             this.PbGameBoard.TabStop = false;
             this.PbGameBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.Drawing);
-            this.PbGameBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SelectedCell);
+            this.PbGameBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SelectCell);
             // 
             // label1
             // 

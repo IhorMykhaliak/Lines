@@ -15,14 +15,14 @@ namespace Lines.GameEngine
         #region Private Fields
         private GameLogic _gameLogic;
         private int _score;
-        private int _turn;
         #endregion
 
         #region Events
 
-        public event Action UpdateScoreLabelHandler;
+        public event Action UpdateScoreHandler;
         public event Action DrawFieldHandler;
         public event Action GameOverHandler;
+        public event Action NextTurnHandler;
 
         #endregion
 
@@ -31,11 +31,15 @@ namespace Lines.GameEngine
         public Game(int fieldheight, int fieldWidth)
         {
             Field = new Field(fieldheight, fieldWidth);
+            IsGameOver = false;
+
+            _score = 0;
+
             _gameLogic = new GameLogic(Field);
             _gameLogic.DrawHandler += Draw;
             _gameLogic.UpdateScoreHandler += UpdateScore;
             _gameLogic.GameOverHandler += GameOver;
-            _gameLogic.TurnHandler += NextTurn;
+            _gameLogic.NextTurnHandler += NextTurn;
         }
 
         public Game()
@@ -48,17 +52,24 @@ namespace Lines.GameEngine
         {
         }
 
+        public Game(Field field)
+        {
+            Field = new Field(field);
+            _gameLogic = new GameLogic(Field);
+            _gameLogic.DrawHandler += Draw;
+            _gameLogic.UpdateScoreHandler += UpdateScore;
+            _gameLogic.GameOverHandler += GameOver;
+        }
+
         #endregion
 
         #region Public Properties
-
-        public Field Field { get; set; }
 
         public int Turn
         {
             get
             {
-                return this._turn;
+                return this._gameLogic.Turn;
             }
         }
 
@@ -70,9 +81,13 @@ namespace Lines.GameEngine
             }
         }
 
+        public Field Field { get; set; }
+
+        public bool IsGameOver { get; set; }
+
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         #region methods which using events
 
@@ -80,9 +95,9 @@ namespace Lines.GameEngine
         {
             _score += points;
 
-            if (UpdateScoreLabelHandler != null)
+            if (UpdateScoreHandler != null)
             {
-                UpdateScoreLabelHandler();
+                UpdateScoreHandler();
             }
         }
 
@@ -96,10 +111,19 @@ namespace Lines.GameEngine
 
         private void GameOver()
         {
+            IsGameOver = true;
             if (GameOverHandler != null)
             {
                 Draw();
                 GameOverHandler();
+            }
+        }
+
+        private void NextTurn()
+        {
+            if (NextTurnHandler != null)
+            {
+                NextTurnHandler();
             }
         }
 
@@ -124,7 +148,9 @@ namespace Lines.GameEngine
                 smallBubbles--;
             }
 
+            Draw();
             UpdateScore(0);
+            NextTurn();
         }
 
         public void SelectCell(int row, int col)
@@ -132,41 +158,9 @@ namespace Lines.GameEngine
             _gameLogic.SelectCell(row, col);
         }
 
-
         #endregion
 
         #region Helpers
-
-        public void NextTurn(bool generateBubbles)
-        {
-            _turn++;
-            if (generateBubbles)
-            {
-                // Small bubbles raize into Big ones
-                for (int i = 0; i < Field.Height; i++)
-                {
-                    for (int j = 0; j < Field.Width; j++)
-                    {
-                        if (Field.Cells[i, j].Contain == BubbleSize.Small)
-                        {
-                            Field.EmptyCells--;
-                            Field.Cells[i, j].Contain = BubbleSize.Big;
-                        }
-                    }
-                }
-
-                int smallBubbles = (Field.EmptyCells > 2) ? 3 : Field.EmptyCells;
-
-                if (Field.EmptyCells == 0)
-                {
-                    Settings.Messege = "Game Over";
-                    GameOver();
-                }
-
-                BubbleGenerator.Generate(Field, smallBubbles);
-            }
-        }
-
         private int CountEmptyCells()
         {
             int result = 0;
@@ -182,7 +176,6 @@ namespace Lines.GameEngine
             }
             return result;
         }
-
         #endregion
     }
 }

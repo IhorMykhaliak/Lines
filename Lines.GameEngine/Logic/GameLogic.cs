@@ -20,7 +20,7 @@ namespace Lines.GameEngine.Logic
         public event Action DrawHandler;
         public event Action<int> UpdateScoreHandler;
         public event Action GameOverHandler;
-        public event Action<bool> TurnHandler;
+        public event Action NextTurnHandler;
         #endregion
 
         #region Constructors
@@ -72,17 +72,36 @@ namespace Lines.GameEngine.Logic
             }
         }
 
-        private void NextTurn(bool generateBubbles)
+        private void NextTurn()
         {
-            if (TurnHandler != null)
+            if (NextTurnHandler != null)
             {
-                TurnHandler(generateBubbles);
+                NextTurnHandler();
             }
         }
 
         #endregion
 
-        
+        public void NextTurn(bool generateBubbles)
+        {
+            if (generateBubbles)
+            {
+                BubbleRaizing();
+
+                int smallBubbles = (Field.EmptyCells > 2) ? 3 : Field.EmptyCells;
+
+                if (Field.EmptyCells == 0)
+                {
+                    Settings.Messege = "Game Over";
+                    GameOver();
+                }
+
+                BubbleGenerator.Generate(Field, smallBubbles);
+            }
+
+            Turn++;
+            NextTurn();
+        }
 
         public void SelectCell(int row, int col)
         {
@@ -117,7 +136,7 @@ namespace Lines.GameEngine.Logic
         {
             Cell CurrentCellDuplicate;
             _checkLine = new CheckLines(Field, currentCell);
-            _checkLine.UpdateScoreLabelHandler += UpdateScore;
+            _checkLine.UpdateScoreHandler += UpdateScore;
 
             if (currentCell.Contain == null)
             {
@@ -198,6 +217,21 @@ namespace Lines.GameEngine.Logic
         private void SelectBubble(Cell bubble)
         {
             SelectedCell = bubble;
+        }
+
+        private void BubbleRaizing()
+        {
+            for (int i = 0; i < Field.Height; i++)
+            {
+                for (int j = 0; j < Field.Width; j++)
+                {
+                    if (Field.Cells[i, j].Contain == BubbleSize.Small)
+                    {
+                        Field.EmptyCells--;
+                        Field.Cells[i, j].Contain = BubbleSize.Big;
+                    }
+                }
+            }
         }
 
         #endregion

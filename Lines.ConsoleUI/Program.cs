@@ -9,36 +9,24 @@ namespace Lines.ConsoleUI
 {
     class Program
     {
-        private static Game game = new Game();
-        private static int x = 0;
-        private static int y = 0;
+        private static Game game;
         private static int curX = 0;
         private static int curY = 0;
         private static ConsoleRepresentation console = new ConsoleRepresentation();
         static int scale = Settings.RecomededConsoleScale;
-        
+
         static void Main(string[] args)
         {
+            game = new Game(8);
             ConsoleRepresentation console = new ConsoleRepresentation();
             game.DrawFieldHandler += DrawConsole;
-            game.UpdateScoreLabelHandler += UpdateScoreLabel;
+            game.UpdateScoreHandler += UpdateScoreLabel;
+            game.GameOverHandler += GameOver;
+            game.NextTurnHandler += NextTurn;
 
-            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 5].Color = BubbleColor.Red;
-           
             game.Start();
             Console.WindowHeight *= 2;
-            DrawConsole();
+            //DrawConsole();
 
             ConsoleKeyInfo keyInfo;
             while ((keyInfo = Console.ReadKey(true)).Key != ConsoleKey.Escape)
@@ -68,11 +56,30 @@ namespace Lines.ConsoleUI
             }
         }
 
-        private static void DrawConsole()
+        private static void NextTurn()
         {
-            console.DrawConsole(game.Field);
             Console.SetCursorPosition(50, 5);
             Console.WriteLine("Turn: {0}", game.Turn);
+        }
+
+        private static void GameOver()
+        {
+            Console.SetCursorPosition(15, 10);
+            Console.WriteLine("Game Over! Your score is {0}", game.Score);
+            Console.SetCursorPosition(15, 11);
+            Console.WriteLine("Press ESCAPE to leave");
+        }
+
+        private static void DrawConsole()
+        {
+            if (game.IsGameOver)
+            {
+                GameOver();
+            }
+            else
+            {
+                console.DrawConsole(game.Field, curX, curY);
+            }
         }
 
         private static void UpdateScoreLabel()
@@ -85,15 +92,13 @@ namespace Lines.ConsoleUI
         {
             curX = (curX + x > game.Field.Width - 1 || curX + x < 0) ? curX : curX + x;
             curY = (curY + y > game.Field.Height - 1 || curY + y < 0) ? curY : curY + y;
-            console.CurX = curX;
-            console.CurY = curY;
-            console.DrawConsole(game.Field);
+            DrawConsole();
         }
 
-        
 
 
-        
-       
+
+
+
     }
 }

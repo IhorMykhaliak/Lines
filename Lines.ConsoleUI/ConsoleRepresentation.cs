@@ -9,26 +9,29 @@ namespace Lines.ConsoleUI
 {
     public class ConsoleRepresentation
     {
+        #region Private Fields
         private int _scale = Settings.RecomededConsoleScale;
         private Field _field;
-        private const int x = 0;
-        private const int y = 0;
+        private const int x = 10;
+        private const int y = 5;
+        private int _curX;
+        private int _curY;
+        #endregion
 
-        public int CurX { get; set; }
-        public int CurY { get; set; }
-
+        #region Constructors
         public ConsoleRepresentation()
         {
-            
-
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-
         }
+        #endregion
 
-        public void DrawConsole(Field field)
+        #region Public methods
+        public void DrawConsole(Field field, int curX, int curY)
         {
             _field = field;
+            _curX = curX;
+            _curY = curY;
             for (int i = 0; i < _field.Height; i++)
             {
                 for (int j = 0; j < _field.Width; j++)
@@ -43,7 +46,9 @@ namespace Lines.ConsoleUI
                 HighlightCurrentCell();
             }
         }
+        #endregion
 
+        #region Helpers
         private void DrawCell(int i, int j)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -100,17 +105,17 @@ namespace Lines.ConsoleUI
         {
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(x + (_scale + 1) * CurX, y + _scale * CurY);
+            Console.SetCursorPosition(x + (_scale + 1) * _curX, y + _scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * CurX + 1, y + _scale * CurY);
+            Console.SetCursorPosition(x + (_scale + 1) * _curX + 1, y + _scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * CurX, y + _scale * CurY + 1);
+            Console.SetCursorPosition(x + (_scale + 1) * _curX, y + _scale * _curY + 1);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * CurX + 1, y + _scale * CurY + 1);
+            Console.SetCursorPosition(x + (_scale + 1) * _curX + 1, y + _scale * _curY + 1);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * CurX + 2, y + _scale * CurY);
+            Console.SetCursorPosition(x + (_scale + 1) * _curX + 2, y + _scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * CurX + 2, y + _scale * CurY + 1);
+            Console.SetCursorPosition(x + (_scale + 1) * _curX + 2, y + _scale * _curY + 1);
             Console.Write('o');
         }
 
@@ -135,5 +140,6 @@ namespace Lines.ConsoleUI
                     return null;
             }
         }
+        #endregion
     }
 }
