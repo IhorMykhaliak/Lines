@@ -47,26 +47,25 @@ namespace Lines.DesktopUI
             #endregion
 
             #region Fill with double line
-            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 4].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 1].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 1].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 2].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 2].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 3].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 3].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 8].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 8].Color = BubbleColor.Red;
+            //game.Field.Cells[1, 4].Contain = BubbleSize.Big;
+            //game.Field.Cells[1, 4].Color = BubbleColor.Red;
 
-            game.Field.Cells[5, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[5, 1].Color = BubbleColor.Red;
-            game.Field.Cells[4, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[4, 2].Color = BubbleColor.Red;
-            game.Field.Cells[3, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[3, 3].Color = BubbleColor.Red;
-            game.Field.Cells[2, 4].Contain = BubbleSize.Big;
-            game.Field.Cells[2, 4].Color = BubbleColor.Red;
-
+            //game.Field.Cells[5, 1].Contain = BubbleSize.Big;
+            //game.Field.Cells[5, 1].Color = BubbleColor.Red;
+            //game.Field.Cells[4, 2].Contain = BubbleSize.Big;
+            //game.Field.Cells[4, 2].Color = BubbleColor.Red;
+            //game.Field.Cells[3, 3].Contain = BubbleSize.Big;
+            //game.Field.Cells[3, 3].Color = BubbleColor.Red;
+            //game.Field.Cells[2, 4].Contain = BubbleSize.Big;
+            //game.Field.Cells[2, 4].Color = BubbleColor.Red;
             #endregion
 
             game.Start();
@@ -86,12 +85,12 @@ namespace Lines.DesktopUI
             {
                 for (int j = 0; j < game.Field.Width; j++)
                 {
-                    canvas.FillRectangle(Brushes.Silver, j * scale, i * scale, scale - 2, scale - 2);
+                    canvas.FillRectangle(Brushes.Silver, j * scale + 1, i * scale + 1, scale - 2, scale - 2);
                     if (game.Field.Cells[i, j].Contain != null)
                     {
                         radius = (game.Field.Cells[i, j].Contain == BubbleSize.Big) ? 2 : 1;
                         smallBubbleCentre = (game.Field.Cells[i, j].Contain == BubbleSize.Small) ? scale / 4 : 0;
-                        canvas.FillEllipse(new SolidBrush(GetColor(game.Field.Cells[i, j].Color) ?? Color.Black), scale * j + smallBubbleCentre - 2, scale * i + smallBubbleCentre - 2, scale / 2 * radius, scale / 2 * radius);
+                        canvas.FillEllipse(new SolidBrush(GetColor(game.Field.Cells[i, j].Color) ?? Color.Black), scale * j + smallBubbleCentre, scale * i + smallBubbleCentre, scale / 2 * radius - 1, scale / 2 * radius - 1);
                     }
                 }
             }
@@ -139,6 +138,11 @@ namespace Lines.DesktopUI
                 default:
                     return null;
             }
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            game.Stop();
         }
     }
 }

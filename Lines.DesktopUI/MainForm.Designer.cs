@@ -34,11 +34,13 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.lbTurn = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnStop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PbGameBoard)).BeginInit();
             this.SuspendLayout();
             // 
             // PbGameBoard
             // 
+            this.PbGameBoard.BackColor = System.Drawing.Color.IndianRed;
             this.PbGameBoard.Location = new System.Drawing.Point(56, 75);
             this.PbGameBoard.Name = "PbGameBoard";
             this.PbGameBoard.Size = new System.Drawing.Size(500, 500);
@@ -93,11 +95,27 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Turn :";
             // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.IndianRed;
+            this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnStop.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.btnStop.Location = new System.Drawing.Point(589, 259);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(100, 70);
+            this.btnStop.TabIndex = 7;
+            this.btnStop.Text = "Stop";
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // Lines
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(739, 646);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbTurn);
             this.Controls.Add(this.richTextBox1);
@@ -120,6 +138,7 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label lbTurn;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 

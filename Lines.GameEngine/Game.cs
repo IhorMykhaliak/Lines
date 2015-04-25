@@ -153,6 +153,12 @@ namespace Lines.GameEngine
             NextTurn();
         }
 
+        public void Stop()
+        {
+            IsGameOver = true;
+            GameOver();
+        }
+
         public void SelectCell(int row, int col)
         {
             _gameLogic.SelectCell(row, col);

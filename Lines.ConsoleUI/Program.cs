@@ -17,7 +17,7 @@ namespace Lines.ConsoleUI
 
         static void Main(string[] args)
         {
-            game = new Game(8);
+            game = new Game(5);
             ConsoleRepresentation console = new ConsoleRepresentation();
             game.DrawFieldHandler += DrawConsole;
             game.UpdateScoreHandler += UpdateScoreLabel;
@@ -26,10 +26,9 @@ namespace Lines.ConsoleUI
 
             game.Start();
             Console.WindowHeight *= 2;
-            //DrawConsole();
 
             ConsoleKeyInfo keyInfo;
-            while ((keyInfo = Console.ReadKey(true)).Key != ConsoleKey.Escape)
+            while ((keyInfo = Console.ReadKey(true)).Key != ConsoleKey.Escape && !game.IsGameOver)
             {
                 switch (keyInfo.Key)
                 {
@@ -49,6 +48,11 @@ namespace Lines.ConsoleUI
                         Move(-1, 0);
                         break;
 
+                    case ConsoleKey.S:
+                        game.Stop();
+                        break;
+
+
                     case ConsoleKey.Enter:
                         game.SelectCell(curY, curX);
                         break;
@@ -58,16 +62,25 @@ namespace Lines.ConsoleUI
 
         private static void NextTurn()
         {
-            Console.SetCursorPosition(50, 5);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(50, 10);
             Console.WriteLine("Turn: {0}", game.Turn);
+        }
+
+        private static void UpdateScoreLabel()
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(50, 15);
+            Console.Write("Score {0}", game.Score.ToString());
         }
 
         private static void GameOver()
         {
-            Console.SetCursorPosition(15, 10);
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.SetCursorPosition(15, 15);
             Console.WriteLine("Game Over! Your score is {0}", game.Score);
-            Console.SetCursorPosition(15, 11);
-            Console.WriteLine("Press ESCAPE to leave");
         }
 
         private static void DrawConsole()
@@ -82,11 +95,7 @@ namespace Lines.ConsoleUI
             }
         }
 
-        private static void UpdateScoreLabel()
-        {
-            Console.SetCursorPosition(50, 10);
-            Console.Write("Score {0}", game.Score.ToString());
-        }
+        
 
         public static void Move(int x, int y)
         {

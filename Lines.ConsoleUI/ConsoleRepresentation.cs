@@ -13,7 +13,7 @@ namespace Lines.ConsoleUI
         private int _scale = Settings.RecomededConsoleScale;
         private Field _field;
         private const int x = 10;
-        private const int y = 5;
+        private const int y = 10;
         private int _curX;
         private int _curY;
         #endregion
@@ -23,6 +23,7 @@ namespace Lines.ConsoleUI
         {
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
+            GameInfo();
         }
         #endregion
 
@@ -103,10 +104,15 @@ namespace Lines.ConsoleUI
 
         private void HighlightCurrentCell()
         {
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.BackgroundColor = GetColor(_field.Cells[_curY, _curX].Color) ?? ConsoleColor.White;
+            //Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.SetCursorPosition(x + (_scale + 1) * _curX, y + _scale * _curY);
             Console.Write('o');
+            if (_field.Cells[_curY, _curX].Contain == BubbleSize.Small)
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+            }
             Console.SetCursorPosition(x + (_scale + 1) * _curX + 1, y + _scale * _curY);
             Console.Write('o');
             Console.SetCursorPosition(x + (_scale + 1) * _curX, y + _scale * _curY + 1);
@@ -117,6 +123,24 @@ namespace Lines.ConsoleUI
             Console.Write('o');
             Console.SetCursorPosition(x + (_scale + 1) * _curX + 2, y + _scale * _curY + 1);
             Console.Write('o');
+        }
+
+        private void GameInfo()
+        {
+            int top = 2;
+            int left = 10;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(left, top++);
+            Console.WriteLine("Use arrows to control WHITE rectangle(it's your cursor)");
+            Console.SetCursorPosition(left, top++);
+            Console.WriteLine("Press ENTER to select(drag) rectangle");
+            Console.SetCursorPosition(left, top++);
+            Console.WriteLine("Press ENTER to move(drop) rectangle");
+            Console.SetCursorPosition(left, top++);
+            Console.WriteLine("Your goal is to make lines with lenght >=5");
+            Console.SetCursorPosition(left, top++);
+            Console.WriteLine("Good Luck!");
         }
 
         private ConsoleColor? GetColor(BubbleColor? color)
