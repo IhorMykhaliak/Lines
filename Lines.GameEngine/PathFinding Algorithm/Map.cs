@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
@@ -37,7 +38,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         public MapElement[] GetAvailableNeighboors(MapElement current)
         {

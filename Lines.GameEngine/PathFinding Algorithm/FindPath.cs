@@ -21,7 +21,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         public static bool GetWay(Field Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
         {

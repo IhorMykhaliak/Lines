@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lines.GameEngine.PathFinding_Algorithm;
 using System.Collections.Generic;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Test.Pathfinding_Algorithm
 {

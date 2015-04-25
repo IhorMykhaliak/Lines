@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lines.GameEngine.Logic;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Test.Logic
 {
@@ -109,15 +110,15 @@ namespace Lines.GameEngine.Test.Logic
             gameLogic.SelectCell(0, 0); //need to use fake bubble generator, sometimes test failes
             gameLogic.SelectCell(0, 5);
 
-            bool isSmallBlueWasGenerated = false;
+            bool smallBlueWasGenerated = false;
 
             for (int i = 0; i < gameLogic.Field.Height; i++)
             {
                 for (int j = 0; j < gameLogic.Field.Width; j++)
                 {
-                    if (gameLogic.Field.Cells[i, j].Contain == BubbleSize.Small && gameLogic.Field.Cells[i, j].Color == BubbleColor.Blue)
+                    if (gameLogic.Field.Cells[i, j].Contain == BubbleSize.Big && gameLogic.Field.Cells[i, j].Color == BubbleColor.Blue)
                     {
-                        isSmallBlueWasGenerated = true;
+                        smallBlueWasGenerated = true;
                     }
                 }
             }
@@ -126,7 +127,7 @@ namespace Lines.GameEngine.Test.Logic
             Assert.AreEqual(field.Cells[0, 0].Contain, null);
             Assert.AreEqual(field.Cells[0, 5].Contain, BubbleSize.Big);
             Assert.AreEqual(field.Cells[0, 5].Color, BubbleColor.Red);
-            Assert.IsTrue(isSmallBlueWasGenerated);
+            Assert.IsTrue(smallBlueWasGenerated);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Test
 {
@@ -96,7 +97,7 @@ namespace Lines.GameEngine.Test
             game.Field.Cells[1, 5].Contain = BubbleSize.Big;
             game.Field.Cells[1, 5].Color = BubbleColor.Red;
 
-            //gameLogic.Start();
+            game.Start();
 
             game.SelectCell(1, 8);
             game.SelectCell(1, 4);
@@ -133,6 +134,8 @@ namespace Lines.GameEngine.Test
             game.Field.Cells[4, 1].Color = BubbleColor.Red;
             game.Field.Cells[5, 1].Contain = BubbleSize.Big;
             game.Field.Cells[5, 1].Color = BubbleColor.Red;
+
+            game.Start();
 
             game.SelectCell(0, 1);
             game.SelectCell(1, 1);

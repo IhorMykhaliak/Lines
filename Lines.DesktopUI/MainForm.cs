@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Lines.GameEngine;
+using Lines.GameEngine.Enums;
 
 namespace Lines.DesktopUI
 {
@@ -68,6 +69,20 @@ namespace Lines.DesktopUI
             //game.Field.Cells[2, 4].Color = BubbleColor.Red;
             #endregion
 
+            #region fill with line and small bubble
+            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 1].Color = BubbleColor.Red;
+            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 2].Color = BubbleColor.Red;
+            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 3].Color = BubbleColor.Red;
+            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 8].Color = BubbleColor.Red;
+            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
+            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
+            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
+            game.Field.Cells[1, 5].Color = BubbleColor.Red;
+            #endregion
             game.Start();
         }
 

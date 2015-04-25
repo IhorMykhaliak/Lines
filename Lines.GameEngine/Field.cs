@@ -26,6 +26,16 @@ namespace Lines.GameEngine
                 throw new ArgumentException("'height' cannot be < 5");
             }
 
+            if (width > 10)
+            {
+                throw new ArgumentException("'width' cannot be > 10");
+            }
+
+            if (height > 10)
+            {
+                throw new ArgumentException("'height' cannot be > 10");
+            }
+
             #endregion
 
             this.Height = height;
@@ -37,34 +47,11 @@ namespace Lines.GameEngine
             {
                 for (int j = 0; j < this.Width; j++)
                 {
-                    this.Cells[i, j] = new Cell() { Row = i, Column = j, Contain = null, Color = null };
+                    this.Cells[i, j] = new Cell(i, j, null, null);
                 }
             }
 
             this.EmptyCells = 0;
-        }
-
-        public Field(Field previousField)
-        {
-            this.Height = previousField.Height;
-            this.Width = previousField.Width;
-
-            this.Cells = new Cell[previousField.Height, previousField.Width];
-
-            for (int i = 0; i < this.Height; i++)
-            {
-                for (int j = 0; j < this.Width; j++)
-                {
-                    this.Cells[i, j] = new Cell() 
-                    {
-                        Row = previousField.Cells[i, j].Row,
-                        Column = previousField.Cells[i, j].Column,
-                        Contain = previousField.Cells[i, j].Contain, 
-                        Color = previousField.Cells[i, j].Color 
-                    };
-                }
-            }
-            this.EmptyCells = previousField.EmptyCells;
         }
 
         #endregion

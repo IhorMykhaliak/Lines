@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.PathFinding_Algorithm;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Logic
 {
@@ -18,7 +19,7 @@ namespace Lines.GameEngine.Logic
 
         #region Events
         public event Action DrawHandler;
-        public event Action<int> UpdateScoreHandler;
+        public event Action UpdateScoreHandler;
         public event Action GameOverHandler;
         public event Action NextTurnHandler;
         #endregion
@@ -44,11 +45,11 @@ namespace Lines.GameEngine.Logic
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         #region methods which using events
 
-        private void Draw()
+        private void OnDraw()
         {
             if (DrawHandler != null)
             {
@@ -56,15 +57,17 @@ namespace Lines.GameEngine.Logic
             }
         }
 
-        private void UpdateScore(int points)
+        private void OnUpdateScore(int points)
         {
+            Score += points;
+
             if (UpdateScoreHandler != null)
             {
-                UpdateScoreHandler(points);
+                UpdateScoreHandler();
             }
         }
 
-        private void GameOver()
+        private void OnGameOver()
         {
             if (GameOverHandler != null)
             {
@@ -72,7 +75,7 @@ namespace Lines.GameEngine.Logic
             }
         }
 
-        private void NextTurn()
+        private void OnNextTurn()
         {
             if (NextTurnHandler != null)
             {
@@ -93,14 +96,14 @@ namespace Lines.GameEngine.Logic
                 if (Field.EmptyCells == 0)
                 {
                     Settings.Messege = "Game Over";
-                    GameOver();
+                    OnGameOver();
                 }
 
                 BubbleGenerator.Generate(Field, smallBubbles);
             }
 
             Turn++;
-            NextTurn();
+            OnNextTurn();
         }
 
         public void SelectCell(int row, int col)
@@ -115,7 +118,7 @@ namespace Lines.GameEngine.Logic
             {
                 TryMoveBubble(currentCell);
 
-                Draw();
+                OnDraw();
             }
         }
 
@@ -134,9 +137,9 @@ namespace Lines.GameEngine.Logic
 
         public void TryMoveBubble(Cell currentCell)
         {
-            Cell CurrentCellDuplicate;
+            
             _checkLine = new CheckLines(Field, currentCell);
-            _checkLine.UpdateScoreHandler += UpdateScore;
+            _checkLine.UpdateScoreHandler += OnUpdateScore;
 
             if (currentCell.Contain == null)
             {
@@ -159,13 +162,7 @@ namespace Lines.GameEngine.Logic
             {
                 if (currentCell.Contain == BubbleSize.Small)
                 {
-                    CurrentCellDuplicate = new Cell()
-                    {
-                        Row = currentCell.Row,
-                        Column = currentCell.Column,
-                        Contain = currentCell.Contain,
-                        Color = currentCell.Color
-                    };
+                    Cell CurrentCellDuplicate = new Cell(currentCell);
 
                     if (MoveBubble(SelectedCell, currentCell))
                     {
@@ -208,6 +205,22 @@ namespace Lines.GameEngine.Logic
             {
                 return false;
             }
+        }
+
+        public int CountEmptyCells()
+        {
+            int result = 0;
+            for (int i = 0; i < Field.Height; i++)
+            {
+                for (int j = 0; j < Field.Width; j++)
+                {
+                    if (Field.Cells[i, j].Contain == null)
+                    {
+                        result++;
+                    }
+                }
+            }
+            return result;
         }
 
         #endregion

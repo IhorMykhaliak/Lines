@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Lines.GameEngine.PathFinding_Algorithm;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.Logic;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine
 {
@@ -13,8 +14,9 @@ namespace Lines.GameEngine
     {
 
         #region Private Fields
+        private GameStatus _gameStatus;
         private GameLogic _gameLogic;
-        private int _score;
+        private DestroyLines _destroyLines;
         #endregion
 
         #region Events
@@ -32,14 +34,12 @@ namespace Lines.GameEngine
         {
             Field = new Field(fieldheight, fieldWidth);
             IsGameOver = false;
-
-            _score = 0;
-
+            _gameStatus = GameStatus.ReadyToStart;
             _gameLogic = new GameLogic(Field);
-            _gameLogic.DrawHandler += Draw;
-            _gameLogic.UpdateScoreHandler += UpdateScore;
-            _gameLogic.GameOverHandler += GameOver;
-            _gameLogic.NextTurnHandler += NextTurn;
+            _gameLogic.DrawHandler += OnDraw;
+            _gameLogic.UpdateScoreHandler += OnUpdateScore;
+            _gameLogic.GameOverHandler += OnGameOver;
+            _gameLogic.NextTurnHandler += OnNextTurn;
         }
 
         public Game()
@@ -48,17 +48,8 @@ namespace Lines.GameEngine
         }
 
         public Game(int size)
-            :this(size, size)
+            : this(size, size)
         {
-        }
-
-        public Game(Field field)
-        {
-            Field = new Field(field);
-            _gameLogic = new GameLogic(Field);
-            _gameLogic.DrawHandler += Draw;
-            _gameLogic.UpdateScoreHandler += UpdateScore;
-            _gameLogic.GameOverHandler += GameOver;
         }
 
         #endregion
@@ -77,11 +68,11 @@ namespace Lines.GameEngine
         {
             get
             {
-                return this._score;
+                return this._gameLogic.Score;
             }
         }
 
-        public Field Field { get; set; }
+        public Field Field { get; private set; }
 
         public bool IsGameOver { get; set; }
 
@@ -91,17 +82,15 @@ namespace Lines.GameEngine
 
         #region methods which using events
 
-        private void UpdateScore(int points)
+        private void OnUpdateScore()
         {
-            _score += points;
-
             if (UpdateScoreHandler != null)
             {
                 UpdateScoreHandler();
             }
         }
 
-        private void Draw()
+        private void OnDraw()
         {
             if (DrawFieldHandler != null)
             {
@@ -109,17 +98,17 @@ namespace Lines.GameEngine
             }
         }
 
-        private void GameOver()
+        private void OnGameOver()
         {
             IsGameOver = true;
             if (GameOverHandler != null)
             {
-                Draw();
+                OnDraw();
                 GameOverHandler();
             }
         }
 
-        private void NextTurn()
+        private void OnNextTurn()
         {
             if (NextTurnHandler != null)
             {
@@ -131,7 +120,15 @@ namespace Lines.GameEngine
 
         public void Start()
         {
-            Field.EmptyCells = CountEmptyCells();
+            #region Validation
+            if (_gameStatus != GameStatus.ReadyToStart)
+            {
+                throw new InvalidOperationException("Only game with status 'ReadyToStart' can be started");
+            }
+            #endregion
+
+            _gameStatus = GameStatus.InProgress;
+            Field.EmptyCells = _gameLogic.CountEmptyCells();
 
             int generateBigBubbles = 3;
             int smallBubbles = 3;
@@ -148,40 +145,38 @@ namespace Lines.GameEngine
                 smallBubbles--;
             }
 
-            Draw();
-            UpdateScore(0);
-            NextTurn();
+            OnUpdateScore();
+            OnNextTurn();
+            OnDraw();
         }
 
         public void Stop()
         {
+            #region Validation
+            if (_gameStatus != GameStatus.InProgress)
+            {
+                throw new InvalidOperationException("Game was already stopped!");
+            }
+            #endregion
+
+            _gameStatus = GameStatus.Completed;
             IsGameOver = true;
-            GameOver();
+            OnGameOver();
+
         }
 
         public void SelectCell(int row, int col)
         {
-            _gameLogic.SelectCell(row, col);
+            if (_gameStatus == GameStatus.InProgress)
+            {
+                _gameLogic.SelectCell(row, col);
+            }
         }
 
         #endregion
 
         #region Helpers
-        private int CountEmptyCells()
-        {
-            int result = 0;
-            for (int i = 0; i < Field.Height; i++)
-            {
-                for (int j = 0; j < Field.Width; j++)
-                {
-                    if (Field.Cells[i, j].Contain == null)
-                    {
-                        result++;
-                    }
-                }
-            }
-            return result;
-        }
+
         #endregion
     }
 }

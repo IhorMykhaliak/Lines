@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lines.GameEngine.PathFinding_Algorithm;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Test.Pathfinding_Algorithm
 {

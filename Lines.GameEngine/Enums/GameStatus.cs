@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine.Enums
 {
-    public enum BubbleSize
+    public enum GameStatus
     {
-        Big,
-        Small
+        ReadyToStart,
+        InProgress,
+        Completed
     }
 }

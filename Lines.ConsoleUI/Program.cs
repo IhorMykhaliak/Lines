@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lines.GameEngine;
+using Lines.GameEngine.Enums;
 
 namespace Lines.ConsoleUI
 {
