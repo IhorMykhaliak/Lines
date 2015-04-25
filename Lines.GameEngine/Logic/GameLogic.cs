@@ -14,14 +14,17 @@ namespace Lines.GameEngine.Logic
         #region Private Fields
 
         private CheckLines _checkLine;
+        private DestroyLines _destroyLines;
 
         #endregion
 
         #region Events
+
         public event Action DrawHandler;
         public event Action UpdateScoreHandler;
         public event Action GameOverHandler;
         public event Action NextTurnHandler;
+
         #endregion
 
         #region Constructors
@@ -83,6 +86,12 @@ namespace Lines.GameEngine.Logic
             }
         }
 
+        private void OnDestroyLines(Cell[][] lines)
+        {
+            _destroyLines = new DestroyLines(Field);
+            _destroyLines.DestroyLine(lines);
+        }
+
         #endregion
 
         public void NextTurn(bool generateBubbles)
@@ -140,6 +149,7 @@ namespace Lines.GameEngine.Logic
             
             _checkLine = new CheckLines(Field, currentCell);
             _checkLine.UpdateScoreHandler += OnUpdateScore;
+            _checkLine.DestroyLinesHandel += OnDestroyLines;
 
             if (currentCell.Contain == null)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Scoring
 {
@@ -14,13 +15,13 @@ namespace Lines.GameEngine.Scoring
         private int _row;
         private int _column;
         private Cell _cell;
-        private DestroyLines _destroyLines;
 
         #endregion
 
         #region Events
 
         public event Action<int> UpdateScoreHandler;
+        public event Action<Cell[][]> DestroyLinesHandel;
         
         #endregion
 
@@ -30,7 +31,6 @@ namespace Lines.GameEngine.Scoring
         {
             _field = field;
             _cell = cellToBegin;
-            _destroyLines = new DestroyLines(_field);
             _row = _cell.Row;
             _column = _cell.Column;
         }
@@ -43,15 +43,23 @@ namespace Lines.GameEngine.Scoring
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         #region Methods which using events
 
-        private void UpdateScore(int points)
+        private void OnUpdateScore(int points)
         {
             if (UpdateScoreHandler != null)
             {
                 UpdateScoreHandler(points);
+            }
+        }
+
+        private void OnDestroyLines(Cell[][] lines)
+        {
+            if (DestroyLinesHandel != null)
+            {
+                DestroyLinesHandel(lines);
             }
         }
 
@@ -62,33 +70,30 @@ namespace Lines.GameEngine.Scoring
             int lineLength = 0;
             int numberOfLines = 0;
 
-            Cell[] lines = new Cell[8];
+            Cell[][] lines = new Cell[4][];
 
-            Cell lineBegin;
-            Cell lineEnd;
+            Cell[] line;
 
             int length;
 
             #region Horizontal Check
 
-            if (CheckLine_Horizontal(out length, out lineBegin, out lineEnd))
+            if (CheckLine_Horizontal(out length, out line))
             {
                 numberOfLines++;
                 lineLength += length;
-                lines[0] = lineBegin;
-                lines[1] = lineEnd;
+                lines[0] = line;
             }
 
             #endregion
 
             #region Vertical Check
 
-            if (CheckLine_Vertical(out length, out lineBegin, out lineEnd))
+            if (CheckLine_Vertical(out length, out line))
             {
                 numberOfLines++;
                 lineLength += length;
-                lines[2] = lineBegin;
-                lines[3] = lineEnd;
+                lines[1] = line;
             }
 
             #endregion
@@ -96,12 +101,11 @@ namespace Lines.GameEngine.Scoring
             #region Left Diagonal
 
 
-            if (CheckLine_LeftDiagonal(out length, out lineBegin, out lineEnd))
+            if (CheckLine_LeftDiagonal(out length, out line))
             {
                 numberOfLines++;
                 lineLength += length;
-                lines[4] = lineBegin;
-                lines[5] = lineEnd;
+                lines[2] = line;
             }
 
             #endregion
@@ -109,12 +113,11 @@ namespace Lines.GameEngine.Scoring
             #region Right Diagonal
 
 
-            if (CheckLine_RightDiagonal(out length, out lineBegin, out lineEnd))
+            if (CheckLine_RightDiagonal(out length, out line))
             {
                 numberOfLines++;
                 lineLength += length;
-                lines[6] = lineBegin;
-                lines[7] = lineEnd;
+                lines[3] = line;
             }
 
 
@@ -122,32 +125,32 @@ namespace Lines.GameEngine.Scoring
 
             if (numberOfLines > 0)
             {
-                UpdateScore((lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1));
+                OnUpdateScore((lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1));
                 LineLength += lineLength - numberOfLines + 1;
             }
 
             lines = lines.Where(x => x != null).ToArray();
 
-            for (int i = 0; i < lines.Length; i += 2)
+            if (lines.Length > 0)
             {
-                _destroyLines.Destroy(lines[i], lines[i + 1]);
+                OnDestroyLines(lines);
+                return true;
             }
-
-            return lines.Length > 1;
+            return false;
         }
 
-        public bool CheckLine_Horizontal(out int length, out Cell lineBegin, out Cell lineEnd)
+        public bool CheckLine_Horizontal(out int length, out Cell[] lineElements)
         {
-            lineBegin = _cell;
-            lineEnd = lineBegin;
-
             length = 1;
             int curRow = _row;
             int curCol = _column - 1;
 
+            lineElements = new Cell[_field.Width];
+            lineElements[0] = _field.Cells[_row, _column];
+
             while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curCol--;
                 length++;
             }
@@ -156,26 +159,27 @@ namespace Lines.GameEngine.Scoring
             curCol = _column + 1;
             while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curCol++;
                 length++;
             }
 
+            lineElements = lineElements.Where(x => x != null).ToArray();
             return length > 4 ? true : false;
         }
 
-        public bool CheckLine_Vertical(out int length, out Cell lineBegin, out Cell lineEnd)
+        public bool CheckLine_Vertical(out int length, out Cell[] lineElements)
         {
-            lineBegin = _cell;
-            lineEnd = lineBegin;
-
             length = 1;
             int curRow = _row - 1;
             int curCol = _column;
 
+            lineElements = new Cell[_field.Height];
+            lineElements[0] = _field.Cells[_row, _column];
+
             while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curRow--;
                 length++;
             }
@@ -184,26 +188,27 @@ namespace Lines.GameEngine.Scoring
             curCol = _column;
             while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curRow++;
                 length++;
             }
 
+            lineElements = lineElements.Where(x => x != null).ToArray();
             return length > 4 ? true : false;
         }
 
-        public bool CheckLine_LeftDiagonal(out int length, out Cell lineBegin, out Cell lineEnd)
+        public bool CheckLine_LeftDiagonal(out int length, out Cell[] lineElements)
         {
-            lineBegin = _cell;
-            lineEnd = lineBegin;
-
             length = 1; 
             int curRow = _row - 1;
             int curCol = _column - 1;
+            int lineMaxLength = (_field.Height > _field.Width) ? _field.Width : _field.Height;
 
+            lineElements = new Cell[lineMaxLength];
+            lineElements[0] = _field.Cells[_row, _column];
             while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curRow--;
                 curCol--;
                 length++;
@@ -213,27 +218,28 @@ namespace Lines.GameEngine.Scoring
             curCol = _column + 1;
             while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curRow++;
                 curCol++;
                 length++;
             }
 
+            lineElements = lineElements.Where(x => x != null).ToArray();
             return length > 4 ? true : false;
         }
 
-        public bool CheckLine_RightDiagonal(out int length, out Cell lineBegin, out Cell lineEnd)
+        public bool CheckLine_RightDiagonal(out int length, out Cell[] lineElements)
         {
-            lineBegin = _cell;
-            lineEnd = lineBegin;
-
             length = 1;
             int curRow = _row - 1;
             int curCol = _column + 1;
+            int lineMaxLength = (_field.Height > _field.Width) ? _field.Width : _field.Height;
 
+            lineElements = new Cell[lineMaxLength];
+            lineElements[0] = _field.Cells[_row, _column];
             while (LineCondition(curRow, curCol))
             {
-                lineBegin = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curRow--;
                 curCol++;
                 length++;
@@ -243,12 +249,13 @@ namespace Lines.GameEngine.Scoring
             curCol = _column - 1;
             while (LineCondition(curRow, curCol))
             {
-                lineEnd = _field.Cells[curRow, curCol];
+                lineElements[length] = _field.Cells[curRow, curCol];
                 curRow++;
                 curCol--;
                 length++;
             }
 
+            lineElements = lineElements.Where(x => x != null).ToArray();
             return length > 4 ? true : false;
         }
 

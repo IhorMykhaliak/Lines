@@ -122,6 +122,7 @@
             this.Controls.Add(this.lbScore);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PbGameBoard);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Lines";
             this.Text = "Lines";
             ((System.ComponentModel.ISupportInitialize)(this.PbGameBoard)).EndInit();
