@@ -5,13 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Lines.GameEngine;
 using Lines.GameEngine.Enums;
+using System.Configuration;
+
 
 namespace Lines.ConsoleUI
 {
     public class ConsoleRepresentation
     {
         #region Private Fields
-        private int _scale = Settings.RecomededConsoleScale;
+        private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedConsoleScale"]);
         private Field _field;
         private const int x = 10;
         private const int y = 10;
@@ -132,6 +134,7 @@ namespace Lines.ConsoleUI
             int left = 10;
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
+
             Console.SetCursorPosition(left, top++);
             Console.WriteLine("Use arrows to control WHITE rectangle(it's your cursor)");
             Console.SetCursorPosition(left, top++);
@@ -159,7 +162,7 @@ namespace Lines.ConsoleUI
                 case BubbleColor.Purple:
                     return ConsoleColor.DarkMagenta;
                 case BubbleColor.Pink:
-                    return ConsoleColor.Cyan;
+                    return ConsoleColor.DarkBlue;
 
                 default:
                     return null;
