@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lines.GameEngine.Logic;
 using Lines.GameEngine.Enums;
+using Lines.GameEngine.BubbleGenerationStrategy;
 
 namespace Lines.GameEngine.Test.Logic
 {
@@ -14,7 +15,7 @@ namespace Lines.GameEngine.Test.Logic
         public void TestSelectEmptyCell()
         {
             Field field = new Field(10, 10);
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
             gameLogic.SelectCell(1, 8);
 
@@ -28,7 +29,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[0, 0].Contain = BubbleSize.Big;
             field.Cells[0, 0].Color = BubbleColor.Red;
 
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
             gameLogic.SelectCell(0, 0);
 
@@ -43,7 +44,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[0, 0].Color = BubbleColor.Red;
             field.Cells[0, 2].Contain = BubbleSize.Big;
             field.Cells[0, 2].Color = BubbleColor.Red;
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new RandomStrategy());
 
             gameLogic.SelectCell(0, 0);
             gameLogic.SelectCell(0, 2);
@@ -63,7 +64,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[0, 0].Contain = BubbleSize.Big;
             field.Cells[0, 0].Color = BubbleColor.Red;
 
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
             gameLogic.SelectCell(0, 0);
             gameLogic.SelectCell(0, 5);
@@ -84,7 +85,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[0, 1].Color = BubbleColor.Red;
             field.Cells[1, 0].Contain = BubbleSize.Big;
             field.Cells[1, 0].Color = BubbleColor.Red;
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
             gameLogic.SelectCell(0, 0);
             gameLogic.SelectCell(0, 5);
@@ -105,29 +106,17 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[0, 5].Contain = BubbleSize.Small;
             field.Cells[0, 5].Color = BubbleColor.Blue;
 
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
             gameLogic.SelectCell(0, 0); //need to use fake bubble generator, sometimes test failes
             gameLogic.SelectCell(0, 5);
-
-            bool smallBlueWasGenerated = false;
-
-            for (int i = 0; i < gameLogic.Field.Height; i++)
-            {
-                for (int j = 0; j < gameLogic.Field.Width; j++)
-                {
-                    if (gameLogic.Field.Cells[i, j].Contain == BubbleSize.Big && gameLogic.Field.Cells[i, j].Color == BubbleColor.Blue)
-                    {
-                        smallBlueWasGenerated = true;
-                    }
-                }
-            }
 
             Assert.AreEqual(gameLogic.SelectedCell, null);
             Assert.AreEqual(field.Cells[0, 0].Contain, null);
             Assert.AreEqual(field.Cells[0, 5].Contain, BubbleSize.Big);
             Assert.AreEqual(field.Cells[0, 5].Color, BubbleColor.Red);
-            Assert.IsTrue(smallBlueWasGenerated);
+            Assert.AreEqual(field.Cells[8, 8].Contain, BubbleSize.Big);
+            Assert.AreEqual(field.Cells[8, 8].Color, BubbleColor.Blue);
         }
 
 
@@ -139,7 +128,7 @@ namespace Lines.GameEngine.Test.Logic
         public void TestVerticalLineWithSmallBubble()
         {
             Field field = new Field(10, 10);
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
             gameLogic.Field.Cells[1, 1].Contain = BubbleSize.Big;
             gameLogic.Field.Cells[1, 1].Color = BubbleColor.Red;
             gameLogic.Field.Cells[1, 2].Contain = BubbleSize.Big;
@@ -167,7 +156,7 @@ namespace Lines.GameEngine.Test.Logic
         public void TestInGameDoubleLine()
         {
             Field field = new Field(10, 10);
-            GameLogic gameLogic = new GameLogic(field);
+            GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
             //left diagonal line
             gameLogic.Field.Cells[0, 1].Contain = BubbleSize.Big;

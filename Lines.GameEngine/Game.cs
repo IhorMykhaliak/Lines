@@ -7,24 +7,24 @@ using Lines.GameEngine.PathFinding_Algorithm;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.Logic;
 using Lines.GameEngine.Enums;
+using Lines.GameEngine.BubbleGenerationStrategy;
 
 namespace Lines.GameEngine
 {
     public class Game
     {
-
         #region Private Fields
-        private GameStatus _gameStatus;
         private GameLogic _gameLogic;
-        private DestroyLines _destroyLines;
+        private GameStatus _gameStatus;
+        private IGenerationStrategy _bubbleGenerationStrategy;
         #endregion
 
         #region Events
 
-        public event Action UpdateScoreHandler;
-        public event Action DrawFieldHandler;
-        public event Action GameOverHandler;
-        public event Action NextTurnHandler;
+        public event EventHandler UpdateScoreHandler;
+        public event EventHandler DrawFieldHandler;
+        public event EventHandler GameOverHandler;
+        public event EventHandler NextTurnHandler;
 
         #endregion
 
@@ -33,15 +33,15 @@ namespace Lines.GameEngine
         public Game(int fieldheight, int fieldWidth)
         {
             Field = new Field(fieldheight, fieldWidth);
-            IsGameOver = false;
             _gameStatus = GameStatus.ReadyToStart;
-            _gameLogic = new GameLogic(Field);
+            _bubbleGenerationStrategy = new RandomStrategy();
+            _gameLogic = new GameLogic(Field, _bubbleGenerationStrategy);
             _gameLogic.DrawHandler += OnDraw;
             _gameLogic.UpdateScoreHandler += OnUpdateScore;
             _gameLogic.GameOverHandler += OnGameOver;
             _gameLogic.NextTurnHandler += OnNextTurn;
         }
-
+        
         public Game()
             : this(10, 10)
         {
@@ -50,6 +50,18 @@ namespace Lines.GameEngine
         public Game(int size)
             : this(size, size)
         {
+        }
+
+        public Game(IGenerationStrategy generationStrategy)
+        {
+            Field = new Field(10, 10);
+            _gameStatus = GameStatus.ReadyToStart;
+            _bubbleGenerationStrategy = new FakeRandomStrategy();
+            _gameLogic = new GameLogic(Field, _bubbleGenerationStrategy);
+            _gameLogic.DrawHandler += OnDraw;
+            _gameLogic.UpdateScoreHandler += OnUpdateScore;
+            _gameLogic.GameOverHandler += OnGameOver;
+            _gameLogic.NextTurnHandler += OnNextTurn;
         }
 
         #endregion
@@ -74,7 +86,13 @@ namespace Lines.GameEngine
 
         public Field Field { get; private set; }
 
-        public bool IsGameOver { get; set; }
+        public bool IsGameOver
+        {
+            get
+            {
+                return _gameStatus == GameStatus.Completed;
+            }
+        }
 
         #endregion
 
@@ -86,7 +104,7 @@ namespace Lines.GameEngine
         {
             if (UpdateScoreHandler != null)
             {
-                UpdateScoreHandler();
+                UpdateScoreHandler(this, EventArgs.Empty);
             }
         }
 
@@ -94,25 +112,27 @@ namespace Lines.GameEngine
         {
             if (DrawFieldHandler != null)
             {
-                DrawFieldHandler();
+                DrawFieldHandler(this, EventArgs.Empty);
             }
         }
 
         private void OnGameOver()
         {
-            IsGameOver = true;
             if (GameOverHandler != null)
             {
+                OnUpdateScore();
+                OnNextTurn();
                 OnDraw();
-                GameOverHandler();
+                GameOverHandler(this, EventArgs.Empty);
             }
+            _gameStatus = GameStatus.Completed;
         }
 
         private void OnNextTurn()
         {
             if (NextTurnHandler != null)
             {
-                NextTurnHandler();
+                NextTurnHandler(this, EventArgs.Empty);
             }
         }
 
@@ -130,19 +150,27 @@ namespace Lines.GameEngine
             _gameStatus = GameStatus.InProgress;
             Field.EmptyCells = _gameLogic.CountEmptyCells();
 
-            int generateBigBubbles = 3;
-            int smallBubbles = 3;
-
-            while (generateBigBubbles != 0)
+            if (Field.EmptyCells < 6)
             {
-                BubbleGenerator.GenerateSmallBubble(Field, BubbleSize.Big);
-                generateBigBubbles--;
-                Field.EmptyCells--;
+                throw new InvalidOperationException("Can't start game,not enought empty cells");
             }
-            while (smallBubbles != 0)
+
+            int generateBigBubbles = 3;
+            int generateSmallBubbles = 3;
+
+            Cell[] bigBubbles = _bubbleGenerationStrategy.GenerateBigBubbles(Field, generateBigBubbles);
+            foreach (var bubble in bigBubbles)
             {
-                BubbleGenerator.GenerateSmallBubble(Field);
-                smallBubbles--;
+                Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
+                Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
+            }
+            Field.EmptyCells -= generateBigBubbles;
+
+            Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, generateSmallBubbles);
+            foreach (var bubble in smallBubbles)
+            {
+                Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
+                Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
             }
 
             OnUpdateScore();
@@ -159,10 +187,7 @@ namespace Lines.GameEngine
             }
             #endregion
 
-            _gameStatus = GameStatus.Completed;
-            IsGameOver = true;
             OnGameOver();
-
         }
 
         public void SelectCell(int row, int col)

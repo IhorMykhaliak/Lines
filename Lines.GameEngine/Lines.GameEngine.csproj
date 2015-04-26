@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BubbleGenerator.cs" />
+    <Compile Include="BubbleGenerationStrategy\FakeRandomStrategy.cs" />
+    <Compile Include="BubbleGenerationStrategy\IGenerationStrategy.cs" />
+    <Compile Include="BubbleGenerationStrategy\RandomStrategy.cs" />
     <Compile Include="Enums\GameStatus.cs" />
     <Compile Include="Logic\GameLogic.cs" />
     <Compile Include="Logic\DestroyLines.cs" />

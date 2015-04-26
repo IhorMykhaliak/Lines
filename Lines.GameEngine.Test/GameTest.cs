@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lines.GameEngine.Enums;
+using Lines.GameEngine.BubbleGenerationStrategy;
 
 namespace Lines.GameEngine.Test
 {
     [TestClass]
     public class GameTest
     {
-        #region Field
+        #region field
 
         [TestMethod]
         public void TestFieldCreation()
@@ -83,7 +84,7 @@ namespace Lines.GameEngine.Test
         [TestMethod]
         public void TestInGameVerticalLineWithSmallBubble()
         {
-            Game game = new Game();
+            Game game = new Game(new FakeRandomStrategy());
             game.Field.Cells[1, 1].Contain = BubbleSize.Big;
             game.Field.Cells[1, 1].Color = BubbleColor.Red;
             game.Field.Cells[1, 2].Contain = BubbleSize.Big;
@@ -112,7 +113,7 @@ namespace Lines.GameEngine.Test
         [TestMethod]
         public void TestInGameDoubleLine()
         {
-            Game game = new Game();
+            Game game = new Game(new FakeRandomStrategy());
 
             //left diagonal line
             game.Field.Cells[0, 1].Contain = BubbleSize.Big;
@@ -125,7 +126,7 @@ namespace Lines.GameEngine.Test
             game.Field.Cells[4, 4].Color = BubbleColor.Red;
             game.Field.Cells[5, 5].Contain = BubbleSize.Big;
             game.Field.Cells[5, 5].Color = BubbleColor.Red;
-            //gameLogic.+ vertical line
+            //+ vertical line
             game.Field.Cells[2, 1].Contain = BubbleSize.Big;
             game.Field.Cells[2, 1].Color = BubbleColor.Red;
             game.Field.Cells[3, 1].Contain = BubbleSize.Big;

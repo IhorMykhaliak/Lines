@@ -50,7 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BubbleGeneratorTest.cs" />
+    <Compile Include="BubbleGenerationStrategy\RandomStrategyTest.cs" />
     <Compile Include="FieldTest.cs" />
     <Compile Include="Logic\GameLogicTest.cs" />
     <Compile Include="Scoring\CheckLinesTest.cs" />

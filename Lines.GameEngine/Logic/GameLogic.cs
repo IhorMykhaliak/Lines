@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.PathFinding_Algorithm;
 using Lines.GameEngine.Enums;
+using Lines.GameEngine.BubbleGenerationStrategy;
 
 namespace Lines.GameEngine.Logic
 {
     public class GameLogic
     {
         #region Private Fields
-
+        private IGenerationStrategy _bubbleGenerationStrategy;
         private CheckLines _checkLine;
         private DestroyLines _destroyLines;
+        private FindPath _findPath;
 
         #endregion
 
@@ -29,12 +31,14 @@ namespace Lines.GameEngine.Logic
 
         #region Constructors
 
-        public GameLogic(Field field)
+        public GameLogic(Field field, IGenerationStrategy generationStrategy )
         {
-            Turn = 0;
-            Score = 0;
-            Field = field;
-            SelectedCell = null;
+            this._bubbleGenerationStrategy = generationStrategy;
+            this.Turn = 0;
+            this.Score = 0;
+            this.Field = field;
+            this.SelectedCell = null;
+            this.Field.EmptyCells = CountEmptyCells();
         }
 
         #endregion
@@ -96,22 +100,27 @@ namespace Lines.GameEngine.Logic
 
         public void NextTurn(bool generateBubbles)
         {
+            Turn++;
+
             if (generateBubbles)
             {
                 BubbleRaizing();
 
-                int smallBubbles = (Field.EmptyCells > 2) ? 3 : Field.EmptyCells;
+                int generateSmallBubbles = (Field.EmptyCells > 2) ? 3 : Field.EmptyCells;
 
                 if (Field.EmptyCells == 0)
                 {
-                    Settings.Messege = "Game Over";
                     OnGameOver();
                 }
-
-                BubbleGenerator.Generate(Field, smallBubbles);
+                
+                Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, generateSmallBubbles);
+                foreach (var bubble in smallBubbles)
+                {
+                    Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
+                    Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
+                }
             }
 
-            Turn++;
             OnNextTurn();
         }
 
@@ -146,7 +155,6 @@ namespace Lines.GameEngine.Logic
 
         public void TryMoveBubble(Cell currentCell)
         {
-            
             _checkLine = new CheckLines(Field, currentCell);
             _checkLine.UpdateScoreHandler += OnUpdateScore;
             _checkLine.DestroyLinesHandel += OnDestroyLines;
@@ -180,7 +188,9 @@ namespace Lines.GameEngine.Logic
 
                         if (!_checkLine.Check())
                         {
-                            BubbleGenerator.GenerateSmallBubble(Field, BubbleSize.Small, CurrentCellDuplicate.Color);
+                            Cell newBubble = _bubbleGenerationStrategy.GenerateBubble(Field, BubbleSize.Small, CurrentCellDuplicate.Color);
+                            Field.Cells[newBubble.Row, newBubble.Column].Contain = newBubble.Contain;
+                            Field.Cells[newBubble.Row, newBubble.Column].Color = newBubble.Color;
                             NextTurn(true);
                         }
                         else
@@ -200,8 +210,9 @@ namespace Lines.GameEngine.Logic
 
         public bool MoveBubble(Cell cellFrom, Cell cellTo)
         {
+            _findPath = new FindPath(Field, cellFrom, cellTo);
             List<Cell> Way;
-            if (FindPath.GetWay(Field, cellFrom, cellTo, out Way))
+            if (_findPath.GetWay(out Way))
             {
                 cellTo.Contain = cellFrom.Contain;
                 cellTo.Color = cellFrom.Color;
