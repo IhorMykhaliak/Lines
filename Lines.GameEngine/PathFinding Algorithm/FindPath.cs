@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
@@ -37,21 +35,6 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         public bool GetWay( out List<Cell> FieldWay)
         {
-            #region Validation
-            //if (field == null)
-            //{
-            //    throw new ArgumentNullException("field wasn't initialized");
-            //}
-            //if (cellFrom._row < 0 && cellFrom._column < 0 && cellFrom._row >= field.Width && cellFrom._column >= field.Height)
-            //{
-            //    throw new InvalidOperationException("Impossible starting cell");
-            //}
-            //if (cellTo._row < 0 && cellTo._column < 0 && cellTo._row >= field.Width && cellTo._column >= field.Height)
-            //{
-            //    throw new InvalidOperationException("Impossible final cell");
-            //}
-            #endregion
-
             var Way = new List<MapElement>();
 
             if (_elementFrom == _elementTo)

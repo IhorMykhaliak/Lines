@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.PathFinding_Algorithm;
 using Lines.GameEngine.Enums;
@@ -22,10 +19,10 @@ namespace Lines.GameEngine.Logic
 
         #region Events
 
-        public event Action DrawHandler;
-        public event Action UpdateScoreHandler;
-        public event Action GameOverHandler;
-        public event Action NextTurnHandler;
+        public event EventHandler DrawHandler;
+        public event EventHandler UpdateScoreHandler;
+        public event EventHandler GameOverHandler;
+        public event EventHandler NextTurnHandler;
 
         #endregion
 
@@ -60,17 +57,17 @@ namespace Lines.GameEngine.Logic
         {
             if (DrawHandler != null)
             {
-                DrawHandler();
+                DrawHandler(this, EventArgs.Empty);
             }
         }
 
-        private void OnUpdateScore(int points)
+        private void OnUpdateScore(object sender, int points)
         {
             Score += points;
 
             if (UpdateScoreHandler != null)
             {
-                UpdateScoreHandler();
+                UpdateScoreHandler(this, EventArgs.Empty);
             }
         }
 
@@ -78,7 +75,7 @@ namespace Lines.GameEngine.Logic
         {
             if (GameOverHandler != null)
             {
-                GameOverHandler();
+                GameOverHandler(this, EventArgs.Empty);
             }
         }
 
@@ -86,11 +83,11 @@ namespace Lines.GameEngine.Logic
         {
             if (NextTurnHandler != null)
             {
-                NextTurnHandler();
+                NextTurnHandler(this, EventArgs.Empty);
             }
         }
 
-        private void OnDestroyLines(Cell[][] lines)
+        private void OnDestroyLines(object sender, Cell[][] lines)
         {
             _destroyLines = new DestroyLines(Field);
             _destroyLines.DestroyLine(lines);
@@ -111,6 +108,7 @@ namespace Lines.GameEngine.Logic
                 if (Field.EmptyCells == 0)
                 {
                     OnGameOver();
+                    return;
                 }
                 
                 Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, generateSmallBubbles);
@@ -263,6 +261,11 @@ namespace Lines.GameEngine.Logic
                     {
                         Field.EmptyCells--;
                         Field.Cells[i, j].Contain = BubbleSize.Big;
+                        //check if this bubble creates line
+                        _checkLine = new CheckLines(Field, Field.Cells[i, j]);
+                        _checkLine.UpdateScoreHandler += OnUpdateScore;
+                        _checkLine.DestroyLinesHandel += OnDestroyLines;
+                        _checkLine.Check();
                     }
                 }
             }

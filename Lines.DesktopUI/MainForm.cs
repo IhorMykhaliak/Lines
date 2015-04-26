@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Lines.GameEngine;
 using Lines.GameEngine.Enums;
+
+using Lines.GameEngine.BubbleGenerationStrategy;
 
 namespace Lines.DesktopUI
 {
     public partial class Lines : Form
     {
 
-        Game game = new Game(5);
-        int scale = Settings.RecomededFormScale;
+        Game game = new Game();
+        int scale = 50; // read from app congig
         
         public Lines()
         {
@@ -83,6 +79,8 @@ namespace Lines.DesktopUI
             //game.field.Cells[1, 5].Contain = BubbleSize.Big;
             //game.field.Cells[1, 5].Color = BubbleColor.Red;
             #endregion
+
+
             game.Start();
         }
 
@@ -109,8 +107,6 @@ namespace Lines.DesktopUI
                     }
                 }
             }
-
-            richTextBox1.Text = Settings.Messege;
         }
 
         private void SelectCell(object sender, MouseEventArgs e)

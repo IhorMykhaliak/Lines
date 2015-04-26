@@ -108,15 +108,15 @@ namespace Lines.GameEngine.Test.Logic
 
             GameLogic gameLogic = new GameLogic(field, new FakeRandomStrategy());
 
-            gameLogic.SelectCell(0, 0); //need to use fake bubble generator, sometimes test failes
+            gameLogic.SelectCell(0, 0); //need to use fake bubbles generator, sometimes test failes
             gameLogic.SelectCell(0, 5);
 
             Assert.AreEqual(gameLogic.SelectedCell, null);
             Assert.AreEqual(field.Cells[0, 0].Contain, null);
             Assert.AreEqual(field.Cells[0, 5].Contain, BubbleSize.Big);
             Assert.AreEqual(field.Cells[0, 5].Color, BubbleColor.Red);
-            Assert.AreEqual(field.Cells[8, 8].Contain, BubbleSize.Big);
-            Assert.AreEqual(field.Cells[8, 8].Color, BubbleColor.Blue);
+            Assert.AreEqual(field.Cells[0, 8].Contain, BubbleSize.Big);
+            Assert.AreEqual(field.Cells[0, 8].Color, BubbleColor.Blue);
         }
 
 

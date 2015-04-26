@@ -20,8 +20,8 @@ namespace Lines.GameEngine.Scoring
 
         #region Events
 
-        public event Action<int> UpdateScoreHandler;
-        public event Action<Cell[][]> DestroyLinesHandel;
+        public event EventHandler<int> UpdateScoreHandler;
+        public event EventHandler<Cell[][]> DestroyLinesHandel;
         
         #endregion
 
@@ -51,7 +51,7 @@ namespace Lines.GameEngine.Scoring
         {
             if (UpdateScoreHandler != null)
             {
-                UpdateScoreHandler(points);
+                UpdateScoreHandler(this, points);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Lines.GameEngine.Scoring
         {
             if (DestroyLinesHandel != null)
             {
-                DestroyLinesHandel(lines);
+                DestroyLinesHandel(this, lines);
             }
         }
 
@@ -262,24 +262,6 @@ namespace Lines.GameEngine.Scoring
         #endregion
 
         #region Helpers
-
-        private bool IsRowValid(int row)
-        {
-            if (row >= 0 &&  row <= _field.Height - 1)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private bool IsColumnValid(int col)
-        {
-            if (col >= 0 && col <= _field.Width - 1)
-            {
-                return true;
-            }
-            return false;
-        }
 
         private bool IsCellValid(int row, int col)
         {

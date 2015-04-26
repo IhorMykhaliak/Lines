@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lines.GameEngine.PathFinding_Algorithm;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.Logic;
@@ -41,7 +37,7 @@ namespace Lines.GameEngine
             _gameLogic.GameOverHandler += OnGameOver;
             _gameLogic.NextTurnHandler += OnNextTurn;
         }
-        
+
         public Game()
             : this(10, 10)
         {
@@ -56,7 +52,7 @@ namespace Lines.GameEngine
         {
             Field = new Field(10, 10);
             _gameStatus = GameStatus.ReadyToStart;
-            _bubbleGenerationStrategy = new FakeRandomStrategy();
+            _bubbleGenerationStrategy = generationStrategy;
             _gameLogic = new GameLogic(Field, _bubbleGenerationStrategy);
             _gameLogic.DrawHandler += OnDraw;
             _gameLogic.UpdateScoreHandler += OnUpdateScore;
@@ -86,11 +82,11 @@ namespace Lines.GameEngine
 
         public Field Field { get; private set; }
 
-        public bool IsGameOver
+        public GameStatus Status
         {
             get
             {
-                return _gameStatus == GameStatus.Completed;
+                return _gameStatus;
             }
         }
 
@@ -100,7 +96,7 @@ namespace Lines.GameEngine
 
         #region methods which using events
 
-        private void OnUpdateScore()
+        private void OnUpdateScore(object sender, EventArgs e)
         {
             if (UpdateScoreHandler != null)
             {
@@ -108,7 +104,7 @@ namespace Lines.GameEngine
             }
         }
 
-        private void OnDraw()
+        private void OnDraw(object sender, EventArgs e)
         {
             if (DrawFieldHandler != null)
             {
@@ -116,19 +112,19 @@ namespace Lines.GameEngine
             }
         }
 
-        private void OnGameOver()
+        private void OnGameOver(object sender, EventArgs e)
         {
             if (GameOverHandler != null)
             {
-                OnUpdateScore();
-                OnNextTurn();
-                OnDraw();
+                OnUpdateScore(this, EventArgs.Empty);
+                OnNextTurn(this, EventArgs.Empty);
+                OnDraw(this, EventArgs.Empty);
                 GameOverHandler(this, EventArgs.Empty);
             }
             _gameStatus = GameStatus.Completed;
         }
 
-        private void OnNextTurn()
+        private void OnNextTurn(object sender, EventArgs e)
         {
             if (NextTurnHandler != null)
             {
@@ -159,24 +155,17 @@ namespace Lines.GameEngine
             int generateSmallBubbles = 3;
 
             Cell[] bigBubbles = _bubbleGenerationStrategy.GenerateBigBubbles(Field, generateBigBubbles);
-            foreach (var bubble in bigBubbles)
-            {
-                Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
-                Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
-            }
+            PlaceBubblesOnField(bigBubbles);
             Field.EmptyCells -= generateBigBubbles;
 
             Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, generateSmallBubbles);
-            foreach (var bubble in smallBubbles)
-            {
-                Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
-                Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
-            }
+            PlaceBubblesOnField(smallBubbles);
 
-            OnUpdateScore();
-            OnNextTurn();
-            OnDraw();
+            OnUpdateScore(this, EventArgs.Empty);
+            OnNextTurn(this, EventArgs.Empty);
+            OnDraw(this, EventArgs.Empty);
         }
+
 
         public void Stop()
         {
@@ -187,7 +176,7 @@ namespace Lines.GameEngine
             }
             #endregion
 
-            OnGameOver();
+            OnGameOver(this, EventArgs.Empty);
         }
 
         public void SelectCell(int row, int col)
@@ -201,6 +190,15 @@ namespace Lines.GameEngine
         #endregion
 
         #region Helpers
+
+        private void PlaceBubblesOnField(Cell[] bubbles)
+        {
+            foreach (var bubble in bubbles)
+            {
+                Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
+                Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
+            }
+        }
 
         #endregion
     }

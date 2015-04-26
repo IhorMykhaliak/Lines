@@ -16,41 +16,84 @@ namespace Lines.GameEngine.Test
             Game game = new Game();
 
             Assert.IsNotNull(game.Field);
-        }
-
-        [TestMethod]
-        public void TestFieldSize1()
-        {
-            Game game = new Game();
-
             Assert.AreEqual(10, game.Field.Width);
             Assert.AreEqual(10, game.Field.Height);
         }
 
         [TestMethod]
-        public void TestFieldSize2()
+        public void TestFieldSize_1()
         {
             Game game = new Game(6, 8);
 
+            Assert.IsNotNull(game.Field);
             Assert.AreEqual(6, game.Field.Height);
             Assert.AreEqual(8, game.Field.Width);
         }
 
         [TestMethod]
-        public void TestFieldSize3()
+        public void TestFieldSize_2()
         {
             Game game = new Game(6);
 
+            Assert.IsNotNull(game.Field);
             Assert.AreEqual(6, game.Field.Height);
             Assert.AreEqual(6, game.Field.Width);
         }
 
         #endregion
 
-        #region Start
+        #region Game Lifecycle
 
         [TestMethod]
-        public void TestStart()
+        public void TestUsualLifecycle()
+        {
+            Game game = new Game();
+            Assert.AreEqual(GameStatus.ReadyToStart, game.Status);
+            game.Start();
+            Assert.AreEqual(GameStatus.InProgress, game.Status);
+            game.Stop();
+            Assert.AreEqual(GameStatus.Completed, game.Status);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestStart_WrongStatus_1()
+        {
+            Game game = new Game();            
+            game.Start();            
+            game.Start();                    
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestStart_WrongStatus_2()
+        {
+            Game game = new Game();
+            game.Start();
+            game.Stop();
+            game.Start();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestStop_WrongStatus_1()
+        {
+            Game game = new Game();
+            game.Stop();            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestStop_WrongStatus_2()
+        {
+            Game game = new Game();
+            game.Start();
+            game.Stop();
+            game.Stop();
+        }
+
+        [TestMethod]
+        public void TestUsualStart()
         {
             Game game = new Game();
             game.Start();
@@ -77,12 +120,27 @@ namespace Lines.GameEngine.Test
             Assert.AreEqual(bigBubbles, 3);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestStart_WrongField()
+        {
+            Game game = new Game();
+            for (int i = 0; i < game.Field.Height; i++)
+            {
+                for (int j = 0; j < game.Field.Width; j++)
+                {
+                    game.Field.Cells[i, j].Contain = BubbleSize.Big;
+                    game.Field.Cells[i, j].Color = BubbleColor.Red;
+                }
+            }
+            game.Start();
+        }
         #endregion
 
-        #region Make Line
+        #region Gameplay
 
         [TestMethod]
-        public void TestInGameVerticalLineWithSmallBubble()
+        public void TestInGame_VerticalLine_WithSmallBubble()
         {
             Game game = new Game(new FakeRandomStrategy());
             game.Field.Cells[1, 1].Contain = BubbleSize.Big;
@@ -111,9 +169,11 @@ namespace Lines.GameEngine.Test
         }
 
         [TestMethod]
-        public void TestInGameDoubleLine()
+        public void TestInGame_DoubleLine()
         {
             Game game = new Game(new FakeRandomStrategy());
+            int previousScore = game.Score;
+            int previousTurn = game.Turn;
 
             //left diagonal line
             game.Field.Cells[0, 1].Contain = BubbleSize.Big;
@@ -150,6 +210,39 @@ namespace Lines.GameEngine.Test
             Assert.AreEqual(game.Field.Cells[3, 1].Contain, null);
             Assert.AreEqual(game.Field.Cells[4, 1].Contain, null);
             Assert.AreEqual(game.Field.Cells[5, 1].Contain, null);
+            Assert.AreEqual(game.Score, previousScore + 81);
+            Assert.AreEqual(game.Turn, previousScore + 1);
+        }
+
+        [TestMethod]
+        public void TestGameOver()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.GameOverHandler += delegate(object sender, EventArgs e) { return; };
+            game.NextTurnHandler += delegate(object sender, EventArgs e) { return; };
+            game.DrawFieldHandler += delegate(object sender, EventArgs e) { return; };
+            game.UpdateScoreHandler += delegate(object sender, EventArgs e) { return; };
+            for (int i = 0; i < game.Field.Height; i++)
+            {
+                for (int j = 0; j < game.Field.Width - 1; j++)
+                {
+                    BubbleColor color = (j == 8) ? BubbleColor.Blue : BubbleColor.Red;
+                    game.Field.Cells[i, j].Contain = BubbleSize.Big;
+                    game.Field.Cells[i, j].Color = color;
+                }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                game.Field.Cells[6 + i, 9].Contain = BubbleSize.Big;
+                game.Field.Cells[6 + i, 9].Color = BubbleColor.Red;
+            }
+            game.Start();
+
+            game.SelectCell(0, 8);
+            game.SelectCell(0, 9);
+
+            Assert.AreEqual(game.Status, GameStatus.Completed);
+
         }
 
         #endregion

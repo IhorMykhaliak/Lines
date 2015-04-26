@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
 
 namespace Lines.GameEngine
 {
@@ -51,7 +46,7 @@ namespace Lines.GameEngine
                 }
             }
 
-            this.EmptyCells = 0;
+            this.EmptyCells = this.Height * this.Width;
         }
 
         #endregion

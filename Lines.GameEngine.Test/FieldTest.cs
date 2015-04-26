@@ -43,5 +43,19 @@ namespace Lines.GameEngine.Test
         {
             Field field = new Field(-2, 8);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestFieldInitializeException5()
+        {
+            Field field = new Field(15, 8);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestFieldInitializeException6()
+        {
+            Field field = new Field(8, 15);
+        }
     }
 }

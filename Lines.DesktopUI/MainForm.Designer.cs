@@ -31,7 +31,6 @@
             this.PbGameBoard = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbScore = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.lbTurn = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
@@ -68,14 +67,6 @@
             this.lbScore.Size = new System.Drawing.Size(0, 31);
             this.lbScore.TabIndex = 3;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(589, 95);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(100, 96);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
-            // 
             // lbTurn
             // 
             this.lbTurn.AutoSize = true;
@@ -101,7 +92,7 @@
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnStop.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.btnStop.Location = new System.Drawing.Point(589, 259);
+            this.btnStop.Location = new System.Drawing.Point(574, 75);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(100, 70);
             this.btnStop.TabIndex = 7;
@@ -114,11 +105,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
-            this.ClientSize = new System.Drawing.Size(739, 646);
+            this.ClientSize = new System.Drawing.Size(708, 630);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbTurn);
-            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.lbScore);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PbGameBoard);
@@ -136,7 +126,6 @@
         private System.Windows.Forms.PictureBox PbGameBoard;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbScore;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label lbTurn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnStop;

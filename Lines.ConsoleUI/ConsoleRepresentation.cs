@@ -13,29 +13,45 @@ namespace Lines.ConsoleUI
     public class ConsoleRepresentation
     {
         #region Private Fields
-        private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedConsoleScale"]);
+        private Game _game;
         private Field _field;
-        private const int x = 10;
-        private const int y = 10;
+        private int leftMargin;
+        private int topMargin;
         private int _curX;
         private int _curY;
         #endregion
 
         #region Constructors
-        public ConsoleRepresentation()
+        public ConsoleRepresentation(Game game,int left, int top)
         {
+            this._game = game;
+            this.leftMargin = left;
+            this.topMargin = top;
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-            GameInfo();
+            Scale = int.Parse(ConfigurationManager.AppSettings["RecomendedConsoleScale"]);
+            Console.WindowHeight = int.Parse(ConfigurationManager.AppSettings["Height"]);
+            Subscribe();
+
+            DrawInfo();
+
         }
+
+        #endregion
+
+        #region Properties
+
+        public int Scale { get;private set; }
+
         #endregion
 
         #region Public methods
-        public void DrawConsole(Field field, int curX, int curY)
+
+        public void Draw(int curX, int curY)
         {
-            _field = field;
-            _curX = curX;
-            _curY = curY;
+           this._field = _game.Field;
+           this._curX = curX;
+           this._curY = curY;
             for (int i = 0; i < _field.Height; i++)
             {
                 for (int j = 0; j < _field.Width; j++)
@@ -50,30 +66,32 @@ namespace Lines.ConsoleUI
                 HighlightCurrentCell();
             }
         }
+
         #endregion
 
         #region Helpers
+
         private void DrawCell(int i, int j)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = Console.ForegroundColor;
-            Console.SetCursorPosition(x + (_scale + 1) * j, y + _scale * i);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + Scale * i);
             Console.Write('\u2588');
-            Console.SetCursorPosition(x + (_scale + 1) * j + 1, y + _scale * i);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i);
             Console.Write('\u2588');
-            Console.SetCursorPosition(x + (_scale + 1) * j, y + _scale * i + 1);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + Scale * i + 1);
             Console.Write('\u2588');
-            Console.SetCursorPosition(x + (_scale + 1) * j + 1, y + _scale * i + 1);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i + 1);
             Console.Write('\u2588');
-            Console.SetCursorPosition(x + (_scale + 1) * j + 2, y + _scale * i);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i);
             Console.Write('\u2588');
-            Console.SetCursorPosition(x + (_scale + 1) * j + 2, y + _scale * i + 1);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i + 1);
             Console.Write('\u2588');
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(x + (_scale + 1) * j + 1, y + 3 * i + 2);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + 3 * i + 2);
             Console.Write('\u2588');
-            Console.SetCursorPosition(x + (_scale + 1) * j + 2, y + 3 * i + 2);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + 3 * i + 2);
             Console.Write('\u2588');
         }
 
@@ -81,25 +99,25 @@ namespace Lines.ConsoleUI
         {
             Console.ForegroundColor = GetColor(_field.Cells[i, j].Color) ?? ConsoleColor.White;
             Console.BackgroundColor = Console.ForegroundColor;
-            Console.SetCursorPosition(x + (_scale + 1) * j, y + 3 * i);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + 3 * i);
             Console.Write('\u2588');
             if (_field.Cells[i, j].Contain == BubbleSize.Big)
             {
-                Console.SetCursorPosition(x + (_scale + 1) * j + 1, y + _scale * i);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(x + (_scale + 1) * j, y + _scale * i + 1);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + Scale * i + 1);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(x + (_scale + 1) * j + 1, y + _scale * i + 1);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i + 1);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(x + (_scale + 1) * j + 2, y + _scale * i);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(x + (_scale + 1) * j + 2, y + _scale * i + 1);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i + 1);
                 Console.Write('\u2588');
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(x + (_scale + 1) * j + 1, y + _scale * i + 2);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i + 2);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(x + (_scale + 1) * j + 2, y + _scale * i + 2);
+                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i + 2);
                 Console.Write('\u2588');
                 Console.BackgroundColor = ConsoleColor.Black;
             }
@@ -107,47 +125,90 @@ namespace Lines.ConsoleUI
 
         private void HighlightCurrentCell()
         {
-            Console.BackgroundColor = GetColor(_field.Cells[_curY, _curX].Color) ?? ConsoleColor.White;
+            Console.BackgroundColor = GetColor(_game.Field.Cells[_curY, _curX].Color) ?? ConsoleColor.White;
             //Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(x + (_scale + 1) * _curX, y + _scale * _curY);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX, topMargin + Scale * _curY);
             Console.Write('o');
-            if (_field.Cells[_curY, _curX].Contain == BubbleSize.Small)
+            if (_game.Field.Cells[_curY, _curX].Contain == BubbleSize.Small)
             {
                 Console.BackgroundColor = ConsoleColor.White;
             }
-            Console.SetCursorPosition(x + (_scale + 1) * _curX + 1, y + _scale * _curY);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 1, topMargin + Scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * _curX, y + _scale * _curY + 1);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX, topMargin + Scale * _curY + 1);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * _curX + 1, y + _scale * _curY + 1);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 1, topMargin + Scale * _curY + 1);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * _curX + 2, y + _scale * _curY);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 2, topMargin + Scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(x + (_scale + 1) * _curX + 2, y + _scale * _curY + 1);
+            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 2, topMargin + Scale * _curY + 1);
             Console.Write('o');
         }
 
-        private void GameInfo()
+        private void Subscribe()
         {
-            int top = 2;
+            _game.DrawFieldHandler += DrawConsole;
+            _game.UpdateScoreHandler += UpdateScoreLabel;
+            _game.GameOverHandler += GameOver;
+            _game.NextTurnHandler += NextTurn;
+        }
+
+        private void DrawInfo()
+        {
+            int top = 1;
             int left = 10;
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
 
-            Console.SetCursorPosition(left, top++);
-            Console.WriteLine("Use arrows to control WHITE rectangle(it's your cursor)");
-            Console.SetCursorPosition(left, top++);
-            Console.WriteLine("Press ENTER to select(drag) rectangle");
-            Console.SetCursorPosition(left, top++);
-            Console.WriteLine("Press ENTER to move(drop) rectangle");
-            Console.SetCursorPosition(left, top++);
-            Console.WriteLine("Your goal is to make lines with lenght >=5");
-            Console.SetCursorPosition(left, top++);
-            Console.WriteLine("Good Luck!");
+            Console.SetCursorPosition(left, top);
+            Console.WriteLine("Press E to end game");
+            Console.SetCursorPosition(left, top + 2);
+            Console.WriteLine("You can move rectangle only if path between two cells exist");
+            Console.SetCursorPosition(left, top + 4);
+            Console.WriteLine("Game ends when all field filled with rectangles");
         }
 
-        private ConsoleColor? GetColor(BubbleColor? color)
+        private void NextTurn(object sender, EventArgs e)
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(50, 10);
+            Console.WriteLine("Turn: {0}", _game.Turn);
+        }
+
+        private void UpdateScoreLabel(object sender, EventArgs e)
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(50, 15);
+            Console.Write("Score {0}", _game.Score.ToString());
+
+        }
+
+        private void GameOver(object sender, EventArgs e)
+        {
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(15, 14);
+            Console.WriteLine(new string(' ', 30));
+            Console.SetCursorPosition(15, 15);
+            Console.WriteLine(new string(' ', 30));
+            Console.SetCursorPosition(15, 15);
+            Console.WriteLine("  Game Over! Your score is {0}", _game.Score);
+            Console.SetCursorPosition(15, 16);
+            Console.WriteLine(new string(' ', 30));
+        }
+
+        private void DrawConsole(object sender, EventArgs e)
+        {
+            if (_game.Status != GameStatus.Completed)
+            {
+                Draw(_curX, _curY);
+            }
+        }
+
+        public ConsoleColor? GetColor(BubbleColor? color)
         {
             switch (color)
             {
@@ -168,6 +229,8 @@ namespace Lines.ConsoleUI
                     return null;
             }
         }
+
+        
         #endregion
     }
 }
