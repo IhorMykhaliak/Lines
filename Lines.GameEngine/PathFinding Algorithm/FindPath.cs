@@ -6,44 +6,51 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
-    public static class FindPath
+    public class FindPath
     {
         #region Private Fields
 
-        private static List<MapElement> _openList = new List<MapElement>();
-        private static List<MapElement> _closeList = new List<MapElement>();
-        private static Field _field;
-        private static int _lineWeight = 10;
-        private static int _turn = 0;
-        private static Map _map;
-        private static MapElement _elementTo;
-        private static MapElement _elementFrom;
+        private List<MapElement> _openList = new List<MapElement>();
+        private List<MapElement> _closeList = new List<MapElement>();
+        private Field _field;
+        private int _lineWeight = 10;
+        private int _turn = 0;
+        private Map _map;
+        private MapElement _elementTo;
+        private MapElement _elementFrom;
+
+        #endregion
+
+        #region constructor
+
+        public FindPath(Field Field, Cell cellFrom, Cell cellTo)
+        {
+            _field = Field;
+            _map = new Map(Field);
+            _elementFrom = _map.Elements[cellFrom.Row, cellFrom.Column];
+            _elementTo = _map.Elements[cellTo.Row, cellTo.Column];
+        }
 
         #endregion
 
         #region Methods
 
-        public static bool GetWay(Field Field, Cell cellFrom, Cell cellTo, out List<Cell> FieldWay)
+        public bool GetWay( out List<Cell> FieldWay)
         {
             #region Validation
-            //if (Field == null)
+            //if (field == null)
             //{
-            //    throw new ArgumentNullException("Field wasn't initialized");
+            //    throw new ArgumentNullException("field wasn't initialized");
             //}
-            //if (cellFrom._row < 0 && cellFrom._column < 0 && cellFrom._row >= Field.Width && cellFrom._column >= Field.Height)
+            //if (cellFrom._row < 0 && cellFrom._column < 0 && cellFrom._row >= field.Width && cellFrom._column >= field.Height)
             //{
             //    throw new InvalidOperationException("Impossible starting cell");
             //}
-            //if (cellTo._row < 0 && cellTo._column < 0 && cellTo._row >= Field.Width && cellTo._column >= Field.Height)
+            //if (cellTo._row < 0 && cellTo._column < 0 && cellTo._row >= field.Width && cellTo._column >= field.Height)
             //{
             //    throw new InvalidOperationException("Impossible final cell");
             //}
             #endregion
-
-            _field = Field;
-            _map = new Map(Field);
-            _elementFrom = _map.Elements[cellFrom.Row, cellFrom.Column];
-            _elementTo = _map.Elements[cellTo.Row, cellTo.Column];
 
             var Way = new List<MapElement>();
 
@@ -95,12 +102,16 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             }
         }
 
-        private static bool WayFound()
+        #endregion
+
+        #region Helpers
+
+        private bool WayFound()
         {
             return (_openList.Find(x => x.Id == _elementTo.Id) != null) ? true : false;
         }
 
-        private static void Step(MapElement element)
+        private void Step(MapElement element)
         {
             foreach (var item in _map.GetAvailableNeighboors(element))
             {
@@ -136,7 +147,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             _openList.Remove(element);
         }
 
-        private static List<Cell> ConvertToField(List<MapElement> MapWay)
+        private List<Cell> ConvertToField(List<MapElement> MapWay)
         {
             List<Cell> FieldWay = new List<Cell>();
             foreach (var item in MapWay)

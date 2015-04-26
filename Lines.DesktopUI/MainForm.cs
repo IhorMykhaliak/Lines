@@ -15,7 +15,7 @@ namespace Lines.DesktopUI
     public partial class Lines : Form
     {
 
-        Game game = new Game(10, 10);
+        Game game = new Game(5);
         int scale = Settings.RecomededFormScale;
         
         public Lines()
@@ -32,63 +32,63 @@ namespace Lines.DesktopUI
 
             #region Fill 9x10
 
-            //game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 5].Color = Color.Black;
+            //game.field.Cells[1, 5].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 5].Color = Color.Black;
 
             // For auto fill Net
-            //for (int i = 0; i < game.Field.Height; i++)
+            //for (int i = 0; i < game.field.Height; i++)
             //{
-            //    for (int j = 0; j < game.Field.Width - 1; j++)
+            //    for (int j = 0; j < game.field.Width - 1; j++)
             //    {
-            //        game.Field.Cells[i, j].Contain = BubbleSize.Big;
-            //        game.Field.Cells[i, j].Color = BubbleColor.Red;
+            //        game.field.Cells[i, j].Contain = BubbleSize.Big;
+            //        game.field.Cells[i, j].Color = BubbleColor.Red;
             //    }
             //}
 
             #endregion
 
             #region Fill with double line
-            //game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            //game.Field.Cells[1, 4].Contain = BubbleSize.Big;
-            //game.Field.Cells[1, 4].Color = BubbleColor.Red;
+            //game.field.Cells[1, 1].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 1].Color = BubbleColor.Red;
+            //game.field.Cells[1, 2].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 2].Color = BubbleColor.Red;
+            //game.field.Cells[1, 3].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 3].Color = BubbleColor.Red;
+            //game.field.Cells[1, 8].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 8].Color = BubbleColor.Red;
+            //game.field.Cells[1, 4].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 4].Color = BubbleColor.Red;
 
-            //game.Field.Cells[5, 1].Contain = BubbleSize.Big;
-            //game.Field.Cells[5, 1].Color = BubbleColor.Red;
-            //game.Field.Cells[4, 2].Contain = BubbleSize.Big;
-            //game.Field.Cells[4, 2].Color = BubbleColor.Red;
-            //game.Field.Cells[3, 3].Contain = BubbleSize.Big;
-            //game.Field.Cells[3, 3].Color = BubbleColor.Red;
-            //game.Field.Cells[2, 4].Contain = BubbleSize.Big;
-            //game.Field.Cells[2, 4].Color = BubbleColor.Red;
+            //game.field.Cells[5, 1].Contain = BubbleSize.Big;
+            //game.field.Cells[5, 1].Color = BubbleColor.Red;
+            //game.field.Cells[4, 2].Contain = BubbleSize.Big;
+            //game.field.Cells[4, 2].Color = BubbleColor.Red;
+            //game.field.Cells[3, 3].Contain = BubbleSize.Big;
+            //game.field.Cells[3, 3].Color = BubbleColor.Red;
+            //game.field.Cells[2, 4].Contain = BubbleSize.Big;
+            //game.field.Cells[2, 4].Color = BubbleColor.Red;
             #endregion
 
             #region fill with line and small bubble
-            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 5].Color = BubbleColor.Red;
+            //game.field.Cells[1, 1].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 1].Color = BubbleColor.Red;
+            //game.field.Cells[1, 2].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 2].Color = BubbleColor.Red;
+            //game.field.Cells[1, 3].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 3].Color = BubbleColor.Red;
+            //game.field.Cells[1, 8].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 8].Color = BubbleColor.Red;
+            //game.field.Cells[1, 4].Contain = BubbleSize.Small;
+            //game.field.Cells[1, 4].Color = BubbleColor.Blue;
+            //game.field.Cells[1, 5].Contain = BubbleSize.Big;
+            //game.field.Cells[1, 5].Color = BubbleColor.Red;
             #endregion
             game.Start();
         }
 
-        private void GameOver()
+        private void GameOver(object sender, EventArgs e)
         {
-            MessageBox.Show("Game over!! Your result = " + game.Score.ToString());
+            MessageBox.Show("Game over on turn " + game.Turn + ".Your result = " + game.Score.ToString());
         }
 
         private void Drawing(object sender, PaintEventArgs e)
@@ -118,17 +118,17 @@ namespace Lines.DesktopUI
             game.SelectCell((int)e.Y / scale, (int)e.X / scale);
         }
 
-        private void DrawEvent()
+        private void DrawEvent(object sender, EventArgs e)
         {
             PbGameBoard.Refresh();
         }
 
-        private void UpdateScore()
+        private void UpdateScore(object sender, EventArgs e)
         {
             lbScore.Text = game.Score.ToString();
         }
 
-        private void NextTurn()
+        private void NextTurn(object sender, EventArgs e)
         {
             lbTurn.Text = game.Turn.ToString();
         }
@@ -158,6 +158,8 @@ namespace Lines.DesktopUI
         private void btnStop_Click(object sender, EventArgs e)
         {
             game.Stop();
+
+            btnStop.Enabled = false;
         }
     }
 }
