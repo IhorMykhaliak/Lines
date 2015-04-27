@@ -15,7 +15,7 @@ namespace Lines.GameEngine.PathFinding_Algorithm
         #endregion
 
         #region Constructors
-        
+
         public Map(Field Field)
         {
             this.Height = Field.Height;
@@ -40,19 +40,19 @@ namespace Lines.GameEngine.PathFinding_Algorithm
         public MapElement[] GetAvailableNeighboors(MapElement current)
         {
             MapElement[] neighboors = new MapElement[4];
-            if (current.Row - 1 >= 0 && Elements[current.Row - 1, current.Column].IsAvailable)
+            if ((current.Row - 1 >= 0) && (Elements[current.Row - 1, current.Column].IsAvailable))
             {
                 neighboors[0] = Elements[current.Row - 1, current.Column];
             }
-            if (current.Row + 1 <= Height - 1 && Elements[current.Row + 1, current.Column].IsAvailable)
+            if ((current.Row + 1 <= Height - 1) && (Elements[current.Row + 1, current.Column].IsAvailable))
             {
                 neighboors[1] = Elements[current.Row + 1, current.Column];
             }
-            if (current.Column - 1 >= 0 && Elements[current.Row, current.Column - 1].IsAvailable)
+            if ((current.Column - 1 >= 0) && (Elements[current.Row, current.Column - 1].IsAvailable))
             {
                 neighboors[2] = Elements[current.Row, current.Column - 1];
             }
-            if (current.Column + 1 <= Width - 1 && Elements[current.Row, current.Column + 1].IsAvailable)
+            if ((current.Column + 1 <= Width - 1) && (Elements[current.Row, current.Column + 1].IsAvailable))
             {
                 neighboors[3] = Elements[current.Row, current.Column + 1];
             }

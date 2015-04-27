@@ -10,23 +10,23 @@ using System.Configuration;
 
 namespace Lines.ConsoleUI
 {
-    public class ConsoleRepresentation
+    public class GameRepresentation
     {
         #region Private Fields
         private Game _game;
         private Field _field;
-        private int leftMargin;
-        private int topMargin;
+        private int _leftMargin;
+        private int _topMargin;
         private int _curX;
         private int _curY;
         #endregion
 
         #region Constructors
-        public ConsoleRepresentation(Game game,int left, int top)
+        public GameRepresentation(Game game,int left, int top)
         {
             this._game = game;
-            this.leftMargin = left;
-            this.topMargin = top;
+            this._leftMargin = left;
+            this._topMargin = top;
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Scale = int.Parse(ConfigurationManager.AppSettings["RecomendedConsoleScale"]);
@@ -75,23 +75,23 @@ namespace Lines.ConsoleUI
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = Console.ForegroundColor;
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + Scale * i);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j, _topMargin + Scale * i);
             Console.Write('\u2588');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i);
             Console.Write('\u2588');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + Scale * i + 1);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j, _topMargin + Scale * i + 1);
             Console.Write('\u2588');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i + 1);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i + 1);
             Console.Write('\u2588');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 2, _topMargin + Scale * i);
             Console.Write('\u2588');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i + 1);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 2, _topMargin + Scale * i + 1);
             Console.Write('\u2588');
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + 3 * i + 2);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + 3 * i + 2);
             Console.Write('\u2588');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + 3 * i + 2);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 2, _topMargin + 3 * i + 2);
             Console.Write('\u2588');
         }
 
@@ -99,25 +99,25 @@ namespace Lines.ConsoleUI
         {
             Console.ForegroundColor = GetColor(_field.Cells[i, j].Color) ?? ConsoleColor.White;
             Console.BackgroundColor = Console.ForegroundColor;
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + 3 * i);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * j, _topMargin + Scale * i);
             Console.Write('\u2588');
             if (_field.Cells[i, j].Contain == BubbleSize.Big)
             {
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j, topMargin + Scale * i + 1);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j, _topMargin + Scale * i + 1);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i + 1);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i + 1);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 2, _topMargin + Scale * i);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i + 1);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 2, _topMargin + Scale * i + 1);
                 Console.Write('\u2588');
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 1, topMargin + Scale * i + 2);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i + 2);
                 Console.Write('\u2588');
-                Console.SetCursorPosition(leftMargin + (Scale + 1) * j + 2, topMargin + Scale * i + 2);
+                Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 2, _topMargin + Scale * i + 2);
                 Console.Write('\u2588');
                 Console.BackgroundColor = ConsoleColor.Black;
             }
@@ -128,30 +128,30 @@ namespace Lines.ConsoleUI
             Console.BackgroundColor = GetColor(_game.Field.Cells[_curY, _curX].Color) ?? ConsoleColor.White;
             //Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX, topMargin + Scale * _curY);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX, _topMargin + Scale * _curY);
             Console.Write('o');
             if (_game.Field.Cells[_curY, _curX].Contain == BubbleSize.Small)
             {
                 Console.BackgroundColor = ConsoleColor.White;
             }
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 1, topMargin + Scale * _curY);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX + 1, _topMargin + Scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX, topMargin + Scale * _curY + 1);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX, _topMargin + Scale * _curY + 1);
             Console.Write('o');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 1, topMargin + Scale * _curY + 1);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX + 1, _topMargin + Scale * _curY + 1);
             Console.Write('o');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 2, topMargin + Scale * _curY);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX + 2, _topMargin + Scale * _curY);
             Console.Write('o');
-            Console.SetCursorPosition(leftMargin + (Scale + 1) * _curX + 2, topMargin + Scale * _curY + 1);
+            Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX + 2, _topMargin + Scale * _curY + 1);
             Console.Write('o');
         }
 
         private void Subscribe()
         {
-            _game.DrawFieldHandler += DrawConsole;
-            _game.UpdateScoreHandler += UpdateScoreLabel;
-            _game.GameOverHandler += GameOver;
-            _game.NextTurnHandler += NextTurn;
+            _game.DrawEventHandler += DrawConsole;
+            _game.ScoreChangedEventHandler += UpdateScoreLabel;
+            _game.GameOverEventHandler += GameOver;
+            _game.NextTurnEventHandler += NextTurn;
         }
 
         private void DrawInfo()
@@ -163,10 +163,6 @@ namespace Lines.ConsoleUI
 
             Console.SetCursorPosition(left, top);
             Console.WriteLine("Press E to end game");
-            Console.SetCursorPosition(left, top + 2);
-            Console.WriteLine("You can move rectangle only if path between two cells exist");
-            Console.SetCursorPosition(left, top + 4);
-            Console.WriteLine("Game ends when all field filled with rectangles");
         }
 
         private void NextTurn(object sender, EventArgs e)

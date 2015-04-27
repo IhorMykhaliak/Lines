@@ -13,40 +13,40 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         [TestMethod]
         public void TestGetElementById()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
 
-            Assert.AreEqual(Map.GetElementById(31), Map.Elements[3, 1]);
+            Assert.AreEqual(map.GetElementById(31), map.Elements[3, 1]);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestGetElementByIdException1()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
 
-            Map.GetElementById(311);
+            map.GetElementById(311);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestGetElementByIdException2()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
 
-            Map.GetElementById(-3);
+            map.GetElementById(-3);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TestGetElementByIdException3()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
 
-            Map.GetElementById(-1);
+            map.GetElementById(-1);
         }
 
         #endregion
@@ -54,62 +54,62 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         #region Test available neighboor (2,3,4)
 
         [TestMethod]
-        public void TestGetAvailableNeighboors1()
+        public void TestGetAvailableneighboors1()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
-            MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[0, 0]);
-            MapElement[] ExpectedNeighboors = new MapElement[]
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
+            MapElement[] neighboors = map.GetAvailableNeighboors(map.Elements[0, 0]);
+            MapElement[] expectedneighboors = new MapElement[]
             {
-                Map.Elements[1, 0],
-                Map.Elements[0, 1]
+                map.Elements[1, 0],
+                map.Elements[0, 1]
             };
 
-            Assert.AreEqual(Neighboors.Length, 2);
-            CollectionAssert.AllItemsAreNotNull(Neighboors);
-            CollectionAssert.AllItemsAreUnique(Neighboors);
-            CollectionAssert.AreEqual(ExpectedNeighboors, Neighboors);
+            Assert.AreEqual(neighboors.Length, 2);
+            CollectionAssert.AllItemsAreNotNull(neighboors);
+            CollectionAssert.AllItemsAreUnique(neighboors);
+            CollectionAssert.AreEqual(expectedneighboors, neighboors);
 
         }
 
         [TestMethod]
-        public void TestGetAvailableNeighboors2()
+        public void TestGetAvailableneighboors2()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
-            MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[1, 0]);
-            MapElement[] ExpectedNeighboors = new MapElement[]
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
+            MapElement[] neighboors = map.GetAvailableNeighboors(map.Elements[1, 0]);
+            MapElement[] expectedneighboors = new MapElement[]
             {
-                Map.Elements[0, 0],
-                Map.Elements[2, 0],
-                Map.Elements[1, 1]
+                map.Elements[0, 0],
+                map.Elements[2, 0],
+                map.Elements[1, 1]
             };
 
-            Assert.AreEqual(Neighboors.Length, 3);
-            CollectionAssert.AllItemsAreNotNull(Neighboors);
-            CollectionAssert.AllItemsAreUnique(Neighboors);
-            CollectionAssert.AreEqual(ExpectedNeighboors, Neighboors);
+            Assert.AreEqual(neighboors.Length, 3);
+            CollectionAssert.AllItemsAreNotNull(neighboors);
+            CollectionAssert.AllItemsAreUnique(neighboors);
+            CollectionAssert.AreEqual(expectedneighboors, neighboors);
 
         }
 
         [TestMethod]
-        public void TestGetAvailableNeighboors3()
+        public void TestGetAvailableneighboors3()
         {
-            Field Field = new Field(10, 10);
-            Map Map = new Map(Field);
-            MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[1, 1]);
-            MapElement[] ExpectedNeighboors = new MapElement[]
+            Field field = new Field(10, 10);
+            Map map = new Map(field);
+            MapElement[] neighboors = map.GetAvailableNeighboors(map.Elements[1, 1]);
+            MapElement[] expectedneighboors = new MapElement[]
             {
-                Map.Elements[0, 1],
-                Map.Elements[2, 1],
-                Map.Elements[1, 0],
-                Map.Elements[1, 2]
+                map.Elements[0, 1],
+                map.Elements[2, 1],
+                map.Elements[1, 0],
+                map.Elements[1, 2]
             };
 
-            Assert.AreEqual(Neighboors.Length, 4);
-            CollectionAssert.AllItemsAreNotNull(Neighboors);
-            CollectionAssert.AllItemsAreUnique(Neighboors);
-            CollectionAssert.AreEqual(ExpectedNeighboors, Neighboors);
+            Assert.AreEqual(neighboors.Length, 4);
+            CollectionAssert.AllItemsAreNotNull(neighboors);
+            CollectionAssert.AllItemsAreUnique(neighboors);
+            CollectionAssert.AreEqual(expectedneighboors, neighboors);
 
         }
 
@@ -118,58 +118,58 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         #region Test available neighboor with elements that aren't available (1,2,3)
 
         [TestMethod]
-        public void TestGetAvailableNeighboors4()
+        public void TestGetAvailableneighboors4()
         {
-            Field Field = new Field(10, 10);
-            Field.Cells[0, 1].Contain = BubbleSize.Big;
-            Map Map = new Map(Field);
-            MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[0, 0]);
-            MapElement[] ExpectedNeighboors = new MapElement[]
+            Field field = new Field(10, 10);
+            field.Cells[0, 1].Contain = BubbleSize.Big;
+            Map map = new Map(field);
+            MapElement[] neighboors = map.GetAvailableNeighboors(map.Elements[0, 0]);
+            MapElement[] expectedneighboors = new MapElement[]
             {
-                Map.Elements[1, 0]
+                map.Elements[1, 0]
             };
 
-            Assert.AreEqual(Neighboors.Length, 1);
-            CollectionAssert.AllItemsAreNotNull(Neighboors);
-            CollectionAssert.AllItemsAreUnique(Neighboors);
-            CollectionAssert.AreEqual(ExpectedNeighboors, Neighboors);
+            Assert.AreEqual(neighboors.Length, 1);
+            CollectionAssert.AllItemsAreNotNull(neighboors);
+            CollectionAssert.AllItemsAreUnique(neighboors);
+            CollectionAssert.AreEqual(expectedneighboors, neighboors);
 
         }
 
         [TestMethod]
-        public void TestGetAvailableNeighboors5()
+        public void TestGetAvailableneighboors5()
         {
-            Field Field = new Field(10, 10);
-            Field.Cells[0, 0].Contain = BubbleSize.Big;
-            Field.Cells[1, 1].Contain = BubbleSize.Big;
-            Map Map = new Map(Field);
+            Field field = new Field(10, 10);
+            field.Cells[0, 0].Contain = BubbleSize.Big;
+            field.Cells[1, 1].Contain = BubbleSize.Big;
+            Map map = new Map(field);
 
-            MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[1, 0]);
-            MapElement[] ExpectedNeighboors = new MapElement[]
+            MapElement[] neighboors = map.GetAvailableNeighboors(map.Elements[1, 0]);
+            MapElement[] expectedneighboors = new MapElement[]
             {
-                Map.Elements[2, 0]
+                map.Elements[2, 0]
             };
 
-            Assert.AreEqual(Neighboors.Length, 1);
-            CollectionAssert.AllItemsAreNotNull(Neighboors);
-            CollectionAssert.AllItemsAreUnique(Neighboors);
-            CollectionAssert.AreEqual(ExpectedNeighboors, Neighboors);
+            Assert.AreEqual(neighboors.Length, 1);
+            CollectionAssert.AllItemsAreNotNull(neighboors);
+            CollectionAssert.AllItemsAreUnique(neighboors);
+            CollectionAssert.AreEqual(expectedneighboors, neighboors);
 
         }
 
         [TestMethod]
-        public void TestGetAvailableNeighboors6()
+        public void TestGetAvailableneighboors6()
         {
-            Field Field = new Field(10, 10);
-            Field.Cells[0, 0].Contain = BubbleSize.Big;
-            Field.Cells[1, 1].Contain = BubbleSize.Big;
-            Field.Cells[2, 0].Contain = BubbleSize.Big;
-            Map Map = new Map(Field);
+            Field field = new Field(10, 10);
+            field.Cells[0, 0].Contain = BubbleSize.Big;
+            field.Cells[1, 1].Contain = BubbleSize.Big;
+            field.Cells[2, 0].Contain = BubbleSize.Big;
+            Map map = new Map(field);
 
-            MapElement[] Neighboors = Map.GetAvailableNeighboors(Map.Elements[1, 0]);
-            MapElement[] ExpectedNeighboors = new MapElement[] { };
+            MapElement[] neighboors = map.GetAvailableNeighboors(map.Elements[1, 0]);
+            MapElement[] expectedneighboors = new MapElement[] { };
 
-            CollectionAssert.AreEqual(ExpectedNeighboors, Neighboors);
+            CollectionAssert.AreEqual(expectedneighboors, neighboors);
 
         }
 

@@ -122,7 +122,7 @@ namespace Lines.GameEngine.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestStart_WrongField()
+        public void TestStart_FullField()
         {
             Game game = new Game();
             for (int i = 0; i < game.Field.Height; i++)
@@ -218,10 +218,10 @@ namespace Lines.GameEngine.Test
         public void TestGameOver()
         {
             Game game = new Game(new FakeRandomStrategy());
-            game.GameOverHandler += delegate(object sender, EventArgs e) { return; };
-            game.NextTurnHandler += delegate(object sender, EventArgs e) { return; };
-            game.DrawFieldHandler += delegate(object sender, EventArgs e) { return; };
-            game.UpdateScoreHandler += delegate(object sender, EventArgs e) { return; };
+            game.GameOverEventHandler += delegate(object sender, EventArgs e) { return; };
+            game.NextTurnEventHandler += delegate(object sender, EventArgs e) { return; };
+            game.DrawEventHandler += delegate(object sender, EventArgs e) { return; };
+            game.ScoreChangedEventHandler += delegate(object sender, EventArgs e) { return; };
             for (int i = 0; i < game.Field.Height; i++)
             {
                 for (int j = 0; j < game.Field.Width - 1; j++)

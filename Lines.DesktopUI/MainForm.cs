@@ -12,7 +12,8 @@ namespace Lines.DesktopUI
     {
 
         Game game = new Game();
-        int scale = 50; // read from app congig
+        // TO DO : read from app congig
+        int scale = 50; 
         
         public Lines()
         {
@@ -21,10 +22,10 @@ namespace Lines.DesktopUI
             PbGameBoard.Width = game.Field.Width * scale;
             PbGameBoard.Height = game.Field.Height * scale;
 
-            game.UpdateScoreHandler += UpdateScore;
-            game.DrawFieldHandler += DrawEvent;
-            game.GameOverHandler += GameOver;
-            game.NextTurnHandler += NextTurn;
+            game.ScoreChangedEventHandler += UpdateScore;
+            game.DrawEventHandler += DrawEvent;
+            game.GameOverEventHandler += GameOver;
+            game.NextTurnEventHandler += NextTurn;
 
             #region Fill 9x10
 
@@ -157,5 +158,6 @@ namespace Lines.DesktopUI
 
             btnStop.Enabled = false;
         }
+
     }
 }

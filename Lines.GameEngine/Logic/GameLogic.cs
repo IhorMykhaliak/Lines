@@ -12,17 +12,17 @@ namespace Lines.GameEngine.Logic
         #region Private Fields
         private IGenerationStrategy _bubbleGenerationStrategy;
         private CheckLines _checkLine;
-        private DestroyLines _destroyLines;
+        private LinesDestroyer _destroyLines;
         private FindPath _findPath;
 
         #endregion
 
         #region Events
 
-        public event EventHandler DrawHandler;
-        public event EventHandler UpdateScoreHandler;
-        public event EventHandler GameOverHandler;
-        public event EventHandler NextTurnHandler;
+        public event EventHandler DrawEventHandler;
+        public event EventHandler ScoreChangedEventHandler;
+        public event EventHandler GameOverEventHandler;
+        public event EventHandler NextTurnEventHandler;
 
         #endregion
 
@@ -55,42 +55,42 @@ namespace Lines.GameEngine.Logic
 
         private void OnDraw()
         {
-            if (DrawHandler != null)
+            if (DrawEventHandler != null)
             {
-                DrawHandler(this, EventArgs.Empty);
+                DrawEventHandler(this, EventArgs.Empty);
             }
         }
 
-        private void OnUpdateScore(object sender, int points)
+        private void OnScoreChange(object sender, int points)
         {
             Score += points;
 
-            if (UpdateScoreHandler != null)
+            if (ScoreChangedEventHandler != null)
             {
-                UpdateScoreHandler(this, EventArgs.Empty);
+                ScoreChangedEventHandler(this, EventArgs.Empty);
             }
         }
 
         private void OnGameOver()
         {
-            if (GameOverHandler != null)
+            if (GameOverEventHandler != null)
             {
-                GameOverHandler(this, EventArgs.Empty);
+                GameOverEventHandler(this, EventArgs.Empty);
             }
         }
 
         private void OnNextTurn()
         {
-            if (NextTurnHandler != null)
+            if (NextTurnEventHandler != null)
             {
-                NextTurnHandler(this, EventArgs.Empty);
+                NextTurnEventHandler(this, EventArgs.Empty);
             }
         }
 
         private void OnDestroyLines(object sender, Cell[][] lines)
         {
-            _destroyLines = new DestroyLines(Field);
-            _destroyLines.DestroyLine(lines);
+            _destroyLines = new LinesDestroyer(Field);
+            _destroyLines.DestroyLines(lines);
         }
 
         #endregion
@@ -154,8 +154,8 @@ namespace Lines.GameEngine.Logic
         public void TryMoveBubble(Cell currentCell)
         {
             _checkLine = new CheckLines(Field, currentCell);
-            _checkLine.UpdateScoreHandler += OnUpdateScore;
-            _checkLine.DestroyLinesHandel += OnDestroyLines;
+            _checkLine.ScoreChangedEventHandler += OnScoreChange;
+            _checkLine.DestroyLinesEventHandler += OnDestroyLines;
 
             if (currentCell.Contain == null)
             {
@@ -263,8 +263,8 @@ namespace Lines.GameEngine.Logic
                         Field.Cells[i, j].Contain = BubbleSize.Big;
                         //check if this bubble creates line
                         _checkLine = new CheckLines(Field, Field.Cells[i, j]);
-                        _checkLine.UpdateScoreHandler += OnUpdateScore;
-                        _checkLine.DestroyLinesHandel += OnDestroyLines;
+                        _checkLine.ScoreChangedEventHandler += OnScoreChange;
+                        _checkLine.DestroyLinesEventHandler += OnDestroyLines;
                         _checkLine.Check();
                     }
                 }

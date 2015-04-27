@@ -9,6 +9,11 @@ namespace Lines.GameEngine.Scoring
 {
     public class CheckLines
     {
+
+        #region Private const field
+        private const int _lineLength = 5;
+        #endregion
+
         #region Private Fields
 
         private Field _field;
@@ -20,9 +25,9 @@ namespace Lines.GameEngine.Scoring
 
         #region Events
 
-        public event EventHandler<int> UpdateScoreHandler;
-        public event EventHandler<Cell[][]> DestroyLinesHandel;
-        
+        public event EventHandler<int> ScoreChangedEventHandler;
+        public event EventHandler<Cell[][]> DestroyLinesEventHandler;
+
         #endregion
 
         #region Constructors
@@ -36,9 +41,9 @@ namespace Lines.GameEngine.Scoring
         }
 
         #endregion
-        
+
         #region Public Properties
-        
+
         public int LineLength { get; set; }
 
         #endregion
@@ -47,19 +52,19 @@ namespace Lines.GameEngine.Scoring
 
         #region Methods which using events
 
-        private void OnUpdateScore(int points)
+        private void OnScoreChange(int points)
         {
-            if (UpdateScoreHandler != null)
+            if (ScoreChangedEventHandler != null)
             {
-                UpdateScoreHandler(this, points);
+                ScoreChangedEventHandler(this, points);
             }
         }
 
         private void OnDestroyLines(Cell[][] lines)
         {
-            if (DestroyLinesHandel != null)
+            if (DestroyLinesEventHandler != null)
             {
-                DestroyLinesHandel(this, lines);
+                DestroyLinesEventHandler(this, lines);
             }
         }
 
@@ -70,6 +75,7 @@ namespace Lines.GameEngine.Scoring
             int lineLength = 0;
             int numberOfLines = 0;
 
+            // Because only 4 lines can be created at one move
             Cell[][] lines = new Cell[4][];
 
             Cell[] line;
@@ -125,7 +131,7 @@ namespace Lines.GameEngine.Scoring
 
             if (numberOfLines > 0)
             {
-                OnUpdateScore((lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1));
+                OnScoreChange((lineLength - numberOfLines + 1) * (lineLength - numberOfLines + 1));
                 LineLength += lineLength - numberOfLines + 1;
             }
 
@@ -165,7 +171,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length > 4 ? true : false;
+            return length >= _lineLength ? true : false;
         }
 
         public bool CheckLine_Vertical(out int length, out Cell[] lineElements)
@@ -194,12 +200,12 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length > 4 ? true : false;
+            return length >= _lineLength ? true : false;
         }
 
         public bool CheckLine_LeftDiagonal(out int length, out Cell[] lineElements)
         {
-            length = 1; 
+            length = 1;
             int curRow = _row - 1;
             int curCol = _column - 1;
             int lineMaxLength = (_field.Height > _field.Width) ? _field.Width : _field.Height;
@@ -225,7 +231,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length > 4 ? true : false;
+            return length >= _lineLength ? true : false;
         }
 
         public bool CheckLine_RightDiagonal(out int length, out Cell[] lineElements)
@@ -256,7 +262,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length > 4 ? true : false;
+            return length >= _lineLength ? true : false;
         }
 
         #endregion
@@ -265,7 +271,7 @@ namespace Lines.GameEngine.Scoring
 
         private bool IsCellValid(int row, int col)
         {
-            if (row >= 0 && row <= _field.Height - 1 && col >= 0 && col <= _field.Width - 1)
+            if ((row >= 0) && (row <= _field.Height - 1) && (col >= 0) && (col <= _field.Width - 1))
             {
                 return true;
             }

@@ -2,11 +2,11 @@
 
 namespace Lines.GameEngine.Logic
 {
-    public class DestroyLines
+    public class LinesDestroyer
     {
         #region Constructors
 
-        public DestroyLines(Field field)
+        public LinesDestroyer(Field field)
         {
             Field = field;
         }
@@ -21,7 +21,7 @@ namespace Lines.GameEngine.Logic
 
         #region Methods
 
-        public void DestroyLine(Cell[][] lines)
+        public void DestroyLines(Cell[][] lines)
         {
             foreach (Cell[] line in lines)
             {

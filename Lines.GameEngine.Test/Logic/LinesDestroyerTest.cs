@@ -6,7 +6,7 @@ using Lines.GameEngine.Enums;
 namespace Lines.GameEngine.Test.Logic
 {
     [TestClass]
-    public class DestroyLinesTest
+    public class LinesDestroyerTest
     {
         [TestMethod]
         public void TestDestroyHorizontalLine()
@@ -32,9 +32,9 @@ namespace Lines.GameEngine.Test.Logic
             lines[0][3] = field.Cells[1, 4];
             lines[0][4] = field.Cells[1, 5];
 
-            DestroyLines _destroy = new DestroyLines(field);
+            LinesDestroyer destroyer = new LinesDestroyer(field);
 
-            _destroy.DestroyLine(lines);
+            destroyer.DestroyLines(lines);
 
             Assert.AreEqual(field.Cells[1, 1].Contain, null);
             Assert.AreEqual(field.Cells[1, 2].Contain, null);
@@ -59,7 +59,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[5, 1].Contain = BubbleSize.Big;
             field.Cells[5, 1].Color = BubbleColor.Red;
 
-            DestroyLines _destroy = new DestroyLines(field);
+            LinesDestroyer destroyer = new LinesDestroyer(field);
 
             Cell[][] lines = new Cell[1][];
             lines[0] = new Cell[5];
@@ -69,7 +69,7 @@ namespace Lines.GameEngine.Test.Logic
             lines[0][3] = field.Cells[4, 1];
             lines[0][4] = field.Cells[5, 1];
 
-            _destroy.DestroyLine(lines);
+            destroyer.DestroyLines(lines);
 
             Assert.AreEqual(field.Cells[1, 1].Contain, null);
             Assert.AreEqual(field.Cells[2, 1].Contain, null);
@@ -94,7 +94,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[5, 5].Contain = BubbleSize.Big;
             field.Cells[5, 5].Color = BubbleColor.Red;
 
-            DestroyLines _destroy = new DestroyLines(field);
+            LinesDestroyer destroyer = new LinesDestroyer(field);
 
             Cell[][] lines = new Cell[1][];
             lines[0] = new Cell[5];
@@ -104,7 +104,7 @@ namespace Lines.GameEngine.Test.Logic
             lines[0][3] = field.Cells[4, 4];
             lines[0][4] = field.Cells[5, 5];
 
-            _destroy.DestroyLine(lines);
+            destroyer.DestroyLines(lines);
 
             Assert.AreEqual(field.Cells[1, 1].Contain, null);
             Assert.AreEqual(field.Cells[2, 2].Contain, null);
@@ -130,7 +130,7 @@ namespace Lines.GameEngine.Test.Logic
             field.Cells[1, 5].Color = BubbleColor.Red;
 
 
-            DestroyLines _destroy = new DestroyLines(field);
+            LinesDestroyer destroyer = new LinesDestroyer(field);
 
             Cell[][] lines = new Cell[1][];
             lines[0] = new Cell[5];
@@ -140,7 +140,7 @@ namespace Lines.GameEngine.Test.Logic
             lines[0][3] = field.Cells[2, 4];
             lines[0][4] = field.Cells[1, 5];
 
-            _destroy.DestroyLine(lines);
+            destroyer.DestroyLines(lines);
             Assert.AreEqual(field.Cells[5, 1].Contain, null);
             Assert.AreEqual(field.Cells[4, 2].Contain, null);
             Assert.AreEqual(field.Cells[3, 3].Contain, null);

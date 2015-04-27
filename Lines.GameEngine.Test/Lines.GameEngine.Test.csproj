@@ -58,7 +58,7 @@
     <Compile Include="PathFinding Algorithm\FindPathTest.cs" />
     <Compile Include="PathFinding Algorithm\MapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logic\DestroyLinesTest.cs" />
+    <Compile Include="Logic\LinesDestroyerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lines.GameEngine\Lines.GameEngine.csproj">

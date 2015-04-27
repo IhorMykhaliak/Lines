@@ -44,7 +44,7 @@
     <Compile Include="BubbleGenerationStrategy\RandomStrategy.cs" />
     <Compile Include="Enums\GameStatus.cs" />
     <Compile Include="Logic\GameLogic.cs" />
-    <Compile Include="Logic\DestroyLines.cs" />
+    <Compile Include="Logic\LinesDestroyer.cs" />
     <Compile Include="Enums\BubbleColor.cs" />
     <Compile Include="Enums\BubbleSize.cs" />
     <Compile Include="Cell.cs" />

@@ -66,7 +66,7 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
             existing = existing.Where(x => x != null).ToArray();
             foreach (var bubble in existing)
             {
-                if (bubble.Row == suspect.Row && bubble.Column == suspect.Column)
+                if ((bubble.Row == suspect.Row) && (bubble.Column == suspect.Column))
                 {
                     return false;
                 }
