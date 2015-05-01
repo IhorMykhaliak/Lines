@@ -87,18 +87,21 @@ namespace Lines.ConsoleUI
         }
 
         #region Console design
-
+        // Назва GameInfo() більше підходить для метода, який би повертав string,
+        // можна перейменувати у ShowGameInfo()
         private static void GameInfo()
         {
             Info_GameRules();
+            // Групування коду на 'абзаци' - логічно пов'язані групи в межах одного методу,
+            // тобто, на місці цього коментаря - пустий рядок
             int top = 18;
             int left = 10;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-
+            Console.BackgroundColor = ConsoleColor.Black; // Групування - тут навпаки зайвий пустий рядок
             Console.SetCursorPosition(left, top);
             Console.WriteLine("Use arrows to control this     rectangle(it's your cursor)");
             Info_DrawCursor();
+            // Групування...
             Console.SetCursorPosition(left, top + 2);
             Console.WriteLine("Press ENTER to select(drag) rectangle");
             Console.SetCursorPosition(left, top + 4);
@@ -108,8 +111,8 @@ namespace Lines.ConsoleUI
             Console.SetCursorPosition(left, top + 8);
             Console.WriteLine("Let's go!! Press any key to start .............. Good Luck!");
 
-            top = 2;
             #region Draw vetrical lines
+            top = 2;
             Console.BackgroundColor = ConsoleColor.Black;
             Info_DrawLines(top, ConsoleColor.Red);
             top += 2;
