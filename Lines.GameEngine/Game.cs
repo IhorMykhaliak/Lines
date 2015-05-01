@@ -145,7 +145,7 @@ namespace Lines.GameEngine
 
             _gameStatus = GameStatus.InProgress;
             Field.EmptyCells = _gameLogic.CountEmptyCells();
-
+            // Тут можна використати const чи readonly значення
             if (Field.EmptyCells < 6)
             {
                 throw new InvalidOperationException("Can't start game,not enought empty cells");
@@ -178,7 +178,7 @@ namespace Lines.GameEngine
 
             OnGameOver(this, EventArgs.Empty);
         }
-
+        // Може, назвати MoveCellBubble?
         public void SelectCell(int row, int col)
         {
             if (_gameStatus == GameStatus.InProgress)
