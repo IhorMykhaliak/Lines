@@ -7,6 +7,9 @@ using Lines.GameEngine.Enums;
 
 namespace Lines.GameEngine.Scoring
 {
+    /*
+     * Review GY: рекомендую замінити ім'я класу на одне з наступних: CheckLinesHelper, LineChecker або ваш варіант.
+     */
     public class CheckLines
     {
 
@@ -145,6 +148,9 @@ namespace Lines.GameEngine.Scoring
             return false;
         }
 
+        /*
+         * Review GY: рекомендую прибрати CheckLine_ з назви методу.
+         */
         public bool CheckLine_Horizontal(out int length, out Cell[] lineElements)
         {
             length = 1;
@@ -174,6 +180,9 @@ namespace Lines.GameEngine.Scoring
             return length >= _lineLength ? true : false;
         }
 
+        /*
+         * Review GY: рекомендую прибрати CheckLine_ з назви методу.
+         */
         public bool CheckLine_Vertical(out int length, out Cell[] lineElements)
         {
             length = 1;
@@ -203,6 +212,9 @@ namespace Lines.GameEngine.Scoring
             return length >= _lineLength ? true : false;
         }
 
+        /*
+         * Review GY: рекомендую прибрати CheckLine_ з назви методу.
+         */
         public bool CheckLine_LeftDiagonal(out int length, out Cell[] lineElements)
         {
             length = 1;
@@ -234,6 +246,9 @@ namespace Lines.GameEngine.Scoring
             return length >= _lineLength ? true : false;
         }
 
+        /*
+         * Review GY: рекомендую прибрати CheckLine_ з назви методу.
+         */
         public bool CheckLine_RightDiagonal(out int length, out Cell[] lineElements)
         {
             length = 1;

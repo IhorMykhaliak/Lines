@@ -15,6 +15,9 @@ namespace Lines.GameEngine.Logic
 
         #region Public Properties
 
+        /*
+         * Review GY: з якою метою даний клас приймає як параметер конструктора об'єкт Field та містить публічну пропертю Field.
+         */
         public Field Field { get; set; }
 
         #endregion

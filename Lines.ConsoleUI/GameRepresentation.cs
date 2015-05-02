@@ -31,6 +31,9 @@ namespace Lines.ConsoleUI
             Console.ForegroundColor = ConsoleColor.Black;
             Scale = int.Parse(ConfigurationManager.AppSettings["RecomendedConsoleScale"]);
             Console.WindowHeight = int.Parse(ConfigurationManager.AppSettings["Height"]);
+            /*
+             * Review GY: рекомендую змінити назву методу на SubscribeGameEvents для кращої читабельності коду.
+             */
             Subscribe();
 
             DrawInfo();

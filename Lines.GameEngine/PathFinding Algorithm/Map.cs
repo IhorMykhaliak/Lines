@@ -10,12 +10,19 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         public int Width { get; set; }
         public int Height { get; set; }
+        /*
+         * Review GY: не рекомендую віддавати назовні весь масив MapElement.
+         * Кращим варіантом буде створення методів чи індексаторів на отримання окремого елементу MapElement.
+         */
         public MapElement[,] Elements { get; set; }
 
         #endregion
 
         #region Constructors
 
+        /*
+         * Review GY: імена параметрів повинні починатись з маленької літери (Field).
+         */
         public Map(Field Field)
         {
             this.Height = Field.Height;

@@ -10,7 +10,10 @@ namespace Lines.GameEngine
         public Field(int height, int width)
         {
             #region Validation
-
+            /*
+             * Review GY: наявне використання магічних чисел.
+             * Рекомендую оголосити константи або зчитувати дані з конфігураційного файлу.
+             */
             if (width < 5)
             {
                 throw new ArgumentException("'width' cannot be < 5");
@@ -55,7 +58,12 @@ namespace Lines.GameEngine
 
         public int Width { get; private set; }
         public int Height { get; private set; }
+        /*
+         * Review GY: не рекомендую віддавати назовні весь масив Cells.
+         * Кращим варіантом буде створення методів чи індексаторів на отримання окремої комірки.
+         */
         public Cell[,] Cells { get; set; }
+
         public int EmptyCells { get; set; }
 
         #endregion
