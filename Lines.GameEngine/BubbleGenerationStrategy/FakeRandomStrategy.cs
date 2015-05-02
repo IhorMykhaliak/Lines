@@ -5,6 +5,9 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
 {
     public class FakeRandomStrategy : IGenerationStrategy
     {
+        /*
+         * Review GY: імена параметрів методу повинні починатись з маленької літери (Size, Color).
+         */
         public Cell GenerateBubble(Field field, BubbleSize Size, BubbleColor? Color = null)
         {
             return new Cell(0 ,field.Width - 2 , Size, Color);

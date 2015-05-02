@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Lines.GameEngine.PathFinding_Algorithm
 {
+    /*
+     * Review GY: рекомендую переіменувати класс, наприклад, на PathHelper
+     */
     public class FindPath
     {
         #region Private Fields
@@ -21,6 +24,9 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #region constructor
 
+        /*
+         * Review GY: імена параметрів повинні починатись з маленької літери (Field).
+         */
         public FindPath(Field Field, Cell cellFrom, Cell cellTo)
         {
             _field = Field;
@@ -33,6 +39,9 @@ namespace Lines.GameEngine.PathFinding_Algorithm
 
         #region Methods
 
+        /*
+         * Review GY: імена параметрів повинні починатись з маленької літери (FieldWay).
+         */
         public bool GetWay( out List<Cell> FieldWay)
         {
             var Way = new List<MapElement>();
@@ -130,6 +139,9 @@ namespace Lines.GameEngine.PathFinding_Algorithm
             _openList.Remove(element);
         }
 
+        /*
+         * Review GY: імена параметрів повинні починатись з маленької літери (MapWay).
+         */
         private List<Cell> ConvertToField(List<MapElement> MapWay)
         {
             List<Cell> FieldWay = new List<Cell>();

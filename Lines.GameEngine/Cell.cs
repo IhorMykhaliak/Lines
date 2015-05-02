@@ -11,6 +11,9 @@ namespace Lines.GameEngine
 
         public int Row { get { return _row; } }
         public int Column { get { return _col; } }
+        /*
+         * Review GY: ім'я проперті має бути іменником
+         */
         public BubbleSize? Contain { get; set; }
         public BubbleColor? Color { get; set; }
 

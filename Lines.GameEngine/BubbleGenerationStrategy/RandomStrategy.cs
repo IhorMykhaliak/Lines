@@ -11,6 +11,9 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
     {
         private Random _random = new Random();
 
+        /*
+         * Review GY: імена параметрів методу повинні починатись з маленької літери (Size, Color).
+         */
         public Cell GenerateBubble(Field field, BubbleSize Size, BubbleColor? Color = null)
         {
             Cell result;

@@ -86,8 +86,14 @@ namespace Lines.ConsoleUI
             }
         }
 
+        /*
+         * Review GY: рекомендую винести весь регіон в окремий клас. 
+         */
         #region Console design
 
+        /*
+         * Review GY: ім'ям методу повинно бути дієслово. Для прикладу: ShowGameInfo
+         */
         private static void GameInfo()
         {
             Info_GameRules();
@@ -109,6 +115,10 @@ namespace Lines.ConsoleUI
             Console.WriteLine("Let's go!! Press any key to start .............. Good Luck!");
 
             top = 2;
+            /*
+             * Review GY: рекомендую створити список з відповідними кольрами та пройтись по них циклом.
+             * Цей підхід допоможе уникнути дубляжу коду.
+             */
             #region Draw vetrical lines
             Console.BackgroundColor = ConsoleColor.Black;
             Info_DrawLines(top, ConsoleColor.Red);
@@ -138,6 +148,10 @@ namespace Lines.ConsoleUI
             #endregion
         }
 
+        /*
+         * Review GY: ім'ям методу повинно бути дієслово. 
+         * Також, для іменування методів рекомендовано використовувати кемел кейс.
+         */
         private static void Info_GameRules()
         {
             int top = 2;
@@ -167,6 +181,9 @@ namespace Lines.ConsoleUI
             Console.WriteLine("Game ends when all field filled with rectangles");
         }
 
+        /*
+         * Review GY: рекомендую прибрати Info_ з імені методу.
+         */
         private static void Info_DrawCursor()
         {
             int top = 17;
@@ -191,6 +208,9 @@ namespace Lines.ConsoleUI
 
         }
 
+        /*
+         * Review GY: рекомендую прибрати Info_ з імені методу.
+         */
         private static void Info_DrawSmallRect()
         {
             int left = 32;
@@ -205,6 +225,9 @@ namespace Lines.ConsoleUI
             Console.BackgroundColor = ConsoleColor.Black;
         }
 
+        /*
+         * Review GY: рекомендую прибрати Info_ з імені методу.
+         */
         private static void Info_DrawBigRect()
         {
             int left = 32;
@@ -228,6 +251,9 @@ namespace Lines.ConsoleUI
 
         }
 
+        /*
+         * Review GY: рекомендую прибрати Info_ з імені методу.
+         */
         private static void Info_DrawLines(int top, ConsoleColor color)
         {
             int left = 6;
