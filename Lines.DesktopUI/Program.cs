@@ -14,9 +14,15 @@ namespace Lines.DesktopUI
         [STAThread]
         static void Main()
         {
+            Application.ThreadException += ApplicationThreadException;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Lines());
+        }
+
+        static void ApplicationThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message.ToString(), "Error", MessageBoxButtons.OK);
         }
     }
 }

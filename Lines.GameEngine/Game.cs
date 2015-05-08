@@ -1,5 +1,5 @@
 ﻿using System;
-using Lines.GameEngine.PathFinding_Algorithm;
+using System.Collections.Generic;
 using Lines.GameEngine.Scoring;
 using Lines.GameEngine.Logic;
 using Lines.GameEngine.Enums;
@@ -9,10 +9,22 @@ namespace Lines.GameEngine
 {
     public class Game
     {
+        #region Const fields
+
+        private const int MaxStepsBack = 3;
+
+        #endregion
+
         #region Private Fields
+
+        private readonly int _difficulty;
+        private int _allowedStepsBack;
         private GameLogic _gameLogic;
+        private GameMemento _memento;
+        private readonly Stack<GameMemento> _stepBack = new Stack<GameMemento>();
         private GameStatus _gameStatus;
         private IGenerationStrategy _bubbleGenerationStrategy;
+
         #endregion
 
         #region Events
@@ -20,44 +32,53 @@ namespace Lines.GameEngine
         public event EventHandler ScoreChangedEventHandler;
         public event EventHandler DrawEventHandler;
         public event EventHandler GameOverEventHandler;
-        public event EventHandler NextTurnEventHandler;
+        public event EventHandler TurnChangedEventHandler;
+        public event EventHandler PathDoesntExistEventHandler;
 
         #endregion
 
         #region Constructors
 
-        public Game(int fieldheight, int fieldWidth)
+        public Game(int fieldheight, int fieldWidth, int difficulty)
         {
-            Field = new Field(fieldheight, fieldWidth);
+            #region Validation
+            if ((difficulty > 5) || (difficulty < 3))
+            {
+                throw new InvalidOperationException("Difficulty must be between 3 and 5");
+            }
+            #endregion
+
+            _difficulty = difficulty;
+            _allowedStepsBack = MaxStepsBack;
             _gameStatus = GameStatus.ReadyToStart;
             _bubbleGenerationStrategy = new RandomStrategy();
-            _gameLogic = new GameLogic(Field, _bubbleGenerationStrategy);
-            _gameLogic.DrawEventHandler += OnDraw;
-            _gameLogic.ScoreChangedEventHandler += OnScoreChange;
-            _gameLogic.GameOverEventHandler += OnGameOver;
-            _gameLogic.NextTurnEventHandler += OnNextTurn;
+            _gameLogic = new GameLogic(new Field(fieldheight, fieldWidth), _bubbleGenerationStrategy, _difficulty);
+            SubscribeGameLogicEvents();
         }
 
         public Game()
-            : this(10, 10)
+            : this(10, 10, 3)
         {
         }
 
         public Game(int size)
-            : this(size, size)
+            : this(size, size, 3)
+        {
+        }
+
+        public Game(int size, int difficulty)
+            : this(size, size, difficulty)
         {
         }
 
         public Game(IGenerationStrategy generationStrategy)
         {
-            Field = new Field(10, 10);
+            _difficulty = 3;
+            _allowedStepsBack = MaxStepsBack;
             _gameStatus = GameStatus.ReadyToStart;
             _bubbleGenerationStrategy = generationStrategy;
-            _gameLogic = new GameLogic(Field, _bubbleGenerationStrategy);
-            _gameLogic.DrawEventHandler += OnDraw;
-            _gameLogic.ScoreChangedEventHandler += OnScoreChange;
-            _gameLogic.GameOverEventHandler += OnGameOver;
-            _gameLogic.NextTurnEventHandler += OnNextTurn;
+            _gameLogic = new GameLogic(new Field(10, 10), _bubbleGenerationStrategy, _difficulty);
+            SubscribeGameLogicEvents();
         }
 
         #endregion
@@ -66,28 +87,27 @@ namespace Lines.GameEngine
 
         public int Turn
         {
-            get
-            {
-                return this._gameLogic.Turn;
-            }
+            get { return this._gameLogic.Turn; }
         }
 
         public int Score
         {
-            get
-            {
-                return this._gameLogic.Score;
-            }
+            get { return this._gameLogic.Score; }
         }
-
-        public Field Field { get; private set; }
 
         public GameStatus Status
         {
-            get
-            {
-                return _gameStatus;
-            }
+            get { return _gameStatus; }
+        }
+
+        public Field Field
+        {
+            get { return _gameLogic.Field; }
+        }
+
+        public int AllowedStepsBack
+        {
+            get { return _allowedStepsBack; }
         }
 
         #endregion
@@ -114,22 +134,44 @@ namespace Lines.GameEngine
 
         private void OnGameOver(object sender, EventArgs e)
         {
+            _gameLogic.Score *= _difficulty;
             if (GameOverEventHandler != null)
             {
-                OnScoreChange(this, EventArgs.Empty);
-                OnNextTurn(this, EventArgs.Empty);
+                OnTurnChange(this, EventArgs.Empty);
                 OnDraw(this, EventArgs.Empty);
                 GameOverEventHandler(this, EventArgs.Empty);
             }
             _gameStatus = GameStatus.Completed;
         }
 
-        private void OnNextTurn(object sender, EventArgs e)
+        private void OnTurnChange(object sender, EventArgs e)
         {
-            if (NextTurnEventHandler != null)
+            if (TurnChangedEventHandler != null)
             {
-                NextTurnEventHandler(this, EventArgs.Empty);
+                TurnChangedEventHandler(this, EventArgs.Empty);
             }
+        }
+
+        private void OnPathDoesntExist(object sender, EventArgs e)
+        {
+            if (PathDoesntExistEventHandler != null)
+            {
+                PathDoesntExistEventHandler(this, EventArgs.Empty);
+            }
+        }
+
+        private void SaveMemento(object sender, EventArgs e)
+        {
+            GameMemento memento = _gameLogic.SaveMemento();
+            if (_stepBack.Count == 0)
+            {
+                _stepBack.Push(memento);
+            }
+            else if (_stepBack.Peek().Turn != memento.Turn)
+            {
+                _stepBack.Push(memento);
+            }
+            _allowedStepsBack = (_allowedStepsBack + 1 > 3) ? _allowedStepsBack : ++_allowedStepsBack;
         }
 
         #endregion
@@ -144,28 +186,22 @@ namespace Lines.GameEngine
             #endregion
 
             _gameStatus = GameStatus.InProgress;
-            Field.EmptyCells = _gameLogic.CountEmptyCells();
+            Field.CountEmptyCells();
 
-            if (Field.EmptyCells < 6)
+            if (Field.EmptyCells < 2 * _difficulty)
             {
-                throw new InvalidOperationException("Can't start game,not enought empty cells");
+                throw new InvalidOperationException("Can't start game! Not enought empty cells");
             }
 
-            int generateBigBubbles = 3;
-            int generateSmallBubbles = 3;
+            Cell[] bigBubbles = _bubbleGenerationStrategy.GenerateBigBubbles(Field, _difficulty);
+            Field.PlaceBubbles(bigBubbles);
+            Field.EmptyCells -= _difficulty;
 
-            Cell[] bigBubbles = _bubbleGenerationStrategy.GenerateBigBubbles(Field, generateBigBubbles);
-            PlaceBubblesOnField(bigBubbles);
-            Field.EmptyCells -= generateBigBubbles;
+            Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, _difficulty);
+            Field.PlaceBubbles(smallBubbles);
 
-            Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, generateSmallBubbles);
-            PlaceBubblesOnField(smallBubbles);
-
-            OnScoreChange(this, EventArgs.Empty);
-            OnNextTurn(this, EventArgs.Empty);
             OnDraw(this, EventArgs.Empty);
         }
-
 
         public void Stop()
         {
@@ -181,23 +217,61 @@ namespace Lines.GameEngine
 
         public void SelectCell(int row, int col)
         {
-            if (_gameStatus == GameStatus.InProgress)
+            #region Validation
+            if (_gameStatus != GameStatus.InProgress)
             {
-                _gameLogic.SelectCell(row, col);
+                throw new InvalidOperationException("You can select cell only when game is in progress");
             }
+            #endregion
+
+            _gameLogic.SelectCell(row, col);
+        }
+
+        public void CancelMove()
+        {
+            #region Validation
+            if (_gameStatus != GameStatus.InProgress)
+            {
+                throw new InvalidOperationException("You can cancel move only when game is in progress");
+            }
+            if (_allowedStepsBack < 1)
+            {
+                throw new InvalidOperationException("You can cancel move only up to 3 times in a row");
+            }
+            if (_stepBack.Count == 0)
+            {
+                throw new InvalidOperationException("There is no move to cancel");
+            }
+            #endregion
+
+            _allowedStepsBack--;
+            int turn = this.Turn;
+            _gameLogic.RestoreMemento(_stepBack.Pop());
+            if (turn == Turn)
+            {
+                _gameLogic.RestoreMemento(_stepBack.Pop());
+            }
+            if (_allowedStepsBack == 0)
+            {
+                _stepBack.Clear();
+            }
+            OnDraw(null, EventArgs.Empty);
+            OnScoreChange(null, EventArgs.Empty);
+            OnTurnChange(null, EventArgs.Empty);
         }
 
         #endregion
 
         #region Helpers
 
-        private void PlaceBubblesOnField(Cell[] bubbles)
+        private void SubscribeGameLogicEvents()
         {
-            foreach (var bubble in bubbles)
-            {
-                Field.Cells[bubble.Row, bubble.Column].Contain = bubble.Contain;
-                Field.Cells[bubble.Row, bubble.Column].Color = bubble.Color;
-            }
+            _gameLogic.DrawEventHandler += OnDraw;
+            _gameLogic.ScoreChangedEventHandler += OnScoreChange;
+            _gameLogic.GameOverEventHandler += OnGameOver;
+            _gameLogic.TurnChangedEventHandler += OnTurnChange;
+            _gameLogic.PathDoesntExistEventHandler += OnPathDoesntExist;
+            _gameLogic.PlayerActionChangingFieldEventHandler += SaveMemento;
         }
 
         #endregion

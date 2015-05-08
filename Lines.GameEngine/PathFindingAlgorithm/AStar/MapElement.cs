@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lines.GameEngine.PathFinding_Algorithm
+namespace Lines.GameEngine.PathFindingAlgorithm.AStar
 {
     public class MapElement : IComparable<MapElement>
     {

@@ -5,9 +5,9 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
 {
     public class FakeRandomStrategy : IGenerationStrategy
     {
-        public Cell GenerateBubble(Field field, BubbleSize Size, BubbleColor? Color = null)
+        public Cell GenerateBubble(Field field, BubbleSize size, BubbleColor? color = null)
         {
-            return new Cell(0 ,field.Width - 2 , Size, Color);
+            return new Cell(1 ,field.Width - 2 , size, color);
         }
 
         public Cell[] GenerateSmallBubbles(Field field, int smallBubbles)

@@ -11,7 +11,7 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
     {
         private Random _random = new Random();
 
-        public Cell GenerateBubble(Field field, BubbleSize Size, BubbleColor? Color = null)
+        public Cell GenerateBubble(Field field, BubbleSize size, BubbleColor? color = null)
         {
             Cell result;
             int randomRow;
@@ -20,15 +20,15 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
             {
                 randomRow = _random.Next(0, field.Height);
                 randomCol = _random.Next(0, field.Width);
-                if (field.Cells[randomRow, randomCol].Contain == null)
+                if (field[randomRow, randomCol].Contain == null)
                 {
                     int randomColor = _random.Next(0, Enum.GetNames(typeof(BubbleColor)).Length);
-                    result = new Cell(randomRow, randomCol, Size, Color ?? (BubbleColor)randomColor);
+                    result = new Cell(randomRow, randomCol, size, color ?? (BubbleColor)randomColor);
                     return result;
                 }
-            } while (field.Cells[randomRow, randomCol].Contain != null && field.EmptyCells != 0);
+            } while (field[randomRow, randomCol].Contain != null && field.EmptyCells != 0);
 
-            throw new InvalidOperationException("Field is already full.Generation failed");
+            throw new InvalidOperationException("field is already full.Generation failed");
         }
 
         public Cell[] GenerateSmallBubbles(Field field, int smallBubbles)

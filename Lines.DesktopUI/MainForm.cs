@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Configuration;
 using Lines.GameEngine;
 using Lines.GameEngine.Enums;
 
@@ -11,83 +12,30 @@ namespace Lines.DesktopUI
     public partial class Lines : Form
     {
 
-        Game game = new Game();
-        // TO DO : read from app congig
-        int scale = 50; 
-        
+        private Game _game = new Game(8, 4);
+        private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedDesktopScale"]);
+
         public Lines()
         {
             InitializeComponent();
 
-            PbGameBoard.Width = game.Field.Width * scale;
-            PbGameBoard.Height = game.Field.Height * scale;
+            pbxGameBoard.Width = _game.Field.Width * _scale;
+            pbxGameBoard.Height = _game.Field.Height * _scale;
+            lblScore.Text = "0";
+            lblTurn.Text = "0";
 
-            game.ScoreChangedEventHandler += UpdateScore;
-            game.DrawEventHandler += DrawEvent;
-            game.GameOverEventHandler += GameOver;
-            game.NextTurnEventHandler += NextTurn;
+            _game.ScoreChangedEventHandler += UpdateScore;
+            _game.DrawEventHandler += DrawEvent;
+            _game.GameOverEventHandler += GameOver;
+            _game.TurnChangedEventHandler += NextTurn;
+            _game.PathDoesntExistEventHandler += PathDoesntExist;
 
-            #region Fill 9x10
-
-            //game.field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 5].Color = Color.Black;
-
-            // For auto fill Net
-            //for (int i = 0; i < game.field.Height; i++)
-            //{
-            //    for (int j = 0; j < game.field.Width - 1; j++)
-            //    {
-            //        game.field.Cells[i, j].Contain = BubbleSize.Big;
-            //        game.field.Cells[i, j].Color = BubbleColor.Red;
-            //    }
-            //}
-
-            #endregion
-
-            #region Fill with double line
-            //game.field.Cells[1, 1].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 1].Color = BubbleColor.Red;
-            //game.field.Cells[1, 2].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 2].Color = BubbleColor.Red;
-            //game.field.Cells[1, 3].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 3].Color = BubbleColor.Red;
-            //game.field.Cells[1, 8].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 8].Color = BubbleColor.Red;
-            //game.field.Cells[1, 4].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 4].Color = BubbleColor.Red;
-
-            //game.field.Cells[5, 1].Contain = BubbleSize.Big;
-            //game.field.Cells[5, 1].Color = BubbleColor.Red;
-            //game.field.Cells[4, 2].Contain = BubbleSize.Big;
-            //game.field.Cells[4, 2].Color = BubbleColor.Red;
-            //game.field.Cells[3, 3].Contain = BubbleSize.Big;
-            //game.field.Cells[3, 3].Color = BubbleColor.Red;
-            //game.field.Cells[2, 4].Contain = BubbleSize.Big;
-            //game.field.Cells[2, 4].Color = BubbleColor.Red;
-            #endregion
-
-            #region fill with line and small bubble
-            //game.field.Cells[1, 1].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 1].Color = BubbleColor.Red;
-            //game.field.Cells[1, 2].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 2].Color = BubbleColor.Red;
-            //game.field.Cells[1, 3].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 3].Color = BubbleColor.Red;
-            //game.field.Cells[1, 8].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 8].Color = BubbleColor.Red;
-            //game.field.Cells[1, 4].Contain = BubbleSize.Small;
-            //game.field.Cells[1, 4].Color = BubbleColor.Blue;
-            //game.field.Cells[1, 5].Contain = BubbleSize.Big;
-            //game.field.Cells[1, 5].Color = BubbleColor.Red;
-            #endregion
-
-
-            game.Start();
+            _game.Start();
         }
 
         private void GameOver(object sender, EventArgs e)
         {
-            MessageBox.Show("Game over on turn " + game.Turn + ".Your result = " + game.Score.ToString());
+            MessageBox.Show("Game over on turn " + _game.Turn + ".Your final score is " + _game.Score.ToString());
         }
 
         private void Drawing(object sender, PaintEventArgs e)
@@ -95,16 +43,16 @@ namespace Lines.DesktopUI
             int radius;
             int smallBubbleCentre;
             Graphics canvas = e.Graphics;
-            for (int i = 0; i < game.Field.Height; i++)
+            for (int i = 0; i < _game.Field.Height; i++)
             {
-                for (int j = 0; j < game.Field.Width; j++)
+                for (int j = 0; j < _game.Field.Width; j++)
                 {
-                    canvas.FillRectangle(Brushes.Silver, j * scale + 1, i * scale + 1, scale - 2, scale - 2);
-                    if (game.Field.Cells[i, j].Contain != null)
+                    canvas.FillRectangle(Brushes.Silver, j * _scale + 1, i * _scale + 1, _scale - 2, _scale - 2);
+                    if (_game.Field[i, j].Contain != null)
                     {
-                        radius = (game.Field.Cells[i, j].Contain == BubbleSize.Big) ? 2 : 1;
-                        smallBubbleCentre = (game.Field.Cells[i, j].Contain == BubbleSize.Small) ? scale / 4 : 0;
-                        canvas.FillEllipse(new SolidBrush(GetColor(game.Field.Cells[i, j].Color) ?? Color.Black), scale * j + smallBubbleCentre, scale * i + smallBubbleCentre, scale / 2 * radius - 1, scale / 2 * radius - 1);
+                        radius = (_game.Field[i, j].Contain == BubbleSize.Big) ? 2 : 1;
+                        smallBubbleCentre = (_game.Field[i, j].Contain == BubbleSize.Small) ? _scale / 4 : 0;
+                        canvas.FillEllipse(new SolidBrush(GetColor(_game.Field[i, j].Color) ?? Color.Black), _scale * j + smallBubbleCentre, _scale * i + smallBubbleCentre, _scale / 2 * radius - 1, _scale / 2 * radius - 1);
                     }
                 }
             }
@@ -112,22 +60,38 @@ namespace Lines.DesktopUI
 
         private void SelectCell(object sender, MouseEventArgs e)
         {
-            game.SelectCell((int)e.Y / scale, (int)e.X / scale);
+            lblPath.Text = "";
+            _game.SelectCell((int)e.Y / _scale, (int)e.X / _scale);
         }
 
         private void DrawEvent(object sender, EventArgs e)
         {
-            PbGameBoard.Refresh();
+            pbxGameBoard.Refresh();
         }
 
         private void UpdateScore(object sender, EventArgs e)
         {
-            lbScore.Text = game.Score.ToString();
+            lblScore.Text = _game.Score.ToString();
+        }
+
+        private void PathDoesntExist(object sender, EventArgs e)
+        {
+            lblPath.Text = "Between two cells path doesn't exist";
         }
 
         private void NextTurn(object sender, EventArgs e)
         {
-            lbTurn.Text = game.Turn.ToString();
+            lblTurn.Text = _game.Turn.ToString();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            _game.Stop();
+        }
+
+        private void btnStepBack_Click(object sender, EventArgs e)
+        {
+            _game.CancelMove();
         }
 
         public Color? GetColor(BubbleColor? color)
@@ -151,13 +115,5 @@ namespace Lines.DesktopUI
                     return null;
             }
         }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            game.Stop();
-
-            btnStop.Enabled = false;
-        }
-
     }
 }

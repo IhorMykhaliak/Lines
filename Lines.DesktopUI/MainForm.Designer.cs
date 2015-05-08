@@ -28,25 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PbGameBoard = new System.Windows.Forms.PictureBox();
+            this.pbxGameBoard = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbScore = new System.Windows.Forms.Label();
-            this.lbTurn = new System.Windows.Forms.Label();
+            this.lblScore = new System.Windows.Forms.Label();
+            this.lblTurn = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStop = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.PbGameBoard)).BeginInit();
+            this.lblPath = new System.Windows.Forms.Label();
+            this.btnStepBack = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxGameBoard)).BeginInit();
             this.SuspendLayout();
             // 
-            // PbGameBoard
+            // pbxGameBoard
             // 
-            this.PbGameBoard.BackColor = System.Drawing.Color.IndianRed;
-            this.PbGameBoard.Location = new System.Drawing.Point(56, 75);
-            this.PbGameBoard.Name = "PbGameBoard";
-            this.PbGameBoard.Size = new System.Drawing.Size(500, 500);
-            this.PbGameBoard.TabIndex = 1;
-            this.PbGameBoard.TabStop = false;
-            this.PbGameBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.Drawing);
-            this.PbGameBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SelectCell);
+            this.pbxGameBoard.BackColor = System.Drawing.Color.IndianRed;
+            this.pbxGameBoard.Location = new System.Drawing.Point(56, 75);
+            this.pbxGameBoard.Name = "pbxGameBoard";
+            this.pbxGameBoard.Size = new System.Drawing.Size(500, 500);
+            this.pbxGameBoard.TabIndex = 1;
+            this.pbxGameBoard.TabStop = false;
+            this.pbxGameBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.Drawing);
+            this.pbxGameBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SelectCell);
             // 
             // label1
             // 
@@ -58,23 +60,23 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Score : ";
             // 
-            // lbScore
+            // lblScore
             // 
-            this.lbScore.AutoSize = true;
-            this.lbScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbScore.Location = new System.Drawing.Point(163, 19);
-            this.lbScore.Name = "lbScore";
-            this.lbScore.Size = new System.Drawing.Size(0, 31);
-            this.lbScore.TabIndex = 3;
+            this.lblScore.AutoSize = true;
+            this.lblScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblScore.Location = new System.Drawing.Point(163, 19);
+            this.lblScore.Name = "lblScore";
+            this.lblScore.Size = new System.Drawing.Size(0, 31);
+            this.lblScore.TabIndex = 3;
             // 
-            // lbTurn
+            // lblTurn
             // 
-            this.lbTurn.AutoSize = true;
-            this.lbTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lbTurn.Location = new System.Drawing.Point(481, 19);
-            this.lbTurn.Name = "lbTurn";
-            this.lbTurn.Size = new System.Drawing.Size(0, 31);
-            this.lbTurn.TabIndex = 5;
+            this.lblTurn.AutoSize = true;
+            this.lblTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblTurn.Location = new System.Drawing.Point(481, 19);
+            this.lblTurn.Name = "lblTurn";
+            this.lblTurn.Size = new System.Drawing.Size(0, 31);
+            this.lblTurn.TabIndex = 5;
             // 
             // label2
             // 
@@ -100,22 +102,43 @@
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
+            // lblPath
+            // 
+            this.lblPath.AutoSize = true;
+            this.lblPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPath.Location = new System.Drawing.Point(59, 590);
+            this.lblPath.Name = "lblPath";
+            this.lblPath.Size = new System.Drawing.Size(0, 31);
+            this.lblPath.TabIndex = 8;
+            // 
+            // btnStepBack
+            // 
+            this.btnStepBack.Location = new System.Drawing.Point(574, 391);
+            this.btnStepBack.Name = "btnStepBack";
+            this.btnStepBack.Size = new System.Drawing.Size(72, 62);
+            this.btnStepBack.TabIndex = 11;
+            this.btnStepBack.Text = "Cancel Move";
+            this.btnStepBack.UseVisualStyleBackColor = true;
+            this.btnStepBack.Click += new System.EventHandler(this.btnStepBack_Click);
+            // 
             // Lines
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(708, 630);
+            this.Controls.Add(this.btnStepBack);
+            this.Controls.Add(this.lblPath);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.lbTurn);
-            this.Controls.Add(this.lbScore);
+            this.Controls.Add(this.lblTurn);
+            this.Controls.Add(this.lblScore);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.PbGameBoard);
+            this.Controls.Add(this.pbxGameBoard);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Lines";
             this.Text = "Lines";
-            ((System.ComponentModel.ISupportInitialize)(this.PbGameBoard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxGameBoard)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -123,12 +146,14 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox PbGameBoard;
+        private System.Windows.Forms.PictureBox pbxGameBoard;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lbScore;
-        private System.Windows.Forms.Label lbTurn;
+        private System.Windows.Forms.Label lblScore;
+        private System.Windows.Forms.Label lblTurn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Label lblPath;
+        private System.Windows.Forms.Button btnStepBack;
     }
 }
 

@@ -5,7 +5,7 @@ namespace Lines.GameEngine.BubbleGenerationStrategy
 {
     public interface IGenerationStrategy
     {
-        Cell GenerateBubble(Field field, BubbleSize Size, BubbleColor? Color = null);
+        Cell GenerateBubble(Field field, BubbleSize size, BubbleColor? color = null);
 
         Cell[] GenerateSmallBubbles(Field field, int smallBubble);
 

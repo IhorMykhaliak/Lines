@@ -15,23 +15,23 @@ namespace Lines.GameEngine.Test.Scoring
             int length;
             Cell[] lineElements;
 
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[1, 2].Contain = BubbleSize.Big;
-            field.Cells[1, 2].Color = BubbleColor.Red;
-            field.Cells[1, 3].Contain = BubbleSize.Big;
-            field.Cells[1, 3].Color = BubbleColor.Red;
-            field.Cells[1, 4].Contain = BubbleSize.Big;
-            field.Cells[1, 4].Color = BubbleColor.Red;
-            field.Cells[1, 5].Contain = BubbleSize.Big;
-            field.Cells[1, 5].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[1, 2].Contain = BubbleSize.Big;
+            field[1, 2].Color = BubbleColor.Red;
+            field[1, 3].Contain = BubbleSize.Big;
+            field[1, 3].Color = BubbleColor.Red;
+            field[1, 4].Contain = BubbleSize.Big;
+            field[1, 4].Color = BubbleColor.Red;
+            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[1, 3]);
+            LineChecker lineChecker = new LineChecker(field, field[1, 3]);
 
-            Assert.IsTrue(_checkLines.CheckLine_Horizontal(out length, out lineElements));
+            Assert.IsTrue(lineChecker.HorizontalLine(out length, out lineElements));
             Assert.AreEqual(length, 5);
-            Assert.AreSame(lineElements[2], field.Cells[1, 1]);
-            Assert.AreSame(lineElements[4], field.Cells[1, 5]);
+            Assert.AreSame(lineElements[2], field[1, 1]);
+            Assert.AreSame(lineElements[4], field[1, 5]);
         }
         
         [TestMethod]
@@ -41,23 +41,23 @@ namespace Lines.GameEngine.Test.Scoring
             int length;
             Cell[] lineElements;
 
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[2, 1].Contain = BubbleSize.Big;
-            field.Cells[2, 1].Color = BubbleColor.Red;
-            field.Cells[3, 1].Contain = BubbleSize.Big;
-            field.Cells[3, 1].Color = BubbleColor.Red;
-            field.Cells[4, 1].Contain = BubbleSize.Big;
-            field.Cells[4, 1].Color = BubbleColor.Red;
-            field.Cells[5, 1].Contain = BubbleSize.Big;
-            field.Cells[5, 1].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].Color = BubbleColor.Red;
+            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].Color = BubbleColor.Red;
+            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].Color = BubbleColor.Red;
+            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[2, 1]);
+            LineChecker lineChecker = new LineChecker(field, field[2, 1]);
 
-            Assert.IsTrue(_checkLines.CheckLine_Vertical(out length, out lineElements));
+            Assert.IsTrue(lineChecker.VerticalLine(out length, out lineElements));
             Assert.AreEqual(length, 5);
-            Assert.AreSame(lineElements[1], field.Cells[1, 1]);
-            Assert.AreSame(lineElements[4], field.Cells[5, 1]);
+            Assert.AreSame(lineElements[1], field[1, 1]);
+            Assert.AreSame(lineElements[4], field[5, 1]);
         }
 
         [TestMethod]
@@ -68,23 +68,23 @@ namespace Lines.GameEngine.Test.Scoring
             Cell[] lineElements;
 
 
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[2, 2].Contain = BubbleSize.Big;
-            field.Cells[2, 2].Color = BubbleColor.Red;
-            field.Cells[3, 3].Contain = BubbleSize.Big;
-            field.Cells[3, 3].Color = BubbleColor.Red;
-            field.Cells[4, 4].Contain = BubbleSize.Big;
-            field.Cells[4, 4].Color = BubbleColor.Red;
-            field.Cells[5, 5].Contain = BubbleSize.Big;
-            field.Cells[5, 5].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].Color = BubbleColor.Red;
+            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].Color = BubbleColor.Red;
+            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].Color = BubbleColor.Red;
+            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[3, 3]);
+            LineChecker lineChecker = new LineChecker(field, field[3, 3]);
 
-            Assert.IsTrue(_checkLines.CheckLine_LeftDiagonal(out length, out lineElements));
+            Assert.IsTrue(lineChecker.LeftDiagonalLine(out length, out lineElements));
             Assert.AreEqual(length, 5);
-            Assert.AreSame(lineElements[2], field.Cells[1, 1]);
-            Assert.AreSame(lineElements[4], field.Cells[5, 5]);
+            Assert.AreSame(lineElements[2], field[1, 1]);
+            Assert.AreSame(lineElements[4], field[5, 5]);
         }
 
         [TestMethod]
@@ -94,23 +94,23 @@ namespace Lines.GameEngine.Test.Scoring
             int length;
             Cell[] lineElements;
 
-            field.Cells[5, 1].Contain = BubbleSize.Big;
-            field.Cells[5, 1].Color = BubbleColor.Red;
-            field.Cells[4, 2].Contain = BubbleSize.Big;
-            field.Cells[4, 2].Color = BubbleColor.Red;
-            field.Cells[3, 3].Contain = BubbleSize.Big;
-            field.Cells[3, 3].Color = BubbleColor.Red;
-            field.Cells[2, 4].Contain = BubbleSize.Big;
-            field.Cells[2, 4].Color = BubbleColor.Red;
-            field.Cells[1, 5].Contain = BubbleSize.Big;
-            field.Cells[1, 5].Color = BubbleColor.Red;
+            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].Color = BubbleColor.Red;
+            field[4, 2].Contain = BubbleSize.Big;
+            field[4, 2].Color = BubbleColor.Red;
+            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].Color = BubbleColor.Red;
+            field[2, 4].Contain = BubbleSize.Big;
+            field[2, 4].Color = BubbleColor.Red;
+            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[2, 4]);
+            LineChecker lineChecker = new LineChecker(field, field[2, 4]);
 
-            Assert.IsTrue(_checkLines.CheckLine_RightDiagonal(out length, out lineElements));
+            Assert.IsTrue(lineChecker.RightDiagonalLine(out length, out lineElements));
             Assert.AreEqual(length, 5);
-            Assert.AreSame(lineElements[1], field.Cells[1, 5]);
-            Assert.AreSame(lineElements[4], field.Cells[5, 1]);
+            Assert.AreSame(lineElements[1], field[1, 5]);
+            Assert.AreSame(lineElements[4], field[5, 1]);
         }
 
         [TestMethod]
@@ -123,37 +123,37 @@ namespace Lines.GameEngine.Test.Scoring
             Cell[] line2Elements;
 
             //left diagonal line
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[2, 2].Contain = BubbleSize.Big;
-            field.Cells[2, 2].Color = BubbleColor.Red;
-            field.Cells[3, 3].Contain = BubbleSize.Big;
-            field.Cells[3, 3].Color = BubbleColor.Red;
-            field.Cells[4, 4].Contain = BubbleSize.Big;
-            field.Cells[4, 4].Color = BubbleColor.Red;
-            field.Cells[5, 5].Contain = BubbleSize.Big;
-            field.Cells[5, 5].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].Color = BubbleColor.Red;
+            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].Color = BubbleColor.Red;
+            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].Color = BubbleColor.Red;
+            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].Color = BubbleColor.Red;
             //+ vertical line
-            field.Cells[2, 1].Contain = BubbleSize.Big;
-            field.Cells[2, 1].Color = BubbleColor.Red;
-            field.Cells[3, 1].Contain = BubbleSize.Big;
-            field.Cells[3, 1].Color = BubbleColor.Red;
-            field.Cells[4, 1].Contain = BubbleSize.Big;
-            field.Cells[4, 1].Color = BubbleColor.Red;
-            field.Cells[5, 1].Contain = BubbleSize.Big;
-            field.Cells[5, 1].Color = BubbleColor.Red;
+            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].Color = BubbleColor.Red;
+            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].Color = BubbleColor.Red;
+            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].Color = BubbleColor.Red;
+            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[1, 1]);
+            LineChecker lineChecker = new LineChecker(field, field[1, 1]);
 
-            Assert.IsTrue(_checkLines.CheckLine_LeftDiagonal(out line1Length, out line1Elements));
+            Assert.IsTrue(lineChecker.LeftDiagonalLine(out line1Length, out line1Elements));
             Assert.AreEqual(line1Length, 5);
-            Assert.AreSame(line1Elements[0], field.Cells[1, 1]);
-            Assert.AreSame(line1Elements[4], field.Cells[5, 5]);
+            Assert.AreSame(line1Elements[0], field[1, 1]);
+            Assert.AreSame(line1Elements[4], field[5, 5]);
 
-            Assert.IsTrue(_checkLines.CheckLine_Vertical(out line2Length, out line2Elements));
+            Assert.IsTrue(lineChecker.VerticalLine(out line2Length, out line2Elements));
             Assert.AreEqual(line2Length, 5);
-            Assert.AreSame(line2Elements[0], field.Cells[1, 1]);
-            Assert.AreSame(line2Elements[4], field.Cells[5, 1]);
+            Assert.AreSame(line2Elements[0], field[1, 1]);
+            Assert.AreSame(line2Elements[4], field[5, 1]);
         }
 
         [TestMethod]
@@ -161,20 +161,20 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[1, 2].Contain = BubbleSize.Big;
-            field.Cells[1, 2].Color = BubbleColor.Red;
-            field.Cells[1, 3].Contain = BubbleSize.Big;
-            field.Cells[1, 3].Color = BubbleColor.Red;
-            field.Cells[1, 4].Contain = BubbleSize.Big;
-            field.Cells[1, 4].Color = BubbleColor.Red;
-            field.Cells[1, 5].Contain = BubbleSize.Big;
-            field.Cells[1, 5].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[1, 2].Contain = BubbleSize.Big;
+            field[1, 2].Color = BubbleColor.Red;
+            field[1, 3].Contain = BubbleSize.Big;
+            field[1, 3].Color = BubbleColor.Red;
+            field[1, 4].Contain = BubbleSize.Big;
+            field[1, 4].Color = BubbleColor.Red;
+            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[1, 3]);
+            LineChecker lineChecker = new LineChecker(field, field[1, 3]);
 
-            Assert.IsTrue(_checkLines.Check());
+            Assert.IsTrue(lineChecker.Check());
         }
 
         [TestMethod]
@@ -182,20 +182,20 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[2, 1].Contain = BubbleSize.Big;
-            field.Cells[2, 1].Color = BubbleColor.Red;
-            field.Cells[3, 1].Contain = BubbleSize.Big;
-            field.Cells[3, 1].Color = BubbleColor.Red;
-            field.Cells[4, 1].Contain = BubbleSize.Big;
-            field.Cells[4, 1].Color = BubbleColor.Red;
-            field.Cells[5, 1].Contain = BubbleSize.Big;
-            field.Cells[5, 1].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].Color = BubbleColor.Red;
+            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].Color = BubbleColor.Red;
+            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].Color = BubbleColor.Red;
+            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[2, 1]);
+            LineChecker lineChecker = new LineChecker(field, field[2, 1]);
 
-            Assert.IsTrue(_checkLines.Check());
+            Assert.IsTrue(lineChecker.Check());
         }
 
         [TestMethod]
@@ -203,20 +203,20 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field.Cells[1, 1].Contain = BubbleSize.Big;
-            field.Cells[1, 1].Color = BubbleColor.Red;
-            field.Cells[2, 2].Contain = BubbleSize.Big;
-            field.Cells[2, 2].Color = BubbleColor.Red;
-            field.Cells[3, 3].Contain = BubbleSize.Big;
-            field.Cells[3, 3].Color = BubbleColor.Red;
-            field.Cells[4, 4].Contain = BubbleSize.Big;
-            field.Cells[4, 4].Color = BubbleColor.Red;
-            field.Cells[5, 5].Contain = BubbleSize.Big;
-            field.Cells[5, 5].Color = BubbleColor.Red;
+            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].Color = BubbleColor.Red;
+            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].Color = BubbleColor.Red;
+            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].Color = BubbleColor.Red;
+            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].Color = BubbleColor.Red;
+            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[3, 3]);
+            LineChecker lineChecker = new LineChecker(field, field[3, 3]);
 
-            Assert.IsTrue(_checkLines.Check());
+            Assert.IsTrue(lineChecker.Check());
         }
 
         [TestMethod]
@@ -224,20 +224,20 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field.Cells[5, 1].Contain = BubbleSize.Big;
-            field.Cells[5, 1].Color = BubbleColor.Red;
-            field.Cells[4, 2].Contain = BubbleSize.Big;
-            field.Cells[4, 2].Color = BubbleColor.Red;
-            field.Cells[3, 3].Contain = BubbleSize.Big;
-            field.Cells[3, 3].Color = BubbleColor.Red;
-            field.Cells[2, 4].Contain = BubbleSize.Big;
-            field.Cells[2, 4].Color = BubbleColor.Red;
-            field.Cells[1, 5].Contain = BubbleSize.Big;
-            field.Cells[1, 5].Color = BubbleColor.Red;
+            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].Color = BubbleColor.Red;
+            field[4, 2].Contain = BubbleSize.Big;
+            field[4, 2].Color = BubbleColor.Red;
+            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].Color = BubbleColor.Red;
+            field[2, 4].Contain = BubbleSize.Big;
+            field[2, 4].Color = BubbleColor.Red;
+            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].Color = BubbleColor.Red;
 
-            CheckLines _checkLines = new CheckLines(field, field.Cells[2, 4]);
+            LineChecker lineChecker = new LineChecker(field, field[2, 4]);
 
-            Assert.IsTrue(_checkLines.Check());
+            Assert.IsTrue(lineChecker.Check());
         }
 
     }

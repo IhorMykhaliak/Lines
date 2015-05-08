@@ -8,7 +8,7 @@ namespace Lines.GameEngine.Test
     [TestClass]
     public class GameTest
     {
-        #region field
+        #region Game properties
 
         [TestMethod]
         public void TestFieldCreation()
@@ -23,7 +23,7 @@ namespace Lines.GameEngine.Test
         [TestMethod]
         public void TestFieldSize_1()
         {
-            Game game = new Game(6, 8);
+            Game game = new Game(6, 8, 3);
 
             Assert.IsNotNull(game.Field);
             Assert.AreEqual(6, game.Field.Height);
@@ -40,6 +40,19 @@ namespace Lines.GameEngine.Test
             Assert.AreEqual(6, game.Field.Width);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestGameDifficulty_Wrong_1()
+        {
+            Game game = new Game(6, 2);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestGameDifficulty_Wrong_2()
+        {
+            Game game = new Game(6, 6);
+        }
         #endregion
 
         #region Game Lifecycle
@@ -47,7 +60,7 @@ namespace Lines.GameEngine.Test
         [TestMethod]
         public void TestUsualLifecycle()
         {
-            Game game = new Game();
+            Game game = new Game(8, 4);
             Assert.AreEqual(GameStatus.ReadyToStart, game.Status);
             game.Start();
             Assert.AreEqual(GameStatus.InProgress, game.Status);
@@ -105,11 +118,11 @@ namespace Lines.GameEngine.Test
             {
                 for (int j = 0; j < game.Field.Width; j++)
                 {
-                    if (game.Field.Cells[i, j].Contain == BubbleSize.Big)
+                    if (game.Field[i, j].Contain == BubbleSize.Big)
                     {
                         bigBubbles++;
                     }
-                    if (game.Field.Cells[i, j].Contain == BubbleSize.Small)
+                    if (game.Field[i, j].Contain == BubbleSize.Small)
                     {
                         smallBubbles++;
                     }
@@ -129,8 +142,8 @@ namespace Lines.GameEngine.Test
             {
                 for (int j = 0; j < game.Field.Width; j++)
                 {
-                    game.Field.Cells[i, j].Contain = BubbleSize.Big;
-                    game.Field.Cells[i, j].Color = BubbleColor.Red;
+                    game.Field[i, j].Contain = BubbleSize.Big;
+                    game.Field[i, j].Color = BubbleColor.Red;
                 }
             }
             game.Start();
@@ -139,77 +152,183 @@ namespace Lines.GameEngine.Test
 
         #region Gameplay
 
+        #region Cancel Move
+
+        [TestMethod]
+        public void TestCancelMove()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.Start();
+
+            game.SelectCell(3, 9);
+            game.SelectCell(0, 0);
+
+            game.CancelMove();
+
+            Assert.AreEqual(game.Field[0, 0].Contain, null);
+            Assert.AreEqual(game.Field[0, 0].Color, null);
+            Assert.AreEqual(game.Field[3, 9].Contain, BubbleSize.Big);
+            Assert.AreEqual(game.Field[3, 9].Color, BubbleColor.Green);
+        }
+
+        [TestMethod]
+        public void TestCancelMove_1()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.Start();
+
+            game.SelectCell(3, 9);
+            game.SelectCell(0, 0);
+
+            game.SelectCell(0, 0);
+            game.SelectCell(0, 4);
+
+            game.SelectCell(0, 4);
+            game.SelectCell(5, 5);
+
+            game.CancelMove();
+            game.CancelMove();
+            game.CancelMove();
+
+            Assert.AreEqual(game.Field[0, 0].Contain, null);
+            Assert.AreEqual(game.Field[0, 0].Color, null);
+            Assert.AreEqual(game.Field[3, 9].Contain, BubbleSize.Big);
+            Assert.AreEqual(game.Field[3, 9].Color, BubbleColor.Green);
+            Assert.AreEqual(game.AllowedStepsBack, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestCancelMove_Wrong_1()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.Start();
+
+            game.CancelMove();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestCancelMove_Wrong_2()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.Start();
+            game.Stop();
+            game.CancelMove();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestCancelMove_Wrong_3()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.Start();
+
+            game.SelectCell(3, 9);
+            game.SelectCell(0, 0);
+
+            game.SelectCell(0, 0);
+            game.SelectCell(0, 4);
+
+            game.SelectCell(0, 4);
+            game.SelectCell(5, 5);
+
+            game.SelectCell(5, 5);
+            game.SelectCell(1, 1);
+
+            game.CancelMove();
+            game.CancelMove();
+            game.CancelMove();
+
+            game.CancelMove();
+        }
+
+        #endregion
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TestSelectCell_Wrong()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.Start();
+            game.Stop();
+
+            game.SelectCell(5, 5);
+        }
+
+
         [TestMethod]
         public void TestInGame_VerticalLine_WithSmallBubble()
         {
             Game game = new Game(new FakeRandomStrategy());
-            game.Field.Cells[1, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 1].Color = BubbleColor.Red;
-            game.Field.Cells[1, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 2].Color = BubbleColor.Red;
-            game.Field.Cells[1, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 3].Color = BubbleColor.Red;
-            game.Field.Cells[1, 8].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 8].Color = BubbleColor.Red;
-            game.Field.Cells[1, 4].Contain = BubbleSize.Small;
-            game.Field.Cells[1, 4].Color = BubbleColor.Blue;
-            game.Field.Cells[1, 5].Contain = BubbleSize.Big;
-            game.Field.Cells[1, 5].Color = BubbleColor.Red;
+            game.Field[1, 1].Contain = BubbleSize.Big;
+            game.Field[1, 1].Color = BubbleColor.Red;
+            game.Field[1, 2].Contain = BubbleSize.Big;
+            game.Field[1, 2].Color = BubbleColor.Red;
+            game.Field[1, 3].Contain = BubbleSize.Big;
+            game.Field[1, 3].Color = BubbleColor.Red;
+            game.Field[1, 8].Contain = BubbleSize.Big;
+            game.Field[1, 8].Color = BubbleColor.Red;
+            game.Field[1, 4].Contain = BubbleSize.Small;
+            game.Field[1, 4].Color = BubbleColor.Blue;
+            game.Field[1, 5].Contain = BubbleSize.Big;
+            game.Field[1, 5].Color = BubbleColor.Red;
 
             game.Start();
 
             game.SelectCell(1, 8);
             game.SelectCell(1, 4);
 
-            Assert.AreEqual(game.Field.Cells[1, 1].Contain, null);
-            Assert.AreEqual(game.Field.Cells[1, 2].Contain, null);
-            Assert.AreEqual(game.Field.Cells[1, 3].Contain, null);
-            Assert.AreEqual(game.Field.Cells[1, 4].Contain, BubbleSize.Small);
-            Assert.AreEqual(game.Field.Cells[1, 5].Contain, null);
+            Assert.AreEqual(game.Field[1, 1].Contain, null);
+            Assert.AreEqual(game.Field[1, 2].Contain, null);
+            Assert.AreEqual(game.Field[1, 3].Contain, null);
+            Assert.AreEqual(game.Field[1, 4].Contain, BubbleSize.Small);
+            Assert.AreEqual(game.Field[1, 5].Contain, null);
         }
 
         [TestMethod]
         public void TestInGame_DoubleLine()
         {
             Game game = new Game(new FakeRandomStrategy());
+            game.ScoreChangedEventHandler += (s, e) => { return; };
             int previousScore = game.Score;
             int previousTurn = game.Turn;
 
             //left diagonal line
-            game.Field.Cells[0, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[0, 1].Color = BubbleColor.Red;
-            game.Field.Cells[2, 2].Contain = BubbleSize.Big;
-            game.Field.Cells[2, 2].Color = BubbleColor.Red;
-            game.Field.Cells[3, 3].Contain = BubbleSize.Big;
-            game.Field.Cells[3, 3].Color = BubbleColor.Red;
-            game.Field.Cells[4, 4].Contain = BubbleSize.Big;
-            game.Field.Cells[4, 4].Color = BubbleColor.Red;
-            game.Field.Cells[5, 5].Contain = BubbleSize.Big;
-            game.Field.Cells[5, 5].Color = BubbleColor.Red;
+            game.Field[0, 1].Contain = BubbleSize.Big;
+            game.Field[0, 1].Color = BubbleColor.Red;
+            game.Field[2, 2].Contain = BubbleSize.Big;
+            game.Field[2, 2].Color = BubbleColor.Red;
+            game.Field[3, 3].Contain = BubbleSize.Big;
+            game.Field[3, 3].Color = BubbleColor.Red;
+            game.Field[4, 4].Contain = BubbleSize.Big;
+            game.Field[4, 4].Color = BubbleColor.Red;
+            game.Field[5, 5].Contain = BubbleSize.Big;
+            game.Field[5, 5].Color = BubbleColor.Red;
             //+ vertical line
-            game.Field.Cells[2, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[2, 1].Color = BubbleColor.Red;
-            game.Field.Cells[3, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[3, 1].Color = BubbleColor.Red;
-            game.Field.Cells[4, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[4, 1].Color = BubbleColor.Red;
-            game.Field.Cells[5, 1].Contain = BubbleSize.Big;
-            game.Field.Cells[5, 1].Color = BubbleColor.Red;
+            game.Field[2, 1].Contain = BubbleSize.Big;
+            game.Field[2, 1].Color = BubbleColor.Red;
+            game.Field[3, 1].Contain = BubbleSize.Big;
+            game.Field[3, 1].Color = BubbleColor.Red;
+            game.Field[4, 1].Contain = BubbleSize.Big;
+            game.Field[4, 1].Color = BubbleColor.Red;
+            game.Field[5, 1].Contain = BubbleSize.Big;
+            game.Field[5, 1].Color = BubbleColor.Red;
 
             game.Start();
 
             game.SelectCell(0, 1);
             game.SelectCell(1, 1);
 
-            Assert.AreEqual(game.Field.Cells[1, 1].Contain, null);
-            Assert.AreEqual(game.Field.Cells[2, 2].Contain, null);
-            Assert.AreEqual(game.Field.Cells[3, 3].Contain, null);
-            Assert.AreEqual(game.Field.Cells[4, 4].Contain, null);
-            Assert.AreEqual(game.Field.Cells[5, 5].Contain, null);
-            Assert.AreEqual(game.Field.Cells[2, 1].Contain, null);
-            Assert.AreEqual(game.Field.Cells[3, 1].Contain, null);
-            Assert.AreEqual(game.Field.Cells[4, 1].Contain, null);
-            Assert.AreEqual(game.Field.Cells[5, 1].Contain, null);
+            Assert.AreEqual(game.Field[1, 1].Contain, null);
+            Assert.AreEqual(game.Field[2, 2].Contain, null);
+            Assert.AreEqual(game.Field[3, 3].Contain, null);
+            Assert.AreEqual(game.Field[4, 4].Contain, null);
+            Assert.AreEqual(game.Field[5, 5].Contain, null);
+            Assert.AreEqual(game.Field[2, 1].Contain, null);
+            Assert.AreEqual(game.Field[3, 1].Contain, null);
+            Assert.AreEqual(game.Field[4, 1].Contain, null);
+            Assert.AreEqual(game.Field[5, 1].Contain, null);
             Assert.AreEqual(game.Score, previousScore + 81);
             Assert.AreEqual(game.Turn, previousScore + 1);
         }
@@ -218,31 +337,30 @@ namespace Lines.GameEngine.Test
         public void TestGameOver()
         {
             Game game = new Game(new FakeRandomStrategy());
-            game.GameOverEventHandler += delegate(object sender, EventArgs e) { return; };
-            game.NextTurnEventHandler += delegate(object sender, EventArgs e) { return; };
-            game.DrawEventHandler += delegate(object sender, EventArgs e) { return; };
-            game.ScoreChangedEventHandler += delegate(object sender, EventArgs e) { return; };
+            game.GameOverEventHandler += (s, e) => { return; };
+            game.TurnChangedEventHandler += (s, e) => { return; };
+            game.DrawEventHandler += (s, e) => { return; };
+
             for (int i = 0; i < game.Field.Height; i++)
             {
                 for (int j = 0; j < game.Field.Width - 1; j++)
                 {
                     BubbleColor color = (j == 8) ? BubbleColor.Blue : BubbleColor.Red;
-                    game.Field.Cells[i, j].Contain = BubbleSize.Big;
-                    game.Field.Cells[i, j].Color = color;
+                    game.Field[i, j].Contain = BubbleSize.Big;
+                    game.Field[i, j].Color = color;
                 }
             }
             for (int i = 0; i < 4; i++)
             {
-                game.Field.Cells[6 + i, 9].Contain = BubbleSize.Big;
-                game.Field.Cells[6 + i, 9].Color = BubbleColor.Red;
+                game.Field[6 + i, 9].Contain = BubbleSize.Big;
+                game.Field[6 + i, 9].Color = BubbleColor.Red;
             }
             game.Start();
 
-            game.SelectCell(0, 8);
-            game.SelectCell(0, 9);
+            game.SelectCell(1, 8);
+            game.SelectCell(1, 9);
 
             Assert.AreEqual(game.Status, GameStatus.Completed);
-
         }
 
         #endregion

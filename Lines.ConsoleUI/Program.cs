@@ -13,7 +13,8 @@ namespace Lines.ConsoleUI
         private static Game _game;
         private static int _curX = 0;
         private static int _curY = 0;
-        private static GameRepresentation _gameUI;
+        private static GameEngineWrapper _gameUI;
+        private static GameInfo _gameInfo;
 
         // start drawing field on console with margins
         private const int _leftMargin = 10;
@@ -23,12 +24,13 @@ namespace Lines.ConsoleUI
         {
             try
             {
-                GameInfo();
+                _gameInfo = new GameInfo();
+                _gameInfo.ShowGameInfo();
                 Console.ReadKey();
                 Console.Clear();
 
                 _game = new Game(8);
-                _gameUI = new GameRepresentation(_game, _leftMargin, _topMargin);
+                _gameUI = new GameEngineWrapper(_game, _leftMargin, _topMargin);
 
                 _game.Start();
 
@@ -62,7 +64,6 @@ namespace Lines.ConsoleUI
                             break;
                     }
                 }
-
                 Console.SetCursorPosition(5, 40);
             }
             catch (Exception ex)
@@ -70,12 +71,15 @@ namespace Lines.ConsoleUI
                 Console.Clear();
                 Console.WriteLine(ex.Message);
                 Console.ReadKey();
-
             }
         }
 
         private static void MoveCurrentCell(int x, int y)
         {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(1, 5);
+            Console.WriteLine(new string(' ', 35));
             int tempX = _curX;
             int tempY = _curY;
             _curX = ((_curX + x > _game.Field.Width - 1) || (_curX + x < 0)) ? _curX : _curX + x;
@@ -85,182 +89,5 @@ namespace Lines.ConsoleUI
                 _gameUI.Draw(_curX, _curY);
             }
         }
-
-        #region Console design
-
-        private static void GameInfo()
-        {
-            Info_GameRules();
-            int top = 18;
-            int left = 10;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-
-            Console.SetCursorPosition(left, top);
-            Console.WriteLine("Use arrows to control this     rectangle(it's your cursor)");
-            Info_DrawCursor();
-            Console.SetCursorPosition(left, top + 2);
-            Console.WriteLine("Press ENTER to select(drag) rectangle");
-            Console.SetCursorPosition(left, top + 4);
-            Console.WriteLine("Then press ENTER to move(drop) rectangle");
-            Console.SetCursorPosition(left, top + 6);
-            Console.WriteLine("Your goal is to make lines with lenght >=5");
-            Console.SetCursorPosition(left, top + 8);
-            Console.WriteLine("Let's go!! Press any key to start .............. Good Luck!");
-
-            top = 2;
-            #region Draw vetrical lines
-            Console.BackgroundColor = ConsoleColor.Black;
-            Info_DrawLines(top, ConsoleColor.Red);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Blue);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Green);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Yellow);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.DarkBlue);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.DarkMagenta);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Red);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Blue);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Green);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.Yellow);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.DarkBlue);
-            top += 2;
-            Info_DrawLines(top, ConsoleColor.DarkMagenta);
-            top += 2;
-            #endregion
-        }
-
-        private static void Info_GameRules()
-        {
-            int top = 2;
-            int left = 10;
-
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(left, top);
-            Console.WriteLine("Rules & Info : ");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(left, top + 2);
-            Console.WriteLine("It's small rectangle : ");
-            Info_DrawSmallRect();
-            Console.SetCursorPosition(left, top + 4);
-            Console.WriteLine("It's big rectangle : ");
-            Info_DrawBigRect();
-            Console.SetCursorPosition(left, top + 6);
-            Console.WriteLine("After each move small rectangles increase into big ones");
-            Console.SetCursorPosition(left, top + 8);
-            Console.WriteLine("If you locate 5 big rectangles in line they disappear");
-            Console.SetCursorPosition(left, top + 10);
-            Console.WriteLine("PLUS small rectangles doesn't increase");
-            Console.SetCursorPosition(left, top + 12);
-            Console.WriteLine("You can move rectangle only if path between two cells exist");
-            Console.SetCursorPosition(left, top + 14);
-            Console.WriteLine("Game ends when all field filled with rectangles");
-        }
-
-        private static void Info_DrawCursor()
-        {
-            int top = 17;
-            int left = 37;
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(left, top);
-            Console.Write('o');
-            Console.SetCursorPosition(left + 1, top);
-            Console.Write('o');
-            Console.SetCursorPosition(left, top + 1);
-            Console.Write('o');
-            Console.SetCursorPosition(left + 1, top + 1);
-            Console.Write('o');
-            Console.SetCursorPosition(left + 2, top);
-            Console.Write('o');
-            Console.SetCursorPosition(left + 2, top + 1);
-            Console.Write('o');
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-
-        }
-
-        private static void Info_DrawSmallRect()
-        {
-            int left = 32;
-            int top = 3;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.BackgroundColor = Console.ForegroundColor;
-            Console.SetCursorPosition(left, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 1, top);
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-        }
-
-        private static void Info_DrawBigRect()
-        {
-            int left = 32;
-            int top = 5;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.BackgroundColor = Console.ForegroundColor;
-            Console.SetCursorPosition(left, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 1, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left, top + 1);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 1, top + 1);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 2, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 2, top + 1);
-            Console.Write('\u2588');
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
-
-        }
-
-        private static void Info_DrawLines(int top, ConsoleColor color)
-        {
-            int left = 6;
-            int right = 70;
-            Console.ForegroundColor = color;
-            Console.SetCursorPosition(left, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 1, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left, top + 1);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 1, top + 1);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 2, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(left + 2, top + 1);
-            Console.Write('\u2588');
-
-            Console.SetCursorPosition(right, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(right + 1, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(right, top + 1);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(right + 1, top + 1);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(right + 2, top);
-            Console.Write('\u2588');
-            Console.SetCursorPosition(right + 2, top + 1);
-            Console.Write('\u2588');
-
-        }
-
-        #endregion
     }
 }

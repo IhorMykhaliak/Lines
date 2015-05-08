@@ -43,17 +43,19 @@
     <Compile Include="BubbleGenerationStrategy\IGenerationStrategy.cs" />
     <Compile Include="BubbleGenerationStrategy\RandomStrategy.cs" />
     <Compile Include="Enums\GameStatus.cs" />
+    <Compile Include="Logic\GameMemento.cs" />
     <Compile Include="Logic\GameLogic.cs" />
     <Compile Include="Logic\LinesDestroyer.cs" />
     <Compile Include="Enums\BubbleColor.cs" />
     <Compile Include="Enums\BubbleSize.cs" />
     <Compile Include="Cell.cs" />
-    <Compile Include="Scoring\CheckLines.cs" />
+    <Compile Include="PathFindingAlgorithm\Interface\IPathFindingStrategy.cs" />
+    <Compile Include="Scoring\LineChecker.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="PathFinding Algorithm\FindPath.cs" />
-    <Compile Include="PathFinding Algorithm\Map.cs" />
-    <Compile Include="PathFinding Algorithm\MapElement.cs" />
+    <Compile Include="PathFindingAlgorithm\AStar\FindPath.cs" />
+    <Compile Include="PathFindingAlgorithm\AStar\Map.cs" />
+    <Compile Include="PathFindingAlgorithm\AStar\MapElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

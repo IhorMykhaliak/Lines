@@ -89,8 +89,8 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             {
                 for (int j = 0; j < field.Width; j++)
                 {
-                    field.Cells[i, j].Contain = BubbleSize.Big;
-                    field.Cells[i, j].Color = BubbleColor.Red;
+                    field[i, j].Contain = BubbleSize.Big;
+                    field[i, j].Color = BubbleColor.Red;
                     field.EmptyCells--;
                 }
             }
@@ -136,8 +136,8 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             {
                 for (int j = 0; j < field.Width - 1; j++)
                 {
-                    field.Cells[i, j].Contain = BubbleSize.Big;
-                    field.Cells[i, j].Color = BubbleColor.Red;
+                    field[i, j].Contain = BubbleSize.Big;
+                    field[i, j].Color = BubbleColor.Red;
                 }
             }
             field.EmptyCells = 5;
@@ -187,8 +187,8 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             {
                 for (int j = 0; j < field.Width - 1; j++)
                 {
-                    field.Cells[i, j].Contain = BubbleSize.Big;
-                    field.Cells[i, j].Color = BubbleColor.Red;
+                    field[i, j].Contain = BubbleSize.Big;
+                    field[i, j].Color = BubbleColor.Red;
                 }
             }
             field.EmptyCells = 5;

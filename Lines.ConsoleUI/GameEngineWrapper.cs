@@ -10,19 +10,20 @@ using System.Configuration;
 
 namespace Lines.ConsoleUI
 {
-    public class GameRepresentation
+    public class GameEngineWrapper
     {
         #region Private Fields
         private Game _game;
         private Field _field;
-        private int _leftMargin;
-        private int _topMargin;
+        private readonly int _leftMargin;
+        private readonly int _topMargin;
         private int _curX;
         private int _curY;
         #endregion
 
         #region Constructors
-        public GameRepresentation(Game game,int left, int top)
+
+        public GameEngineWrapper(Game game, int left, int top)
         {
             this._game = game;
             this._leftMargin = left;
@@ -31,17 +32,16 @@ namespace Lines.ConsoleUI
             Console.ForegroundColor = ConsoleColor.Black;
             Scale = int.Parse(ConfigurationManager.AppSettings["RecomendedConsoleScale"]);
             Console.WindowHeight = int.Parse(ConfigurationManager.AppSettings["Height"]);
-            Subscribe();
+            SubscribeGameEvents();
 
             DrawInfo();
-
         }
 
         #endregion
 
         #region Properties
 
-        public int Scale { get;private set; }
+        public int Scale { get; private set; }
 
         #endregion
 
@@ -49,16 +49,16 @@ namespace Lines.ConsoleUI
 
         public void Draw(int curX, int curY)
         {
-           this._field = _game.Field;
-           this._curX = curX;
-           this._curY = curY;
+            this._field = _game.Field;
+            this._curX = curX;
+            this._curY = curY;
             for (int i = 0; i < _field.Height; i++)
             {
                 for (int j = 0; j < _field.Width; j++)
                 {
                     DrawCell(i, j);
 
-                    if (_field.Cells[i, j].Contain != null)
+                    if (_game.Field[i, j].Contain != null)
                     {
                         DrawBubble(i, j);
                     }
@@ -97,11 +97,11 @@ namespace Lines.ConsoleUI
 
         private void DrawBubble(int i, int j)
         {
-            Console.ForegroundColor = GetColor(_field.Cells[i, j].Color) ?? ConsoleColor.White;
+            Console.ForegroundColor = GetColor(_game.Field[i, j].Color) ?? ConsoleColor.White;
             Console.BackgroundColor = Console.ForegroundColor;
             Console.SetCursorPosition(_leftMargin + (Scale + 1) * j, _topMargin + Scale * i);
             Console.Write('\u2588');
-            if (_field.Cells[i, j].Contain == BubbleSize.Big)
+            if (_game.Field[i, j].Contain == BubbleSize.Big)
             {
                 Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i);
                 Console.Write('\u2588');
@@ -125,12 +125,12 @@ namespace Lines.ConsoleUI
 
         private void HighlightCurrentCell()
         {
-            Console.BackgroundColor = GetColor(_game.Field.Cells[_curY, _curX].Color) ?? ConsoleColor.White;
+            Console.BackgroundColor = GetColor(_game.Field[_curY, _curX].Color) ?? ConsoleColor.White;
             //Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX, _topMargin + Scale * _curY);
             Console.Write('o');
-            if (_game.Field.Cells[_curY, _curX].Contain == BubbleSize.Small)
+            if (_game.Field[_curY, _curX].Contain == BubbleSize.Small)
             {
                 Console.BackgroundColor = ConsoleColor.White;
             }
@@ -146,12 +146,13 @@ namespace Lines.ConsoleUI
             Console.Write('o');
         }
 
-        private void Subscribe()
+        private void SubscribeGameEvents()
         {
             _game.DrawEventHandler += DrawConsole;
             _game.ScoreChangedEventHandler += UpdateScoreLabel;
-            _game.GameOverEventHandler += GameOver;
-            _game.NextTurnEventHandler += NextTurn;
+            _game.GameOverEventHandler += ShowGameOver;
+            _game.TurnChangedEventHandler += NextTurn;
+            _game.PathDoesntExistEventHandler += PathDoesntExist;
         }
 
         private void DrawInfo()
@@ -182,7 +183,7 @@ namespace Lines.ConsoleUI
 
         }
 
-        private void GameOver(object sender, EventArgs e)
+        private void ShowGameOver(object sender, EventArgs e)
         {
             Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.Green;
@@ -194,6 +195,16 @@ namespace Lines.ConsoleUI
             Console.WriteLine("  Game Over! Your score is {0}", _game.Score);
             Console.SetCursorPosition(15, 16);
             Console.WriteLine(new string(' ', 30));
+        }
+
+        private void PathDoesntExist(object sender, EventArgs e)
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(1, 5);
+            Console.WriteLine(new string(' ', 35));
+            Console.SetCursorPosition(1, 5);
+            Console.WriteLine("Between cell path doesn't exist");
         }
 
         private void DrawConsole(object sender, EventArgs e)
@@ -226,7 +237,6 @@ namespace Lines.ConsoleUI
             }
         }
 
-        
         #endregion
     }
 }
