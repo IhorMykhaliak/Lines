@@ -11,9 +11,15 @@ namespace Lines.DesktopUI
 {
     public partial class Lines : Form
     {
+        #region Fields
 
-        private Game _game = new Game(8, 4);
+        private Game _game = new Game(7, 4);
+        private Sound _sound = new Sound();
         private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedDesktopScale"]);
+
+        #endregion
+
+        #region Constructor
 
         public Lines()
         {
@@ -21,24 +27,24 @@ namespace Lines.DesktopUI
 
             pbxGameBoard.Width = _game.Field.Width * _scale;
             pbxGameBoard.Height = _game.Field.Height * _scale;
-            lblScore.Text = "0";
-            lblTurn.Text = "0";
+            this.Height = pbxGameBoard.Height + 180;
+            this.Width = pbxGameBoard.Width + 50;
 
-            _game.ScoreChangedEventHandler += UpdateScore;
-            _game.DrawEventHandler += DrawEvent;
-            _game.GameOverEventHandler += GameOver;
-            _game.TurnChangedEventHandler += NextTurn;
-            _game.PathDoesntExistEventHandler += PathDoesntExist;
+            SubscribeGameEvents();
 
             _game.Start();
         }
+
+        #endregion
+
+        #region Methods
 
         private void GameOver(object sender, EventArgs e)
         {
             MessageBox.Show("Game over on turn " + _game.Turn + ".Your final score is " + _game.Score.ToString());
         }
 
-        private void Drawing(object sender, PaintEventArgs e)
+        private void pbxGameBoard_Paint(object sender, PaintEventArgs e)
         {
             int radius;
             int smallBubbleCentre;
@@ -58,7 +64,7 @@ namespace Lines.DesktopUI
             }
         }
 
-        private void SelectCell(object sender, MouseEventArgs e)
+        private void pbxGameBoard_MouseClick(object sender, MouseEventArgs e)
         {
             lblPath.Text = "";
             _game.SelectCell((int)e.Y / _scale, (int)e.X / _scale);
@@ -71,7 +77,7 @@ namespace Lines.DesktopUI
 
         private void UpdateScore(object sender, EventArgs e)
         {
-            lblScore.Text = _game.Score.ToString();
+            lblScore.Text = "Score : " + _game.Score.ToString();
         }
 
         private void PathDoesntExist(object sender, EventArgs e)
@@ -81,7 +87,7 @@ namespace Lines.DesktopUI
 
         private void NextTurn(object sender, EventArgs e)
         {
-            lblTurn.Text = _game.Turn.ToString();
+            lblTurn.Text = "Turn : " + _game.Turn.ToString();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -93,6 +99,15 @@ namespace Lines.DesktopUI
         {
             _game.CancelMove();
         }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            _game.ReStart();
+        }
+
+        #endregion
+
+        #region Helpers
 
         public Color? GetColor(BubbleColor? color)
         {
@@ -115,5 +130,19 @@ namespace Lines.DesktopUI
                     return null;
             }
         }
+
+        private void SubscribeGameEvents()
+        {
+            _game.ScoreChangedEventHandler += UpdateScore;
+            _game.DrawEventHandler += DrawEvent;
+            _game.GameOverEventHandler += GameOver;
+            _game.TurnChangedEventHandler += NextTurn;
+            _game.PathDoesntExistEventHandler += PathDoesntExist;
+            _game.PlayMoveSoundEventHandler += _sound.PlayMoveSound;
+            _game.PlayScoreSoundEventHandler += _sound.PlayScoreSound;
+            _game.PlayCancelSoundEventHandler += _sound.PlayCancelSound;
+        }
+
+        #endregion
     }
 }

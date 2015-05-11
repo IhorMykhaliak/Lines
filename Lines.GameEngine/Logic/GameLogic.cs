@@ -30,6 +30,10 @@ namespace Lines.GameEngine.Logic
         public event EventHandler PathDoesntExistEventHandler;
         public event EventHandler PlayerActionChangingFieldEventHandler;
 
+        // Sound Events
+        public event EventHandler PlayMoveSoundEventHandler;
+        public event EventHandler PlayScoreSoundEventHandler;
+
         #endregion
 
         #region Constructors
@@ -119,6 +123,22 @@ namespace Lines.GameEngine.Logic
             }
         }
 
+        private void OnPlayMoveSoundEventHandler()
+        {
+            if (PlayMoveSoundEventHandler != null)
+            {
+                PlayMoveSoundEventHandler(this, EventArgs.Empty);
+            }
+        }
+
+        private void OnPlayScoreSoundEventHandler()
+        {
+            if (PlayScoreSoundEventHandler != null)
+            {
+                PlayScoreSoundEventHandler(this, EventArgs.Empty);
+            }
+        }
+
         #endregion
 
         public void NextTurn(bool generateBubbles)
@@ -180,10 +200,12 @@ namespace Lines.GameEngine.Logic
 
                     if (!_lineChecker.Check())
                     {
+                        OnPlayMoveSoundEventHandler();
                         NextTurn(true);
                     }
                     else
                     {
+                        OnPlayScoreSoundEventHandler();
                         Field.EmptyCells += _lineChecker.LineLength;
                         NextTurn(false);
                     }
@@ -201,6 +223,7 @@ namespace Lines.GameEngine.Logic
 
                         if (!_lineChecker.Check())
                         {
+                            OnPlayMoveSoundEventHandler();
                             Cell newBubble = _bubbleGenerationStrategy.GenerateBubble(Field, BubbleSize.Small, CurrentCellDuplicate.Color);
                             Field[newBubble.Row, newBubble.Column].Contain = newBubble.Contain;
                             Field[newBubble.Row, newBubble.Column].Color = newBubble.Color;
@@ -208,6 +231,7 @@ namespace Lines.GameEngine.Logic
                         }
                         else
                         {
+                            OnPlayScoreSoundEventHandler();
                             Field.EmptyCells += _lineChecker.LineLength;
                             Field[currentCell.Row, currentCell.Column] = CurrentCellDuplicate;
                             NextTurn(false);
@@ -233,7 +257,7 @@ namespace Lines.GameEngine.Logic
 
                 cellFrom.Contain = null;
                 cellFrom.Color = null;
-
+                
                 return true;
             }
 

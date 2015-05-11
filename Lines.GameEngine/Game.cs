@@ -34,7 +34,10 @@ namespace Lines.GameEngine
         public event EventHandler GameOverEventHandler;
         public event EventHandler TurnChangedEventHandler;
         public event EventHandler PathDoesntExistEventHandler;
-
+        public event EventHandler PlayMoveSoundEventHandler;
+        public event EventHandler PlayScoreSoundEventHandler;
+        public event EventHandler PlayCancelSoundEventHandler;
+        
         #endregion
 
         #region Constructors
@@ -160,7 +163,7 @@ namespace Lines.GameEngine
             }
         }
 
-        private void SaveMemento(object sender, EventArgs e)
+        private void OnPlayerActionChangingField(object sender, EventArgs e)
         {
             GameMemento memento = _gameLogic.SaveMemento();
             if (_stepBack.Count == 0)
@@ -172,6 +175,30 @@ namespace Lines.GameEngine
                 _stepBack.Push(memento);
             }
             _allowedStepsBack = (_allowedStepsBack + 1 > 3) ? _allowedStepsBack : ++_allowedStepsBack;
+        }
+
+        private void OnPlayMoveSoundEventHandler(object sender, EventArgs e)
+        {
+            if (PlayMoveSoundEventHandler != null)
+            {
+                PlayMoveSoundEventHandler(this, EventArgs.Empty);
+            }
+        }
+
+        private void OnPlayScoreSoundEventHandler(object sender, EventArgs e)
+        {
+            if (PlayScoreSoundEventHandler != null)
+            {
+                PlayScoreSoundEventHandler(this, EventArgs.Empty);
+            }
+        }
+
+        private void OnPlayCancelSoundEventHandler()
+        {
+            if (PlayCancelSoundEventHandler != null)
+            {
+                PlayCancelSoundEventHandler(this, EventArgs.Empty);
+            }
         }
 
         #endregion
@@ -200,7 +227,19 @@ namespace Lines.GameEngine
             Cell[] smallBubbles = _bubbleGenerationStrategy.GenerateSmallBubbles(Field, _difficulty);
             Field.PlaceBubbles(smallBubbles);
 
+            OnScoreChange(this, EventArgs.Empty);
+            OnTurnChange(this, EventArgs.Empty);
             OnDraw(this, EventArgs.Empty);
+        }
+
+        public void ReStart()
+        {
+            _stepBack.Clear();
+            _allowedStepsBack = MaxStepsBack;
+            _gameStatus = GameStatus.ReadyToStart;
+            _gameLogic = new GameLogic(new Field(Field.Height, Field.Width), _bubbleGenerationStrategy, _difficulty);
+            SubscribeGameLogicEvents();
+            Start();
         }
 
         public void Stop()
@@ -255,6 +294,7 @@ namespace Lines.GameEngine
             {
                 _stepBack.Clear();
             }
+            OnPlayCancelSoundEventHandler();
             OnDraw(null, EventArgs.Empty);
             OnScoreChange(null, EventArgs.Empty);
             OnTurnChange(null, EventArgs.Empty);
@@ -271,7 +311,9 @@ namespace Lines.GameEngine
             _gameLogic.GameOverEventHandler += OnGameOver;
             _gameLogic.TurnChangedEventHandler += OnTurnChange;
             _gameLogic.PathDoesntExistEventHandler += OnPathDoesntExist;
-            _gameLogic.PlayerActionChangingFieldEventHandler += SaveMemento;
+            _gameLogic.PlayerActionChangingFieldEventHandler += OnPlayerActionChangingField;
+            _gameLogic.PlayMoveSoundEventHandler += OnPlayMoveSoundEventHandler;
+            _gameLogic.PlayScoreSoundEventHandler += OnPlayScoreSoundEventHandler;
         }
 
         #endregion
