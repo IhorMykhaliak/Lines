@@ -130,7 +130,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
         public void TestGenerateBigBubbles_UniqueResult()
         {
             RandomStrategy generateBubble = new RandomStrategy();
-            Field field = new Field(5, 5);
+            Field field = new Field(7, 7);
 
             for (int i = 0; i < field.Height; i++)
             {
@@ -140,15 +140,17 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
                     field[i, j].Color = BubbleColor.Red;
                 }
             }
-            field.EmptyCells = 5;
+            field.EmptyCells = 7;
 
-            Cell[] bubbles = generateBubble.GenerateBigBubbles(field, 5);
+            Cell[] bubbles = generateBubble.GenerateBigBubbles(field, 7);
 
-            Assert.IsTrue(bubbles.Any(x => x.Row == 2 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 3 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 4 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 1 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 2 && x.Column == 4));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 2 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 3 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 4 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 1 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 5 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 6 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 0 && x.Column == 6));
         }
         #endregion
 
@@ -181,7 +183,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
         public void TestGenerateSmallBubbles_UniqueResult()
         {
             RandomStrategy generateBubble = new RandomStrategy();
-            Field field = new Field(5, 5);
+            Field field = new Field(7, 7);
 
             for (int i = 0; i < field.Height; i++)
             {
@@ -191,15 +193,17 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
                     field[i, j].Color = BubbleColor.Red;
                 }
             }
-            field.EmptyCells = 5;
+            field.EmptyCells = 7;
 
-            Cell[] bubbles = generateBubble.GenerateSmallBubbles(field, 5);
+            Cell[] bubbles = generateBubble.GenerateSmallBubbles(field, 7);
 
-            Assert.IsTrue(bubbles.Any(x => x.Row == 2 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 3 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 4 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 1 && x.Column == 4));
-            Assert.IsTrue(bubbles.Any(x => x.Row == 2 && x.Column == 4));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 2 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 3 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 4 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 1 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 0 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 5 && x.Column == 6));
+            Assert.IsTrue(bubbles.Any(x => x.Row == 06&& x.Column == 6));
         }
 
         #endregion

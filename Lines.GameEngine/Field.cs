@@ -17,14 +17,14 @@ namespace Lines.GameEngine
         {
             #region Validation
 
-            if (width < 5)
+            if (width < 7)
             {
-                throw new ArgumentException("'width' cannot be < 5");
+                throw new ArgumentException("'width' cannot be < 7");
             }
 
-            if (height < 5)
+            if (height < 7)
             {
-                throw new ArgumentException("'height' cannot be < 5");
+                throw new ArgumentException("'height' cannot be < 7");
             }
 
             if (width > 10)

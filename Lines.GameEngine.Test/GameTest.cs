@@ -23,21 +23,21 @@ namespace Lines.GameEngine.Test
         [TestMethod]
         public void TestFieldSize_1()
         {
-            Game game = new Game(6, 8, 3);
+            Game game = new Game(7, 8, 3);
 
             Assert.IsNotNull(game.Field);
-            Assert.AreEqual(6, game.Field.Height);
+            Assert.AreEqual(7, game.Field.Height);
             Assert.AreEqual(8, game.Field.Width);
         }
 
         [TestMethod]
         public void TestFieldSize_2()
         {
-            Game game = new Game(6);
+            Game game = new Game(7);
 
             Assert.IsNotNull(game.Field);
-            Assert.AreEqual(6, game.Field.Height);
-            Assert.AreEqual(6, game.Field.Width);
+            Assert.AreEqual(7, game.Field.Height);
+            Assert.AreEqual(7, game.Field.Width);
         }
 
         [TestMethod]
