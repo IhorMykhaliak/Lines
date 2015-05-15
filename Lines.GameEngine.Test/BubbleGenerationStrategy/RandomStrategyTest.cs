@@ -20,7 +20,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             Cell bubble = generateBubble.GenerateBubble(field, BubbleSize.Big);
 
             Assert.IsNotNull(bubble);
-            Assert.AreEqual(BubbleSize.Big, bubble.Contain);
+            Assert.AreEqual(BubbleSize.Big, bubble.ContainedItem);
             Assert.IsNotNull(bubble.Color);
             Assert.IsTrue(bubble.Row >= 0);
             Assert.IsTrue(bubble.Row <= field.Height - 1);
@@ -37,7 +37,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             Cell bubble = generateBubble.GenerateBubble(field, BubbleSize.Small);
 
             Assert.IsNotNull(bubble);
-            Assert.AreEqual(BubbleSize.Small, bubble.Contain);
+            Assert.AreEqual(BubbleSize.Small, bubble.ContainedItem);
             Assert.IsNotNull(bubble.Color);
             Assert.IsTrue(bubble.Row >= 0);
             Assert.IsTrue(bubble.Row <= field.Height - 1);
@@ -54,7 +54,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             Cell bubble = generateBubble.GenerateBubble(field, BubbleSize.Big, BubbleColor.Red);
 
             Assert.IsNotNull(bubble);
-            Assert.AreEqual(BubbleSize.Big, bubble.Contain);
+            Assert.AreEqual(BubbleSize.Big, bubble.ContainedItem);
             Assert.AreEqual(BubbleColor.Red, bubble.Color);
             Assert.IsTrue(bubble.Row >= 0);
             Assert.IsTrue(bubble.Row <= field.Height - 1);
@@ -71,7 +71,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             Cell bubble = generateBubble.GenerateBubble(field, BubbleSize.Small, BubbleColor.Blue);
 
             Assert.IsNotNull(bubble);
-            Assert.AreEqual(BubbleSize.Small, bubble.Contain);
+            Assert.AreEqual(BubbleSize.Small, bubble.ContainedItem);
             Assert.AreEqual(BubbleColor.Blue, bubble.Color);
             Assert.IsTrue(bubble.Row >= 0);
             Assert.IsTrue(bubble.Row <= field.Height - 1);
@@ -89,7 +89,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             {
                 for (int j = 0; j < field.Width; j++)
                 {
-                    field[i, j].Contain = BubbleSize.Big;
+                    field[i, j].ContainedItem = BubbleSize.Big;
                     field[i, j].Color = BubbleColor.Red;
                     field.EmptyCells--;
                 }
@@ -112,9 +112,9 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             Cell[] bubbles = generateBubble.GenerateBigBubbles(field, 3);
 
             Assert.IsNotNull(bubbles);
-            Assert.AreEqual(BubbleSize.Big, bubbles[0].Contain);
-            Assert.AreEqual(BubbleSize.Big, bubbles[1].Contain);
-            Assert.AreEqual(BubbleSize.Big, bubbles[2].Contain);
+            Assert.AreEqual(BubbleSize.Big, bubbles[0].ContainedItem);
+            Assert.AreEqual(BubbleSize.Big, bubbles[1].ContainedItem);
+            Assert.AreEqual(BubbleSize.Big, bubbles[2].ContainedItem);
             Assert.IsNotNull(bubbles[0].Color);
             Assert.IsNotNull(bubbles[1].Color);
             Assert.IsNotNull(bubbles[2].Color);
@@ -136,7 +136,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             {
                 for (int j = 0; j < field.Width - 1; j++)
                 {
-                    field[i, j].Contain = BubbleSize.Big;
+                    field[i, j].ContainedItem = BubbleSize.Big;
                     field[i, j].Color = BubbleColor.Red;
                 }
             }
@@ -165,9 +165,9 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             Cell[] bubbles = generateBubble.GenerateSmallBubbles(field, 3);
 
             Assert.IsNotNull(bubbles);
-            Assert.AreEqual(BubbleSize.Small, bubbles[0].Contain);
-            Assert.AreEqual(BubbleSize.Small, bubbles[1].Contain);
-            Assert.AreEqual(BubbleSize.Small, bubbles[2].Contain);
+            Assert.AreEqual(BubbleSize.Small, bubbles[0].ContainedItem);
+            Assert.AreEqual(BubbleSize.Small, bubbles[1].ContainedItem);
+            Assert.AreEqual(BubbleSize.Small, bubbles[2].ContainedItem);
             Assert.IsNotNull(bubbles[0].Color);
             Assert.IsNotNull(bubbles[1].Color);
             Assert.IsNotNull(bubbles[2].Color);
@@ -189,7 +189,7 @@ namespace Lines.GameEngine.Test.BubbleGenerationStrategy
             {
                 for (int j = 0; j < field.Width - 1; j++)
                 {
-                    field[i, j].Contain = BubbleSize.Big;
+                    field[i, j].ContainedItem = BubbleSize.Big;
                     field[i, j].Color = BubbleColor.Red;
                 }
             }

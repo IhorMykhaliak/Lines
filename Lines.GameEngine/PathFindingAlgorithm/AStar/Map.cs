@@ -32,7 +32,7 @@ namespace Lines.GameEngine.PathFindingAlgorithm.AStar
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    bool isAvailable = (field[i, j].Contain == BubbleSize.Big) ? false : true;
+                    bool isAvailable = (field[i, j].ContainedItem == BubbleSize.Big) ? false : true;
                     this[i, j] = new MapElement(i, j, -1, 0, 0, isAvailable);
                 }
             }

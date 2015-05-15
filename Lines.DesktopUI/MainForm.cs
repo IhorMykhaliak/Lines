@@ -13,7 +13,7 @@ namespace Lines.DesktopUI
     {
         #region Fields
 
-        private Game _game = new Game(7, 4);
+        private Game _game = new Game(8, 4);
         private Sound _sound = new Sound();
         private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedDesktopScale"]);
 
@@ -27,8 +27,9 @@ namespace Lines.DesktopUI
 
             pbxGameBoard.Width = _game.Field.Width * _scale;
             pbxGameBoard.Height = _game.Field.Height * _scale;
-            this.Height = pbxGameBoard.Height + 180;
+            this.Height = pbxGameBoard.Height + 220;
             this.Width = pbxGameBoard.Width + 50;
+            lblAllowedUndos.BackColor = Color.Transparent;
 
             SubscribeGameEvents();
 
@@ -49,16 +50,21 @@ namespace Lines.DesktopUI
             int radius;
             int smallBubbleCentre;
             Graphics canvas = e.Graphics;
+            canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             for (int i = 0; i < _game.Field.Height; i++)
             {
                 for (int j = 0; j < _game.Field.Width; j++)
                 {
                     canvas.FillRectangle(Brushes.Silver, j * _scale + 1, i * _scale + 1, _scale - 2, _scale - 2);
-                    if (_game.Field[i, j].Contain != null)
+                    if (_game.Field[i, j].ContainedItem != null)
                     {
-                        radius = (_game.Field[i, j].Contain == BubbleSize.Big) ? 2 : 1;
-                        smallBubbleCentre = (_game.Field[i, j].Contain == BubbleSize.Small) ? _scale / 4 : 0;
-                        canvas.FillEllipse(new SolidBrush(GetColor(_game.Field[i, j].Color) ?? Color.Black), _scale * j + smallBubbleCentre, _scale * i + smallBubbleCentre, _scale / 2 * radius - 1, _scale / 2 * radius - 1);
+                        radius = (_game.Field[i, j].ContainedItem == BubbleSize.Big) ? 2 : 1;
+                        smallBubbleCentre = (_game.Field[i, j].ContainedItem == BubbleSize.Small) ? _scale / 4 : 0;
+                        canvas.FillEllipse(new SolidBrush(GetColor(_game.Field[i, j].Color) ?? Color.Black),
+                                            _scale * j + smallBubbleCentre,
+                                            _scale * i + smallBubbleCentre,
+                                            _scale / 2 * radius - 1,
+                                            _scale / 2 * radius - 1);
                     }
                 }
             }
@@ -70,9 +76,10 @@ namespace Lines.DesktopUI
             _game.SelectCell((int)e.Y / _scale, (int)e.X / _scale);
         }
 
-        private void DrawEvent(object sender, EventArgs e)
+        private void Draw(object sender, EventArgs e)
         {
             pbxGameBoard.Refresh();
+            lblAllowedUndos.Text = "Allowed : " + _game.AllowedStepsBack.ToString();
         }
 
         private void UpdateScore(object sender, EventArgs e)
@@ -95,16 +102,21 @@ namespace Lines.DesktopUI
             _game.Stop();
         }
 
-        private void btnStepBack_Click(object sender, EventArgs e)
+        private void btnUndo_Click(object sender, EventArgs e)
         {
-            _game.CancelMove();
+            _game.Undo();
         }
 
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             _game.ReStart();
         }
-
+        
+        private void pbxSound_Click(object sender, EventArgs e)
+        {
+            _sound.IsSoundOn = !_sound.IsSoundOn;
+            pbxSound.Image = (_sound.IsSoundOn) ? Properties.Resources.sound : Properties.Resources.no_sound;
+        }
         #endregion
 
         #region Helpers
@@ -134,13 +146,14 @@ namespace Lines.DesktopUI
         private void SubscribeGameEvents()
         {
             _game.ScoreChangedEventHandler += UpdateScore;
-            _game.DrawEventHandler += DrawEvent;
+            _game.DrawEventHandler += Draw;
             _game.GameOverEventHandler += GameOver;
             _game.TurnChangedEventHandler += NextTurn;
             _game.PathDoesntExistEventHandler += PathDoesntExist;
             _game.PlayMoveSoundEventHandler += _sound.PlayMoveSound;
             _game.PlayScoreSoundEventHandler += _sound.PlayScoreSound;
             _game.PlayCancelSoundEventHandler += _sound.PlayCancelSound;
+            _game.PathDoesntExistEventHandler += _sound.PathNotExistSound;
         }
 
         #endregion

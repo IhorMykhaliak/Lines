@@ -118,11 +118,11 @@ namespace Lines.GameEngine.Test
             {
                 for (int j = 0; j < game.Field.Width; j++)
                 {
-                    if (game.Field[i, j].Contain == BubbleSize.Big)
+                    if (game.Field[i, j].ContainedItem == BubbleSize.Big)
                     {
                         bigBubbles++;
                     }
-                    if (game.Field[i, j].Contain == BubbleSize.Small)
+                    if (game.Field[i, j].ContainedItem == BubbleSize.Small)
                     {
                         smallBubbles++;
                     }
@@ -142,11 +142,25 @@ namespace Lines.GameEngine.Test
             {
                 for (int j = 0; j < game.Field.Width; j++)
                 {
-                    game.Field[i, j].Contain = BubbleSize.Big;
+                    game.Field[i, j].ContainedItem = BubbleSize.Big;
                     game.Field[i, j].Color = BubbleColor.Red;
                 }
             }
             game.Start();
+        }
+
+        [TestMethod]
+        public void TestRestart()
+        {
+            Game game = new Game();
+            game.Start();
+            game.Stop();
+            game.ReStart();
+
+            Assert.AreEqual(game.Status, GameStatus.InProgress);
+            Assert.AreEqual(game.AllowedStepsBack, 0);
+            Assert.AreEqual(game.Turn, 0);
+            Assert.AreEqual(game.Score, 0);
         }
         #endregion
 
@@ -163,11 +177,11 @@ namespace Lines.GameEngine.Test
             game.SelectCell(3, 9);
             game.SelectCell(0, 0);
 
-            game.CancelMove();
+            game.Undo();
 
-            Assert.AreEqual(game.Field[0, 0].Contain, null);
+            Assert.AreEqual(game.Field[0, 0].ContainedItem, null);
             Assert.AreEqual(game.Field[0, 0].Color, null);
-            Assert.AreEqual(game.Field[3, 9].Contain, BubbleSize.Big);
+            Assert.AreEqual(game.Field[3, 9].ContainedItem, BubbleSize.Big);
             Assert.AreEqual(game.Field[3, 9].Color, BubbleColor.Green);
         }
 
@@ -175,6 +189,7 @@ namespace Lines.GameEngine.Test
         public void TestCancelMove_1()
         {
             Game game = new Game(new FakeRandomStrategy());
+            game.PlayCancelSoundEventHandler += (s, e) => { return; };
             game.Start();
 
             game.SelectCell(3, 9);
@@ -186,13 +201,13 @@ namespace Lines.GameEngine.Test
             game.SelectCell(0, 4);
             game.SelectCell(5, 5);
 
-            game.CancelMove();
-            game.CancelMove();
-            game.CancelMove();
+            game.Undo();
+            game.Undo();
+            game.Undo();
 
-            Assert.AreEqual(game.Field[0, 0].Contain, null);
+            Assert.AreEqual(game.Field[0, 0].ContainedItem, null);
             Assert.AreEqual(game.Field[0, 0].Color, null);
-            Assert.AreEqual(game.Field[3, 9].Contain, BubbleSize.Big);
+            Assert.AreEqual(game.Field[3, 9].ContainedItem, BubbleSize.Big);
             Assert.AreEqual(game.Field[3, 9].Color, BubbleColor.Green);
             Assert.AreEqual(game.AllowedStepsBack, 0);
         }
@@ -204,7 +219,7 @@ namespace Lines.GameEngine.Test
             Game game = new Game(new FakeRandomStrategy());
             game.Start();
 
-            game.CancelMove();
+            game.Undo();
         }
 
         [TestMethod]
@@ -214,7 +229,7 @@ namespace Lines.GameEngine.Test
             Game game = new Game(new FakeRandomStrategy());
             game.Start();
             game.Stop();
-            game.CancelMove();
+            game.Undo();
         }
 
         [TestMethod]
@@ -236,11 +251,11 @@ namespace Lines.GameEngine.Test
             game.SelectCell(5, 5);
             game.SelectCell(1, 1);
 
-            game.CancelMove();
-            game.CancelMove();
-            game.CancelMove();
+            game.Undo();
+            game.Undo();
+            game.Undo();
 
-            game.CancelMove();
+            game.Undo();
         }
 
         #endregion
@@ -256,22 +271,42 @@ namespace Lines.GameEngine.Test
             game.SelectCell(5, 5);
         }
 
+        [TestMethod]
+        public void TestPathDoesntExist()
+        {
+            Game game = new Game(new FakeRandomStrategy());
+            game.PathDoesntExistEventHandler += (s, e) => { return; };
+            game.Field[0, 1].ContainedItem = BubbleSize.Big;
+            game.Field[0, 1].Color = BubbleColor.Red;
+            game.Field[1, 0].ContainedItem = BubbleSize.Big;
+            game.Field[1, 0].Color = BubbleColor.Red;
+            game.Field[3, 3].ContainedItem = BubbleSize.Big;
+            game.Field[3, 3].Color = BubbleColor.Red;
+
+            game.Start();
+
+            game.SelectCell(3, 3);
+            game.SelectCell(0, 0);
+
+            Assert.AreEqual(game.Field[0, 0].ContainedItem, null);
+            Assert.AreEqual(game.Field[3, 3].ContainedItem, BubbleSize.Big);
+        }
 
         [TestMethod]
         public void TestInGame_VerticalLine_WithSmallBubble()
         {
             Game game = new Game(new FakeRandomStrategy());
-            game.Field[1, 1].Contain = BubbleSize.Big;
+            game.Field[1, 1].ContainedItem = BubbleSize.Big;
             game.Field[1, 1].Color = BubbleColor.Red;
-            game.Field[1, 2].Contain = BubbleSize.Big;
+            game.Field[1, 2].ContainedItem = BubbleSize.Big;
             game.Field[1, 2].Color = BubbleColor.Red;
-            game.Field[1, 3].Contain = BubbleSize.Big;
+            game.Field[1, 3].ContainedItem = BubbleSize.Big;
             game.Field[1, 3].Color = BubbleColor.Red;
-            game.Field[1, 8].Contain = BubbleSize.Big;
+            game.Field[1, 8].ContainedItem = BubbleSize.Big;
             game.Field[1, 8].Color = BubbleColor.Red;
-            game.Field[1, 4].Contain = BubbleSize.Small;
+            game.Field[1, 4].ContainedItem = BubbleSize.Small;
             game.Field[1, 4].Color = BubbleColor.Blue;
-            game.Field[1, 5].Contain = BubbleSize.Big;
+            game.Field[1, 5].ContainedItem = BubbleSize.Big;
             game.Field[1, 5].Color = BubbleColor.Red;
 
             game.Start();
@@ -279,11 +314,11 @@ namespace Lines.GameEngine.Test
             game.SelectCell(1, 8);
             game.SelectCell(1, 4);
 
-            Assert.AreEqual(game.Field[1, 1].Contain, null);
-            Assert.AreEqual(game.Field[1, 2].Contain, null);
-            Assert.AreEqual(game.Field[1, 3].Contain, null);
-            Assert.AreEqual(game.Field[1, 4].Contain, BubbleSize.Small);
-            Assert.AreEqual(game.Field[1, 5].Contain, null);
+            Assert.AreEqual(game.Field[1, 1].ContainedItem, null);
+            Assert.AreEqual(game.Field[1, 2].ContainedItem, null);
+            Assert.AreEqual(game.Field[1, 3].ContainedItem, null);
+            Assert.AreEqual(game.Field[1, 4].ContainedItem, BubbleSize.Small);
+            Assert.AreEqual(game.Field[1, 5].ContainedItem, null);
         }
 
         [TestMethod]
@@ -291,28 +326,29 @@ namespace Lines.GameEngine.Test
         {
             Game game = new Game(new FakeRandomStrategy());
             game.ScoreChangedEventHandler += (s, e) => { return; };
+            game.PlayScoreSoundEventHandler += (s, e) => { return; };
             int previousScore = game.Score;
             int previousTurn = game.Turn;
 
             //left diagonal line
-            game.Field[0, 1].Contain = BubbleSize.Big;
+            game.Field[0, 1].ContainedItem = BubbleSize.Big;
             game.Field[0, 1].Color = BubbleColor.Red;
-            game.Field[2, 2].Contain = BubbleSize.Big;
+            game.Field[2, 2].ContainedItem = BubbleSize.Big;
             game.Field[2, 2].Color = BubbleColor.Red;
-            game.Field[3, 3].Contain = BubbleSize.Big;
+            game.Field[3, 3].ContainedItem = BubbleSize.Big;
             game.Field[3, 3].Color = BubbleColor.Red;
-            game.Field[4, 4].Contain = BubbleSize.Big;
+            game.Field[4, 4].ContainedItem = BubbleSize.Big;
             game.Field[4, 4].Color = BubbleColor.Red;
-            game.Field[5, 5].Contain = BubbleSize.Big;
+            game.Field[5, 5].ContainedItem = BubbleSize.Big;
             game.Field[5, 5].Color = BubbleColor.Red;
             //+ vertical line
-            game.Field[2, 1].Contain = BubbleSize.Big;
+            game.Field[2, 1].ContainedItem = BubbleSize.Big;
             game.Field[2, 1].Color = BubbleColor.Red;
-            game.Field[3, 1].Contain = BubbleSize.Big;
+            game.Field[3, 1].ContainedItem = BubbleSize.Big;
             game.Field[3, 1].Color = BubbleColor.Red;
-            game.Field[4, 1].Contain = BubbleSize.Big;
+            game.Field[4, 1].ContainedItem = BubbleSize.Big;
             game.Field[4, 1].Color = BubbleColor.Red;
-            game.Field[5, 1].Contain = BubbleSize.Big;
+            game.Field[5, 1].ContainedItem = BubbleSize.Big;
             game.Field[5, 1].Color = BubbleColor.Red;
 
             game.Start();
@@ -320,15 +356,15 @@ namespace Lines.GameEngine.Test
             game.SelectCell(0, 1);
             game.SelectCell(1, 1);
 
-            Assert.AreEqual(game.Field[1, 1].Contain, null);
-            Assert.AreEqual(game.Field[2, 2].Contain, null);
-            Assert.AreEqual(game.Field[3, 3].Contain, null);
-            Assert.AreEqual(game.Field[4, 4].Contain, null);
-            Assert.AreEqual(game.Field[5, 5].Contain, null);
-            Assert.AreEqual(game.Field[2, 1].Contain, null);
-            Assert.AreEqual(game.Field[3, 1].Contain, null);
-            Assert.AreEqual(game.Field[4, 1].Contain, null);
-            Assert.AreEqual(game.Field[5, 1].Contain, null);
+            Assert.AreEqual(game.Field[1, 1].ContainedItem, null);
+            Assert.AreEqual(game.Field[2, 2].ContainedItem, null);
+            Assert.AreEqual(game.Field[3, 3].ContainedItem, null);
+            Assert.AreEqual(game.Field[4, 4].ContainedItem, null);
+            Assert.AreEqual(game.Field[5, 5].ContainedItem, null);
+            Assert.AreEqual(game.Field[2, 1].ContainedItem, null);
+            Assert.AreEqual(game.Field[3, 1].ContainedItem, null);
+            Assert.AreEqual(game.Field[4, 1].ContainedItem, null);
+            Assert.AreEqual(game.Field[5, 1].ContainedItem, null);
             Assert.AreEqual(game.Score, previousScore + 81);
             Assert.AreEqual(game.Turn, previousScore + 1);
         }
@@ -337,6 +373,7 @@ namespace Lines.GameEngine.Test
         public void TestGameOver()
         {
             Game game = new Game(new FakeRandomStrategy());
+            game.PlayMoveSoundEventHandler += (s, e) => { return; };
             game.GameOverEventHandler += (s, e) => { return; };
             game.TurnChangedEventHandler += (s, e) => { return; };
             game.DrawEventHandler += (s, e) => { return; };
@@ -346,13 +383,13 @@ namespace Lines.GameEngine.Test
                 for (int j = 0; j < game.Field.Width - 1; j++)
                 {
                     BubbleColor color = (j == 8) ? BubbleColor.Blue : BubbleColor.Red;
-                    game.Field[i, j].Contain = BubbleSize.Big;
+                    game.Field[i, j].ContainedItem = BubbleSize.Big;
                     game.Field[i, j].Color = color;
                 }
             }
             for (int i = 0; i < 4; i++)
             {
-                game.Field[6 + i, 9].Contain = BubbleSize.Big;
+                game.Field[6 + i, 9].ContainedItem = BubbleSize.Big;
                 game.Field[6 + i, 9].Color = BubbleColor.Red;
             }
             game.Start();

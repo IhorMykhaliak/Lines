@@ -119,7 +119,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         public void TestGetAvailableneighboors4()
         {
             Field field = new Field(10, 10);
-            field[0, 1].Contain = BubbleSize.Big;
+            field[0, 1].ContainedItem = BubbleSize.Big;
             Map map = new Map(field);
             MapElement[] neighboors = map.GetAvailableNeighboors(map[0, 0]);
             MapElement[] expectedneighboors = new MapElement[]
@@ -137,8 +137,8 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         public void TestGetAvailableneighboors5()
         {
             Field field = new Field(10, 10);
-            field[0, 0].Contain = BubbleSize.Big;
-            field[1, 1].Contain = BubbleSize.Big;
+            field[0, 0].ContainedItem = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             Map map = new Map(field);
 
             MapElement[] neighboors = map.GetAvailableNeighboors(map[1, 0]);
@@ -157,9 +157,9 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         public void TestGetAvailableneighboors6()
         {
             Field field = new Field(10, 10);
-            field[0, 0].Contain = BubbleSize.Big;
-            field[1, 1].Contain = BubbleSize.Big;
-            field[2, 0].Contain = BubbleSize.Big;
+            field[0, 0].ContainedItem = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
+            field[2, 0].ContainedItem = BubbleSize.Big;
             Map map = new Map(field);
 
             MapElement[] neighboors = map.GetAvailableNeighboors(map[1, 0]);

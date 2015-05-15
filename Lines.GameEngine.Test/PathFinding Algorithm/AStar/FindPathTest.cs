@@ -39,8 +39,8 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         public void TestGetWay2()
         {
             Field field = new Field(10, 10);
-            field[1, 2].Contain = BubbleSize.Big;
-            field[0, 3].Contain = BubbleSize.Big;
+            field[1, 2].ContainedItem = BubbleSize.Big;
+            field[0, 3].ContainedItem = BubbleSize.Big;
             Cell from = field[0, 2];
             Cell to = field[3, 4];
 
@@ -89,9 +89,9 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         public void TestGetWay_WayDoesntExsist1()
         {
             Field field = new Field(10, 10);
-            field[1, 2].Contain = BubbleSize.Big;
-            field[0, 3].Contain = BubbleSize.Big;
-            field[0, 1].Contain = BubbleSize.Big;
+            field[1, 2].ContainedItem = BubbleSize.Big;
+            field[0, 3].ContainedItem = BubbleSize.Big;
+            field[0, 1].ContainedItem = BubbleSize.Big;
             Cell from = field[0, 2];
             Cell to = field[3, 4];
             FindPath findPath = new FindPath();
@@ -104,7 +104,7 @@ namespace Lines.GameEngine.Test.Pathfinding_Algorithm
         public void TestGetWay_WayDoesntExsist2()
         {
             Field field = new Field(10, 10);
-            field[3, 4].Contain = BubbleSize.Big;
+            field[3, 4].ContainedItem = BubbleSize.Big;
             Cell from = field[0, 2];
             Cell to = field[3, 4];
             FindPath findPath = new FindPath();

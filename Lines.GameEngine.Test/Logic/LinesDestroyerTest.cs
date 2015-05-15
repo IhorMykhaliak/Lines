@@ -13,15 +13,15 @@ namespace Lines.GameEngine.Test.Logic
         {
             Field field = new Field(10, 10);
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[1, 2].Contain = BubbleSize.Big;
+            field[1, 2].ContainedItem = BubbleSize.Big;
             field[1, 2].Color = BubbleColor.Red;
-            field[1, 3].Contain = BubbleSize.Big;
+            field[1, 3].ContainedItem = BubbleSize.Big;
             field[1, 3].Color = BubbleColor.Red;
-            field[1, 4].Contain = BubbleSize.Big;
+            field[1, 4].ContainedItem = BubbleSize.Big;
             field[1, 4].Color = BubbleColor.Red;
-            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].ContainedItem = BubbleSize.Big;
             field[1, 5].Color = BubbleColor.Red;
 
             Cell[][] lines = new Cell[1][];
@@ -36,11 +36,11 @@ namespace Lines.GameEngine.Test.Logic
 
             destroyer.DestroyLines(lines);
 
-            Assert.AreEqual(field[1, 1].Contain, null);
-            Assert.AreEqual(field[1, 2].Contain, null);
-            Assert.AreEqual(field[1, 3].Contain, null);
-            Assert.AreEqual(field[1, 4].Contain, null);
-            Assert.AreEqual(field[1, 5].Contain, null);
+            Assert.AreEqual(field[1, 1].ContainedItem, null);
+            Assert.AreEqual(field[1, 2].ContainedItem, null);
+            Assert.AreEqual(field[1, 3].ContainedItem, null);
+            Assert.AreEqual(field[1, 4].ContainedItem, null);
+            Assert.AreEqual(field[1, 5].ContainedItem, null);
         }
 
         [TestMethod]
@@ -48,15 +48,15 @@ namespace Lines.GameEngine.Test.Logic
         {
             Field field = new Field(10, 10);
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].ContainedItem = BubbleSize.Big;
             field[2, 1].Color = BubbleColor.Red;
-            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].ContainedItem = BubbleSize.Big;
             field[3, 1].Color = BubbleColor.Red;
-            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].ContainedItem = BubbleSize.Big;
             field[4, 1].Color = BubbleColor.Red;
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
 
             LinesDestroyer destroyer = new LinesDestroyer(field);
@@ -71,11 +71,11 @@ namespace Lines.GameEngine.Test.Logic
 
             destroyer.DestroyLines(lines);
 
-            Assert.AreEqual(field[1, 1].Contain, null);
-            Assert.AreEqual(field[2, 1].Contain, null);
-            Assert.AreEqual(field[3, 1].Contain, null);
-            Assert.AreEqual(field[4, 1].Contain, null);
-            Assert.AreEqual(field[5, 1].Contain, null);
+            Assert.AreEqual(field[1, 1].ContainedItem, null);
+            Assert.AreEqual(field[2, 1].ContainedItem, null);
+            Assert.AreEqual(field[3, 1].ContainedItem, null);
+            Assert.AreEqual(field[4, 1].ContainedItem, null);
+            Assert.AreEqual(field[5, 1].ContainedItem, null);
         }
 
         [TestMethod]
@@ -83,15 +83,15 @@ namespace Lines.GameEngine.Test.Logic
         {
             Field field = new Field(10, 10);
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].ContainedItem = BubbleSize.Big;
             field[2, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].ContainedItem = BubbleSize.Big;
             field[4, 4].Color = BubbleColor.Red;
-            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].ContainedItem = BubbleSize.Big;
             field[5, 5].Color = BubbleColor.Red;
 
             LinesDestroyer destroyer = new LinesDestroyer(field);
@@ -106,11 +106,11 @@ namespace Lines.GameEngine.Test.Logic
 
             destroyer.DestroyLines(lines);
 
-            Assert.AreEqual(field[1, 1].Contain, null);
-            Assert.AreEqual(field[2, 2].Contain, null);
-            Assert.AreEqual(field[3, 3].Contain, null);
-            Assert.AreEqual(field[4, 4].Contain, null);
-            Assert.AreEqual(field[5, 5].Contain, null);
+            Assert.AreEqual(field[1, 1].ContainedItem, null);
+            Assert.AreEqual(field[2, 2].ContainedItem, null);
+            Assert.AreEqual(field[3, 3].ContainedItem, null);
+            Assert.AreEqual(field[4, 4].ContainedItem, null);
+            Assert.AreEqual(field[5, 5].ContainedItem, null);
         }
 
         [TestMethod]
@@ -118,15 +118,15 @@ namespace Lines.GameEngine.Test.Logic
         {
             Field field = new Field(10, 10);
 
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
-            field[4, 2].Contain = BubbleSize.Big;
+            field[4, 2].ContainedItem = BubbleSize.Big;
             field[4, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[2, 4].Contain = BubbleSize.Big;
+            field[2, 4].ContainedItem = BubbleSize.Big;
             field[2, 4].Color = BubbleColor.Red;
-            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].ContainedItem = BubbleSize.Big;
             field[1, 5].Color = BubbleColor.Red;
 
 
@@ -141,11 +141,11 @@ namespace Lines.GameEngine.Test.Logic
             lines[0][4] = field[1, 5];
 
             destroyer.DestroyLines(lines);
-            Assert.AreEqual(field[5, 1].Contain, null);
-            Assert.AreEqual(field[4, 2].Contain, null);
-            Assert.AreEqual(field[3, 3].Contain, null);
-            Assert.AreEqual(field[2, 4].Contain, null);
-            Assert.AreEqual(field[1, 5].Contain, null);
+            Assert.AreEqual(field[5, 1].ContainedItem, null);
+            Assert.AreEqual(field[4, 2].ContainedItem, null);
+            Assert.AreEqual(field[3, 3].ContainedItem, null);
+            Assert.AreEqual(field[2, 4].ContainedItem, null);
+            Assert.AreEqual(field[1, 5].ContainedItem, null);
         }
     }
 }

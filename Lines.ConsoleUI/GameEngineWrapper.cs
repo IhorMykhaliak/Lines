@@ -58,7 +58,7 @@ namespace Lines.ConsoleUI
                 {
                     DrawCell(i, j);
 
-                    if (_game.Field[i, j].Contain != null)
+                    if (_game.Field[i, j].ContainedItem != null)
                     {
                         DrawBubble(i, j);
                     }
@@ -101,7 +101,7 @@ namespace Lines.ConsoleUI
             Console.BackgroundColor = Console.ForegroundColor;
             Console.SetCursorPosition(_leftMargin + (Scale + 1) * j, _topMargin + Scale * i);
             Console.Write('\u2588');
-            if (_game.Field[i, j].Contain == BubbleSize.Big)
+            if (_game.Field[i, j].ContainedItem == BubbleSize.Big)
             {
                 Console.SetCursorPosition(_leftMargin + (Scale + 1) * j + 1, _topMargin + Scale * i);
                 Console.Write('\u2588');
@@ -130,7 +130,7 @@ namespace Lines.ConsoleUI
             Console.ForegroundColor = ConsoleColor.Black;
             Console.SetCursorPosition(_leftMargin + (Scale + 1) * _curX, _topMargin + Scale * _curY);
             Console.Write('o');
-            if (_game.Field[_curY, _curX].Contain == BubbleSize.Small)
+            if (_game.Field[_curY, _curX].ContainedItem == BubbleSize.Small)
             {
                 Console.BackgroundColor = ConsoleColor.White;
             }

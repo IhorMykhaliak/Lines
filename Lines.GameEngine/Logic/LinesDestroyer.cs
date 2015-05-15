@@ -27,7 +27,7 @@ namespace Lines.GameEngine.Logic
             {
                 foreach (var cell  in line)
                 {
-                    cell.Contain = null;
+                    cell.ContainedItem = null;
                     cell.Color = null;
                 }
             }

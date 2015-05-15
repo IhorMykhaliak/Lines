@@ -97,7 +97,7 @@ namespace Lines.GameEngine
             {
                 for (int j = 0; j < this.Width; j++)
                 {
-                    if (this._cells[i, j].Contain != BubbleSize.Big)
+                    if (this._cells[i, j].ContainedItem != BubbleSize.Big)
                     {
                         result++;
                     }
@@ -110,7 +110,7 @@ namespace Lines.GameEngine
         {
             foreach (var bubble in bubbles)
             {
-                this[bubble.Row, bubble.Column].Contain = bubble.Contain;
+                this[bubble.Row, bubble.Column].ContainedItem = bubble.ContainedItem;
                 this[bubble.Row, bubble.Column].Color = bubble.Color;
             }
         }

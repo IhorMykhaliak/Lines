@@ -11,17 +11,17 @@ namespace Lines.GameEngine
     {
         #region Const fields
 
-        private const int MaxStepsBack = 3;
+        private const int MAX_UNDO_ALLOWED = 3;
 
         #endregion
 
         #region Private Fields
 
         private readonly int _difficulty;
-        private int _allowedStepsBack;
-        private GameLogic _gameLogic;
+        private int _allowedUndos;
+        private GameLogic _logic;
         private GameMemento _memento;
-        private readonly Stack<GameMemento> _stepBack = new Stack<GameMemento>();
+        private Stack<GameMemento> _undo;
         private GameStatus _gameStatus;
         private IGenerationStrategy _bubbleGenerationStrategy;
 
@@ -52,10 +52,11 @@ namespace Lines.GameEngine
             #endregion
 
             _difficulty = difficulty;
-            _allowedStepsBack = MaxStepsBack;
+            _allowedUndos = 0;
             _gameStatus = GameStatus.ReadyToStart;
             _bubbleGenerationStrategy = new RandomStrategy();
-            _gameLogic = new GameLogic(new Field(fieldheight, fieldWidth), _bubbleGenerationStrategy, _difficulty);
+            _logic = new GameLogic(new Field(fieldheight, fieldWidth), _bubbleGenerationStrategy, _difficulty);
+            _undo = new Stack<GameMemento>();
             SubscribeGameLogicEvents();
         }
 
@@ -77,10 +78,11 @@ namespace Lines.GameEngine
         public Game(IGenerationStrategy generationStrategy)
         {
             _difficulty = 3;
-            _allowedStepsBack = MaxStepsBack;
+            _allowedUndos = 0;
             _gameStatus = GameStatus.ReadyToStart;
             _bubbleGenerationStrategy = generationStrategy;
-            _gameLogic = new GameLogic(new Field(10, 10), _bubbleGenerationStrategy, _difficulty);
+            _logic = new GameLogic(new Field(10, 10), _bubbleGenerationStrategy, _difficulty);
+            _undo = new Stack<GameMemento>();
             SubscribeGameLogicEvents();
         }
 
@@ -90,12 +92,12 @@ namespace Lines.GameEngine
 
         public int Turn
         {
-            get { return this._gameLogic.Turn; }
+            get { return this._logic.Turn; }
         }
 
         public int Score
         {
-            get { return this._gameLogic.Score; }
+            get { return this._logic.Score; }
         }
 
         public GameStatus Status
@@ -105,12 +107,12 @@ namespace Lines.GameEngine
 
         public Field Field
         {
-            get { return _gameLogic.Field; }
+            get { return _logic.Field; }
         }
 
         public int AllowedStepsBack
         {
-            get { return _allowedStepsBack; }
+            get { return _allowedUndos; }
         }
 
         #endregion
@@ -137,7 +139,6 @@ namespace Lines.GameEngine
 
         private void OnGameOver(object sender, EventArgs e)
         {
-            _gameLogic.Score *= _difficulty;
             if (GameOverEventHandler != null)
             {
                 OnTurnChange(this, EventArgs.Empty);
@@ -165,16 +166,16 @@ namespace Lines.GameEngine
 
         private void OnPlayerActionChangingField(object sender, EventArgs e)
         {
-            GameMemento memento = _gameLogic.SaveMemento();
-            if (_stepBack.Count == 0)
+            GameMemento memento = _logic.SaveMemento();
+            if (_undo.Count == 0)
             {
-                _stepBack.Push(memento);
+                _undo.Push(memento);
             }
-            else if (_stepBack.Peek().Turn != memento.Turn)
+            else if (_undo.Peek().Turn != memento.Turn)
             {
-                _stepBack.Push(memento);
+                _undo.Push(memento);
             }
-            _allowedStepsBack = (_allowedStepsBack + 1 > 3) ? _allowedStepsBack : ++_allowedStepsBack;
+            _allowedUndos = (_allowedUndos + 1 > MAX_UNDO_ALLOWED) ? _allowedUndos : ++_allowedUndos;
         }
 
         private void OnPlayMoveSoundEventHandler(object sender, EventArgs e)
@@ -234,10 +235,10 @@ namespace Lines.GameEngine
 
         public void ReStart()
         {
-            _stepBack.Clear();
-            _allowedStepsBack = MaxStepsBack;
+            _undo.Clear();
+            _allowedUndos = 0;
             _gameStatus = GameStatus.ReadyToStart;
-            _gameLogic = new GameLogic(new Field(Field.Height, Field.Width), _bubbleGenerationStrategy, _difficulty);
+            _logic = new GameLogic(new Field(Field.Height, Field.Width), _bubbleGenerationStrategy, _difficulty);
             SubscribeGameLogicEvents();
             Start();
         }
@@ -263,36 +264,36 @@ namespace Lines.GameEngine
             }
             #endregion
 
-            _gameLogic.SelectCell(row, col);
+            _logic.SelectCell(row, col);
         }
 
-        public void CancelMove()
+        public void Undo()
         {
             #region Validation
             if (_gameStatus != GameStatus.InProgress)
             {
                 throw new InvalidOperationException("You can cancel move only when game is in progress");
             }
-            if (_allowedStepsBack < 1)
+            if (_allowedUndos < 1)
             {
                 throw new InvalidOperationException("You can cancel move only up to 3 times in a row");
             }
-            if (_stepBack.Count == 0)
+            if (_undo.Count == 0)
             {
                 throw new InvalidOperationException("There is no move to cancel");
             }
             #endregion
 
-            _allowedStepsBack--;
+            _allowedUndos--;
             int turn = this.Turn;
-            _gameLogic.RestoreMemento(_stepBack.Pop());
+            _logic.RestoreMemento(_undo.Pop());
             if (turn == Turn)
             {
-                _gameLogic.RestoreMemento(_stepBack.Pop());
+                _logic.RestoreMemento(_undo.Pop());
             }
-            if (_allowedStepsBack == 0)
+            if (_allowedUndos == 0)
             {
-                _stepBack.Clear();
+                _undo.Clear();
             }
             OnPlayCancelSoundEventHandler();
             OnDraw(null, EventArgs.Empty);
@@ -306,14 +307,14 @@ namespace Lines.GameEngine
 
         private void SubscribeGameLogicEvents()
         {
-            _gameLogic.DrawEventHandler += OnDraw;
-            _gameLogic.ScoreChangedEventHandler += OnScoreChange;
-            _gameLogic.GameOverEventHandler += OnGameOver;
-            _gameLogic.TurnChangedEventHandler += OnTurnChange;
-            _gameLogic.PathDoesntExistEventHandler += OnPathDoesntExist;
-            _gameLogic.PlayerActionChangingFieldEventHandler += OnPlayerActionChangingField;
-            _gameLogic.PlayMoveSoundEventHandler += OnPlayMoveSoundEventHandler;
-            _gameLogic.PlayScoreSoundEventHandler += OnPlayScoreSoundEventHandler;
+            _logic.DrawEventHandler += OnDraw;
+            _logic.ScoreChangedEventHandler += OnScoreChange;
+            _logic.GameOverEventHandler += OnGameOver;
+            _logic.TurnChangedEventHandler += OnTurnChange;
+            _logic.PathDoesntExistEventHandler += OnPathDoesntExist;
+            _logic.PlayerActionChangingFieldEventHandler += OnPlayerActionChangingField;
+            _logic.PlayMoveSoundEventHandler += OnPlayMoveSoundEventHandler;
+            _logic.PlayScoreSoundEventHandler += OnPlayScoreSoundEventHandler;
         }
 
         #endregion

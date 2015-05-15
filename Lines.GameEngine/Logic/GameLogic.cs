@@ -143,8 +143,6 @@ namespace Lines.GameEngine.Logic
 
         public void NextTurn(bool generateBubbles)
         {
-            Turn++;
-
             if (generateBubbles)
             {
                 RaizeSmallBubbles();
@@ -161,6 +159,8 @@ namespace Lines.GameEngine.Logic
                 Field.PlaceBubbles(smallBubbles);
             }
 
+            Turn++;
+
             OnDraw();
             OnTurnChange();
         }
@@ -175,7 +175,7 @@ namespace Lines.GameEngine.Logic
 
             if (SelectedCell == null)
             {
-                if (currentCell.Contain == BubbleSize.Big)
+                if (currentCell.ContainedItem == BubbleSize.Big)
                 {
                     SelectBubble(currentCell);
                 }
@@ -192,7 +192,7 @@ namespace Lines.GameEngine.Logic
             _lineChecker.ScoreChangedEventHandler += OnScoreChange;
             _lineChecker.DestroyLinesEventHandler += OnDestroyLines;
 
-            if (currentCell.Contain == null)
+            if (currentCell.ContainedItem == null)
             {
                 if (TryMoveBubble(SelectedCell, currentCell))
                 {
@@ -213,7 +213,7 @@ namespace Lines.GameEngine.Logic
             }
             else
             {
-                if (currentCell.Contain == BubbleSize.Small)
+                if (currentCell.ContainedItem == BubbleSize.Small)
                 {
                     Cell CurrentCellDuplicate = new Cell(currentCell);
 
@@ -225,7 +225,7 @@ namespace Lines.GameEngine.Logic
                         {
                             OnPlayMoveSoundEventHandler();
                             Cell newBubble = _bubbleGenerationStrategy.GenerateBubble(Field, BubbleSize.Small, CurrentCellDuplicate.Color);
-                            Field[newBubble.Row, newBubble.Column].Contain = newBubble.Contain;
+                            Field[newBubble.Row, newBubble.Column].ContainedItem = newBubble.ContainedItem;
                             Field[newBubble.Row, newBubble.Column].Color = newBubble.Color;
                             NextTurn(true);
                         }
@@ -252,10 +252,10 @@ namespace Lines.GameEngine.Logic
             {
                 OnPlayerActionChangingField();
 
-                cellTo.Contain = cellFrom.Contain;
+                cellTo.ContainedItem = cellFrom.ContainedItem;
                 cellTo.Color = cellFrom.Color;
 
-                cellFrom.Contain = null;
+                cellFrom.ContainedItem = null;
                 cellFrom.Color = null;
                 
                 return true;
@@ -271,7 +271,7 @@ namespace Lines.GameEngine.Logic
 
         public GameMemento SaveMemento()
         {
-            return new GameMemento(Score, Turn, Field, _difficulty);
+            return new GameMemento(Score, Turn, Field);
         }
 
         public void RestoreMemento(GameMemento memento)
@@ -279,7 +279,6 @@ namespace Lines.GameEngine.Logic
             this.Field = new Field(memento.Field);
             this.Turn = memento.Turn;
             this.Score = memento.Score;
-            this._difficulty = memento.Diffculty;
         }
 
         #endregion
@@ -297,10 +296,10 @@ namespace Lines.GameEngine.Logic
             {
                 for (int j = 0; j < Field.Width; j++)
                 {
-                    if (Field[i, j].Contain == BubbleSize.Small)
+                    if (Field[i, j].ContainedItem == BubbleSize.Small)
                     {
                         Field.EmptyCells--;
-                        Field[i, j].Contain = BubbleSize.Big;
+                        Field[i, j].ContainedItem = BubbleSize.Big;
                         // Check if this bubble creates line
                         _lineChecker = new LineChecker(Field, Field[i, j]);
                         _lineChecker.ScoreChangedEventHandler += OnScoreChange;

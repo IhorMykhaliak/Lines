@@ -11,7 +11,7 @@ namespace Lines.GameEngine
 
         public int Row { get { return _row; } }
         public int Column { get { return _col; } }
-        public BubbleSize? Contain { get; set; }
+        public BubbleSize? ContainedItem { get; set; }
         public BubbleColor? Color { get; set; }
 
         #endregion
@@ -22,7 +22,7 @@ namespace Lines.GameEngine
         {
             this._row = row;
             this._col = col;
-            this.Contain = contain;
+            this.ContainedItem = contain;
             this.Color = color;
         }
 
@@ -30,7 +30,7 @@ namespace Lines.GameEngine
         {
             this._row = previous.Row;
             this._col = previous.Column;
-            this.Contain = previous.Contain;
+            this.ContainedItem = previous.ContainedItem;
             this.Color = previous.Color;
         }
 

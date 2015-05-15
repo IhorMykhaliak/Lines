@@ -15,15 +15,15 @@ namespace Lines.GameEngine.Test.Scoring
             int length;
             Cell[] lineElements;
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[1, 2].Contain = BubbleSize.Big;
+            field[1, 2].ContainedItem = BubbleSize.Big;
             field[1, 2].Color = BubbleColor.Red;
-            field[1, 3].Contain = BubbleSize.Big;
+            field[1, 3].ContainedItem = BubbleSize.Big;
             field[1, 3].Color = BubbleColor.Red;
-            field[1, 4].Contain = BubbleSize.Big;
+            field[1, 4].ContainedItem = BubbleSize.Big;
             field[1, 4].Color = BubbleColor.Red;
-            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].ContainedItem = BubbleSize.Big;
             field[1, 5].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[1, 3]);
@@ -41,15 +41,15 @@ namespace Lines.GameEngine.Test.Scoring
             int length;
             Cell[] lineElements;
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].ContainedItem = BubbleSize.Big;
             field[2, 1].Color = BubbleColor.Red;
-            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].ContainedItem = BubbleSize.Big;
             field[3, 1].Color = BubbleColor.Red;
-            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].ContainedItem = BubbleSize.Big;
             field[4, 1].Color = BubbleColor.Red;
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[2, 1]);
@@ -68,15 +68,15 @@ namespace Lines.GameEngine.Test.Scoring
             Cell[] lineElements;
 
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].ContainedItem = BubbleSize.Big;
             field[2, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].ContainedItem = BubbleSize.Big;
             field[4, 4].Color = BubbleColor.Red;
-            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].ContainedItem = BubbleSize.Big;
             field[5, 5].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[3, 3]);
@@ -94,15 +94,15 @@ namespace Lines.GameEngine.Test.Scoring
             int length;
             Cell[] lineElements;
 
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
-            field[4, 2].Contain = BubbleSize.Big;
+            field[4, 2].ContainedItem = BubbleSize.Big;
             field[4, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[2, 4].Contain = BubbleSize.Big;
+            field[2, 4].ContainedItem = BubbleSize.Big;
             field[2, 4].Color = BubbleColor.Red;
-            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].ContainedItem = BubbleSize.Big;
             field[1, 5].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[2, 4]);
@@ -123,24 +123,24 @@ namespace Lines.GameEngine.Test.Scoring
             Cell[] line2Elements;
 
             //left diagonal line
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].ContainedItem = BubbleSize.Big;
             field[2, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].ContainedItem = BubbleSize.Big;
             field[4, 4].Color = BubbleColor.Red;
-            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].ContainedItem = BubbleSize.Big;
             field[5, 5].Color = BubbleColor.Red;
             //+ vertical line
-            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].ContainedItem = BubbleSize.Big;
             field[2, 1].Color = BubbleColor.Red;
-            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].ContainedItem = BubbleSize.Big;
             field[3, 1].Color = BubbleColor.Red;
-            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].ContainedItem = BubbleSize.Big;
             field[4, 1].Color = BubbleColor.Red;
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[1, 1]);
@@ -161,15 +161,15 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[1, 2].Contain = BubbleSize.Big;
+            field[1, 2].ContainedItem = BubbleSize.Big;
             field[1, 2].Color = BubbleColor.Red;
-            field[1, 3].Contain = BubbleSize.Big;
+            field[1, 3].ContainedItem = BubbleSize.Big;
             field[1, 3].Color = BubbleColor.Red;
-            field[1, 4].Contain = BubbleSize.Big;
+            field[1, 4].ContainedItem = BubbleSize.Big;
             field[1, 4].Color = BubbleColor.Red;
-            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].ContainedItem = BubbleSize.Big;
             field[1, 5].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[1, 3]);
@@ -182,15 +182,15 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 1].Contain = BubbleSize.Big;
+            field[2, 1].ContainedItem = BubbleSize.Big;
             field[2, 1].Color = BubbleColor.Red;
-            field[3, 1].Contain = BubbleSize.Big;
+            field[3, 1].ContainedItem = BubbleSize.Big;
             field[3, 1].Color = BubbleColor.Red;
-            field[4, 1].Contain = BubbleSize.Big;
+            field[4, 1].ContainedItem = BubbleSize.Big;
             field[4, 1].Color = BubbleColor.Red;
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[2, 1]);
@@ -203,15 +203,15 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field[1, 1].Contain = BubbleSize.Big;
+            field[1, 1].ContainedItem = BubbleSize.Big;
             field[1, 1].Color = BubbleColor.Red;
-            field[2, 2].Contain = BubbleSize.Big;
+            field[2, 2].ContainedItem = BubbleSize.Big;
             field[2, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[4, 4].Contain = BubbleSize.Big;
+            field[4, 4].ContainedItem = BubbleSize.Big;
             field[4, 4].Color = BubbleColor.Red;
-            field[5, 5].Contain = BubbleSize.Big;
+            field[5, 5].ContainedItem = BubbleSize.Big;
             field[5, 5].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[3, 3]);
@@ -224,15 +224,15 @@ namespace Lines.GameEngine.Test.Scoring
         {
             Field field = new Field(10, 10);
 
-            field[5, 1].Contain = BubbleSize.Big;
+            field[5, 1].ContainedItem = BubbleSize.Big;
             field[5, 1].Color = BubbleColor.Red;
-            field[4, 2].Contain = BubbleSize.Big;
+            field[4, 2].ContainedItem = BubbleSize.Big;
             field[4, 2].Color = BubbleColor.Red;
-            field[3, 3].Contain = BubbleSize.Big;
+            field[3, 3].ContainedItem = BubbleSize.Big;
             field[3, 3].Color = BubbleColor.Red;
-            field[2, 4].Contain = BubbleSize.Big;
+            field[2, 4].ContainedItem = BubbleSize.Big;
             field[2, 4].Color = BubbleColor.Red;
-            field[1, 5].Contain = BubbleSize.Big;
+            field[1, 5].ContainedItem = BubbleSize.Big;
             field[1, 5].Color = BubbleColor.Red;
 
             LineChecker lineChecker = new LineChecker(field, field[2, 4]);

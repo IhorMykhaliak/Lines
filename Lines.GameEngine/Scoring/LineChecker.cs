@@ -279,7 +279,7 @@ namespace Lines.GameEngine.Scoring
         {
             return (IsCellValid(curRow, curCol)) && 
                 (_field[curRow, curCol].Color == _cell.Color) && 
-                (_field[curRow, curCol].Contain == BubbleSize.Big);
+                (_field[curRow, curCol].ContainedItem == BubbleSize.Big);
         }
 
         #endregion
