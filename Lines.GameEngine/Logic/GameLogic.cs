@@ -161,7 +161,6 @@ namespace Lines.GameEngine.Logic
 
             Turn++;
 
-            OnDraw();
             OnTurnChange();
         }
 
@@ -184,6 +183,8 @@ namespace Lines.GameEngine.Logic
             {
                 MoveBubble(currentCell);
             }
+
+            OnDraw();
         }
         
         public void MoveBubble(Cell currentCell)
@@ -279,6 +280,7 @@ namespace Lines.GameEngine.Logic
             this.Field = new Field(memento.Field);
             this.Turn = memento.Turn;
             this.Score = memento.Score;
+            this.SelectedCell = null;
         }
 
         #endregion

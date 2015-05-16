@@ -6,14 +6,27 @@ using Lines.GameEngine;
 using Lines.GameEngine.Enums;
 
 using Lines.GameEngine.BubbleGenerationStrategy;
+using System.Drawing.Drawing2D;
 
 namespace Lines.DesktopUI
 {
     public partial class Lines : Form
     {
+        #region Const fields
+
+        // Used for drawing bubbles
+        private const int BUBBLE_MARGIN = 5;
+        private const int BUBBLE_SIZE_DECREASE = 11;
+        private const int NORMALIZE_BUBBLE_CENTRE = 4;
+
+        private const int ELLIPSE_MARGIN = BUBBLE_MARGIN - 2;
+        private const int ELLIPSE_SIZE_DECREASE = BUBBLE_SIZE_DECREASE - 4;
+        private const int ELLIPSE_THICKNESS = 3;
+        #endregion
+
         #region Fields
 
-        private Game _game = new Game(8, 4);
+        private Game _game;
         private Sound _sound = new Sound();
         private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedDesktopScale"]);
 
@@ -24,56 +37,37 @@ namespace Lines.DesktopUI
         public Lines()
         {
             InitializeComponent();
-
-            pbxGameBoard.Width = _game.Field.Width * _scale;
-            pbxGameBoard.Height = _game.Field.Height * _scale;
-            this.Height = pbxGameBoard.Height + 220;
-            this.Width = pbxGameBoard.Width + 50;
-            lblAllowedUndos.BackColor = Color.Transparent;
-
-            SubscribeGameEvents();
-
-            _game.Start();
         }
 
         #endregion
 
         #region Methods
 
+        public void InitializeGame()
+        {
+            int size = int.Parse(ConfigurationManager.AppSettings["FieldSize"]);
+            int diff = int.Parse(ConfigurationManager.AppSettings["Difficulty"]);
+            _game = new Game(size, diff);
+            pbxGameBoard.Width = _game.Field.Width * _scale;
+            pbxGameBoard.Height = _game.Field.Height * _scale;
+            this.Height = pbxGameBoard.Height + 220;
+            this.Width = pbxGameBoard.Width + 50;
+
+            SubscribeGameEvents();
+
+            _game.Start();
+        }
+
+        private void btnNewGame_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #region Game Events
+
         private void GameOver(object sender, EventArgs e)
         {
             MessageBox.Show("Game over on turn " + _game.Turn + ".Your final score is " + _game.Score.ToString());
-        }
-
-        private void pbxGameBoard_Paint(object sender, PaintEventArgs e)
-        {
-            int radius;
-            int smallBubbleCentre;
-            Graphics canvas = e.Graphics;
-            canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            for (int i = 0; i < _game.Field.Height; i++)
-            {
-                for (int j = 0; j < _game.Field.Width; j++)
-                {
-                    canvas.FillRectangle(Brushes.Silver, j * _scale + 1, i * _scale + 1, _scale - 2, _scale - 2);
-                    if (_game.Field[i, j].ContainedItem != null)
-                    {
-                        radius = (_game.Field[i, j].ContainedItem == BubbleSize.Big) ? 2 : 1;
-                        smallBubbleCentre = (_game.Field[i, j].ContainedItem == BubbleSize.Small) ? _scale / 4 : 0;
-                        canvas.FillEllipse(new SolidBrush(GetColor(_game.Field[i, j].Color) ?? Color.Black),
-                                            _scale * j + smallBubbleCentre,
-                                            _scale * i + smallBubbleCentre,
-                                            _scale / 2 * radius - 1,
-                                            _scale / 2 * radius - 1);
-                    }
-                }
-            }
-        }
-
-        private void pbxGameBoard_MouseClick(object sender, MouseEventArgs e)
-        {
-            lblPath.Text = "";
-            _game.SelectCell((int)e.Y / _scale, (int)e.X / _scale);
         }
 
         private void Draw(object sender, EventArgs e)
@@ -107,7 +101,7 @@ namespace Lines.DesktopUI
             _game.Undo();
         }
 
-        private void btnNewGame_Click(object sender, EventArgs e)
+        private void btnRestartGame_Click(object sender, EventArgs e)
         {
             _game.ReStart();
         }
@@ -117,11 +111,68 @@ namespace Lines.DesktopUI
             _sound.IsSoundOn = !_sound.IsSoundOn;
             pbxSound.Image = (_sound.IsSoundOn) ? Properties.Resources.sound : Properties.Resources.no_sound;
         }
+
+        #endregion
+
+        #region Interaction with field
+
+        private void pbxGameBoard_Paint(object sender, PaintEventArgs e)
+        {
+            int radius;
+            int smallBubbleCentre;
+            Graphics canvas = e.Graphics;
+            canvas.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            for (int i = 0; i < _game.Field.Height; i++)
+            {
+                for (int j = 0; j < _game.Field.Width; j++)
+                {
+                    canvas.FillRectangle(Brushes.Silver, j * _scale + 1, i * _scale + 1, _scale - 2, _scale - 2);
+                    if (_game.Field[i, j].ContainedItem != null)
+                    {
+                        radius = (_game.Field[i, j].ContainedItem == BubbleSize.Big) ? 2 : 1;
+                        smallBubbleCentre = (_game.Field[i, j].ContainedItem == BubbleSize.Small) ? _scale / NORMALIZE_BUBBLE_CENTRE : 0;
+                        canvas.FillEllipse(CreateBrush(_game.Field[i, j].Color),
+                                            _scale * j + smallBubbleCentre + BUBBLE_MARGIN,
+                                            _scale * i + smallBubbleCentre + BUBBLE_MARGIN,
+                                            _scale / 2 * radius - BUBBLE_SIZE_DECREASE,
+                                            _scale / 2 * radius - BUBBLE_SIZE_DECREASE);
+                    }
+                }
+            }
+            if (_game.SelectedCell != null)
+            {
+                canvas.DrawEllipse(new Pen(Color.White, ELLIPSE_THICKNESS),
+                                        _scale * _game.SelectedCell.Column + ELLIPSE_MARGIN,
+                                        _scale * _game.SelectedCell.Row + ELLIPSE_MARGIN,
+                                        _scale - ELLIPSE_SIZE_DECREASE,
+                                        _scale - ELLIPSE_SIZE_DECREASE);
+            }
+        }
+        
+        private void pbxGameBoard_MouseClick(object sender, MouseEventArgs e)
+        {
+            lblPath.Text = "";
+            _game.SelectCell((int)e.Y / _scale, (int)e.X / _scale);
+        }
+        
+        #endregion
+
         #endregion
 
         #region Helpers
 
-        public Color? GetColor(BubbleColor? color)
+        private Brush CreateBrush(BubbleColor? color)
+        {
+            LinearGradientBrush linGrBrush = new LinearGradientBrush(
+            new Point(0, 10),
+            new Point(_scale, 10),
+            GetColor(color),
+            Color.Black);
+
+            return linGrBrush;
+        }
+
+        public Color GetColor(BubbleColor? color)
         {
             switch (color)
             {
@@ -139,7 +190,7 @@ namespace Lines.DesktopUI
                     return Color.DeepPink;
 
                 default:
-                    return null;
+                    throw new InvalidOperationException("Can't find appropriate equivalent");
             }
         }
 

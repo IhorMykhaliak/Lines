@@ -17,7 +17,7 @@ namespace Lines.DesktopUI
             Application.ThreadException += ApplicationThreadException;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Lines());
+            Application.Run(new MainMenu());
         }
 
         static void ApplicationThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

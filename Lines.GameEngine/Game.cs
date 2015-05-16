@@ -115,6 +115,11 @@ namespace Lines.GameEngine
             get { return _allowedUndos; }
         }
 
+        public Cell SelectedCell
+        {
+            get { return _logic.SelectedCell; }
+        }
+
         #endregion
 
         #region Methods
