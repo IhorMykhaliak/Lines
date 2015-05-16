@@ -48,6 +48,7 @@
             this.gbxDifficulty.Controls.Add(this.rbtnHard);
             this.gbxDifficulty.Controls.Add(this.rbtnMedium);
             this.gbxDifficulty.Controls.Add(this.rbtnEasy);
+            this.gbxDifficulty.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.gbxDifficulty.Location = new System.Drawing.Point(12, 12);
             this.gbxDifficulty.Name = "gbxDifficulty";
             this.gbxDifficulty.Size = new System.Drawing.Size(209, 55);
@@ -60,7 +61,7 @@
             this.rbtnHard.AutoSize = true;
             this.rbtnHard.Location = new System.Drawing.Point(142, 20);
             this.rbtnHard.Name = "rbtnHard";
-            this.rbtnHard.Size = new System.Drawing.Size(31, 17);
+            this.rbtnHard.Size = new System.Drawing.Size(36, 24);
             this.rbtnHard.TabIndex = 2;
             this.rbtnHard.Text = "5";
             this.rbtnHard.UseVisualStyleBackColor = true;
@@ -70,7 +71,7 @@
             this.rbtnMedium.AutoSize = true;
             this.rbtnMedium.Location = new System.Drawing.Point(76, 20);
             this.rbtnMedium.Name = "rbtnMedium";
-            this.rbtnMedium.Size = new System.Drawing.Size(31, 17);
+            this.rbtnMedium.Size = new System.Drawing.Size(36, 24);
             this.rbtnMedium.TabIndex = 1;
             this.rbtnMedium.Text = "4";
             this.rbtnMedium.UseVisualStyleBackColor = true;
@@ -81,7 +82,7 @@
             this.rbtnEasy.Checked = true;
             this.rbtnEasy.Location = new System.Drawing.Point(7, 20);
             this.rbtnEasy.Name = "rbtnEasy";
-            this.rbtnEasy.Size = new System.Drawing.Size(31, 17);
+            this.rbtnEasy.Size = new System.Drawing.Size(36, 24);
             this.rbtnEasy.TabIndex = 0;
             this.rbtnEasy.TabStop = true;
             this.rbtnEasy.Text = "3";
@@ -93,9 +94,10 @@
             this.gbxSize.Controls.Add(this.rbtnLargeSize);
             this.gbxSize.Controls.Add(this.rbtnMediumSize);
             this.gbxSize.Controls.Add(this.rbtnSmallSize);
-            this.gbxSize.Location = new System.Drawing.Point(12, 87);
+            this.gbxSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.gbxSize.Location = new System.Drawing.Point(12, 86);
             this.gbxSize.Name = "gbxSize";
-            this.gbxSize.Size = new System.Drawing.Size(209, 51);
+            this.gbxSize.Size = new System.Drawing.Size(209, 52);
             this.gbxSize.TabIndex = 2;
             this.gbxSize.TabStop = false;
             this.gbxSize.Text = "Size of field";
@@ -105,7 +107,7 @@
             this.rbtnExtraLargeSize.AutoSize = true;
             this.rbtnExtraLargeSize.Location = new System.Drawing.Point(157, 20);
             this.rbtnExtraLargeSize.Name = "rbtnExtraLargeSize";
-            this.rbtnExtraLargeSize.Size = new System.Drawing.Size(37, 17);
+            this.rbtnExtraLargeSize.Size = new System.Drawing.Size(45, 24);
             this.rbtnExtraLargeSize.TabIndex = 3;
             this.rbtnExtraLargeSize.Text = "10";
             this.rbtnExtraLargeSize.UseVisualStyleBackColor = true;
@@ -115,7 +117,7 @@
             this.rbtnLargeSize.AutoSize = true;
             this.rbtnLargeSize.Location = new System.Drawing.Point(111, 20);
             this.rbtnLargeSize.Name = "rbtnLargeSize";
-            this.rbtnLargeSize.Size = new System.Drawing.Size(31, 17);
+            this.rbtnLargeSize.Size = new System.Drawing.Size(36, 24);
             this.rbtnLargeSize.TabIndex = 2;
             this.rbtnLargeSize.Text = "9";
             this.rbtnLargeSize.UseVisualStyleBackColor = true;
@@ -125,7 +127,7 @@
             this.rbtnMediumSize.AutoSize = true;
             this.rbtnMediumSize.Location = new System.Drawing.Point(57, 20);
             this.rbtnMediumSize.Name = "rbtnMediumSize";
-            this.rbtnMediumSize.Size = new System.Drawing.Size(31, 17);
+            this.rbtnMediumSize.Size = new System.Drawing.Size(36, 24);
             this.rbtnMediumSize.TabIndex = 1;
             this.rbtnMediumSize.Text = "8";
             this.rbtnMediumSize.UseVisualStyleBackColor = true;
@@ -136,7 +138,7 @@
             this.rbtnSmallSize.Checked = true;
             this.rbtnSmallSize.Location = new System.Drawing.Point(7, 20);
             this.rbtnSmallSize.Name = "rbtnSmallSize";
-            this.rbtnSmallSize.Size = new System.Drawing.Size(31, 17);
+            this.rbtnSmallSize.Size = new System.Drawing.Size(36, 24);
             this.rbtnSmallSize.TabIndex = 0;
             this.rbtnSmallSize.TabStop = true;
             this.rbtnSmallSize.Text = "7";
@@ -144,6 +146,10 @@
             // 
             // btnSaveSettings
             // 
+            this.btnSaveSettings.BackColor = System.Drawing.Color.IndianRed;
+            this.btnSaveSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnSaveSettings.ForeColor = System.Drawing.SystemColors.Desktop;
             this.btnSaveSettings.Location = new System.Drawing.Point(69, 144);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(104, 44);
@@ -160,6 +166,7 @@
             this.Controls.Add(this.btnSaveSettings);
             this.Controls.Add(this.gbxSize);
             this.Controls.Add(this.gbxDifficulty);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Settings";
             this.Text = "Lines";

@@ -11,7 +11,7 @@ namespace Lines.GameEngine.Scoring
     {
         #region Const fields
 
-        private const int GameLineLength = 5;
+        private const int LINE_LENGTH = 5;
 
         #endregion
 
@@ -165,7 +165,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length >= GameLineLength;
+            return length >= LINE_LENGTH;
         }
 
         public bool VerticalLine(out int length, out Cell[] lineElements)
@@ -194,7 +194,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length >= GameLineLength;
+            return length >= LINE_LENGTH;
         }
 
         public bool LeftDiagonalLine(out int length, out Cell[] lineElements)
@@ -225,7 +225,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length >= GameLineLength;
+            return length >= LINE_LENGTH;
         }
 
         public bool RightDiagonalLine(out int length, out Cell[] lineElements)
@@ -256,7 +256,7 @@ namespace Lines.GameEngine.Scoring
             }
 
             lineElements = lineElements.Where(x => x != null).ToArray();
-            return length >= GameLineLength;
+            return length >= LINE_LENGTH;
         }
 
         #endregion

@@ -36,7 +36,10 @@ namespace Lines.DesktopUI
 
         private void btnRules_Click(object sender, EventArgs e)
         {
-
+            AboutGame about = new AboutGame();
+            about.FormClosing += (s, args) => { this.Show(); };
+            about.Show();
+            this.Hide();
         }
 
         private void btnExit_Click(object sender, EventArgs e)

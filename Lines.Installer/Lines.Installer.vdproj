@@ -61,6 +61,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -225,7 +241,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Lines.Installer"
         "ProductCode" = "8:{3C9ED72D-ADBC-493E-8D33-3C85E1F4E7C1}"
-        "PackageCode" = "8:{0222046B-9BD0-44CB-A459-9E681277E84E}"
+        "PackageCode" = "8:{12F25C79-429B-4A6A-9DF2-89E403893550}"
         "UpgradeCode" = "8:{B530BCF9-0863-4C26-BCAC-186FB841BB65}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
