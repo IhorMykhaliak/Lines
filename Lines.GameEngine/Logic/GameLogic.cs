@@ -77,7 +77,8 @@ namespace Lines.GameEngine.Logic
         private void OnScoreChange(object sender, int points)
         {
             Score += points;
-
+            
+            OnPlayScoreSoundEventHandler();
             if (ScoreChangedEventHandler != null)
             {
                 ScoreChangedEventHandler(this, EventArgs.Empty);
@@ -103,7 +104,6 @@ namespace Lines.GameEngine.Logic
         private void OnDestroyLines(object sender, Cell[][] lines)
         {
             OnPlayerActionChangingField();
-
             _linesDestroyer.DestroyLines(lines);
         }
 
@@ -201,12 +201,10 @@ namespace Lines.GameEngine.Logic
 
                     if (!_lineChecker.Check())
                     {
-                        OnPlayMoveSoundEventHandler();
                         NextTurn(true);
                     }
                     else
                     {
-                        OnPlayScoreSoundEventHandler();
                         Field.EmptyCells += _lineChecker.LineLength;
                         NextTurn(false);
                     }
@@ -224,7 +222,6 @@ namespace Lines.GameEngine.Logic
 
                         if (!_lineChecker.Check())
                         {
-                            OnPlayMoveSoundEventHandler();
                             Cell newBubble = _bubbleGenerationStrategy.GenerateBubble(Field, BubbleSize.Small, CurrentCellDuplicate.Color);
                             Field[newBubble.Row, newBubble.Column].ContainedItem = newBubble.ContainedItem;
                             Field[newBubble.Row, newBubble.Column].Color = newBubble.Color;
@@ -232,7 +229,6 @@ namespace Lines.GameEngine.Logic
                         }
                         else
                         {
-                            OnPlayScoreSoundEventHandler();
                             Field.EmptyCells += _lineChecker.LineLength;
                             Field[currentCell.Row, currentCell.Column] = CurrentCellDuplicate;
                             NextTurn(false);
@@ -252,7 +248,7 @@ namespace Lines.GameEngine.Logic
             if (_findPath.TryGetPath(Field, cellFrom, cellTo, out way))
             {
                 OnPlayerActionChangingField();
-
+                OnPlayMoveSoundEventHandler();
                 cellTo.ContainedItem = cellFrom.ContainedItem;
                 cellTo.Color = cellFrom.Color;
 

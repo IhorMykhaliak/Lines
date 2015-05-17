@@ -14,11 +14,11 @@ namespace Lines.DesktopUI
     {
         #region Const fields
 
-        // Used for drawing bubbles
+        private const int ADDITIONAL_HORIZONTAL_SPACE = 220;
+        private const int ADDITIONAL_VERTICAL_SPACE = 50;
         private const int BUBBLE_MARGIN = 5;
         private const int BUBBLE_SIZE_DECREASE = 11;
         private const int NORMALIZE_BUBBLE_CENTRE = 4;
-
         private const int ELLIPSE_MARGIN = BUBBLE_MARGIN - 2;
         private const int ELLIPSE_SIZE_DECREASE = BUBBLE_SIZE_DECREASE - 4;
         private const int ELLIPSE_THICKNESS = 3;
@@ -51,8 +51,8 @@ namespace Lines.DesktopUI
             _game = new Game(size, diff);
             pbxGameBoard.Width = _game.Field.Width * _scale;
             pbxGameBoard.Height = _game.Field.Height * _scale;
-            this.Height = pbxGameBoard.Height + 220;
-            this.Width = pbxGameBoard.Width + 50;
+            this.Height = pbxGameBoard.Height + ADDITIONAL_HORIZONTAL_SPACE;
+            this.Width = pbxGameBoard.Width + ADDITIONAL_VERTICAL_SPACE;
 
             SubscribeGameEvents();
 
