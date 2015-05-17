@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lines.GameEngine.Test", "Li
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModelingProject", "ModelingProject\ModelingProject.modelproj", "{51CE2179-1115-443E-8177-958F8A7E09E8}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Lines.Installer", "Lines.Installer\Lines.Installer.vdproj", "{34C9C01B-D444-4181-BEE5-BE500E8C2136}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Lines.Installer", "Lines.Installer\Lines.Installer.vdproj", "{2DF56E5E-62BD-4A03-8DA7-0BBCFDF219E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +41,8 @@ Global
 		{51CE2179-1115-443E-8177-958F8A7E09E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51CE2179-1115-443E-8177-958F8A7E09E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51CE2179-1115-443E-8177-958F8A7E09E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34C9C01B-D444-4181-BEE5-BE500E8C2136}.Debug|Any CPU.ActiveCfg = Debug
-		{34C9C01B-D444-4181-BEE5-BE500E8C2136}.Release|Any CPU.ActiveCfg = Release
+		{2DF56E5E-62BD-4A03-8DA7-0BBCFDF219E4}.Debug|Any CPU.ActiveCfg = Debug
+		{2DF56E5E-62BD-4A03-8DA7-0BBCFDF219E4}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
