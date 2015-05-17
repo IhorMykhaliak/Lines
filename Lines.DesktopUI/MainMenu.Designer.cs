@@ -37,8 +37,8 @@
             // 
             // btnNewGame
             // 
-            this.btnNewGame.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnNewGame.BackColor = System.Drawing.Color.IndianRed;
+            this.btnNewGame.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnNewGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnNewGame.ForeColor = System.Drawing.SystemColors.Desktop;
@@ -52,8 +52,8 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnSettings.BackColor = System.Drawing.Color.IndianRed;
+            this.btnSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnSettings.ForeColor = System.Drawing.SystemColors.Desktop;
@@ -67,8 +67,8 @@
             // 
             // btnRules
             // 
-            this.btnRules.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnRules.BackColor = System.Drawing.Color.IndianRed;
+            this.btnRules.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnRules.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRules.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnRules.ForeColor = System.Drawing.SystemColors.Desktop;
@@ -82,8 +82,8 @@
             // 
             // btnExit
             // 
-            this.btnExit.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnExit.BackColor = System.Drawing.Color.IndianRed;
+            this.btnExit.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnExit.ForeColor = System.Drawing.SystemColors.Desktop;
@@ -106,7 +106,10 @@
             this.Controls.Add(this.btnNewGame);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lines";
             this.ResumeLayout(false);
 

@@ -56,7 +56,7 @@ namespace Lines.DesktopUI
             }
             else
             {
-                throw new InvalidOperationException("Allowed game difficulty was changed");
+                throw new InvalidOperationException("Allowed game size was changed");
             }
         }
 
@@ -83,7 +83,7 @@ namespace Lines.DesktopUI
 
         private int GetGameDifficulty()
         {
-            int diff = 3;
+            int diff;
 
             if (rbtnEasy.Checked)
             {
@@ -97,13 +97,17 @@ namespace Lines.DesktopUI
             {
                 diff = int.Parse(rbtnHard.Text);
             }
+            else
+            {
+                throw new InvalidOperationException("Difficulty wasn't set");
+            }
 
             return diff;
         }
 
         private int GetFieldSize()
         {
-            int size = 7;
+            int size;
 
             if (rbtnSmallSize.Checked)
             {
@@ -120,6 +124,10 @@ namespace Lines.DesktopUI
             else if (rbtnExtraLargeSize.Checked)
             {
                 size = int.Parse(rbtnExtraLargeSize.Text);
+            }
+            else
+            {
+                throw new InvalidOperationException("Size wasn't set");
             }
 
             return size;

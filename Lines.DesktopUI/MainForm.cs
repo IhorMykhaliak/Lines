@@ -22,6 +22,7 @@ namespace Lines.DesktopUI
         private const int ELLIPSE_MARGIN = BUBBLE_MARGIN - 2;
         private const int ELLIPSE_SIZE_DECREASE = BUBBLE_SIZE_DECREASE - 4;
         private const int ELLIPSE_THICKNESS = 3;
+
         #endregion
 
         #region Fields
@@ -58,10 +59,35 @@ namespace Lines.DesktopUI
             _game.Start();
         }
 
+        #region Button clicks
+
         private void btnNewGame_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            _game.Stop();
+        }
+
+        private void btnUndo_Click(object sender, EventArgs e)
+        {
+            _game.Undo();
+        }
+
+        private void btnRestartGame_Click(object sender, EventArgs e)
+        {
+            _game.ReStart();
+        }
+
+        private void pbxSound_Click(object sender, EventArgs e)
+        {
+            _sound.IsSoundOn = !_sound.IsSoundOn;
+            pbxSound.Image = (_sound.IsSoundOn) ? Properties.Resources.sound : Properties.Resources.no_sound;
+        }
+
+        #endregion
 
         #region Game Events
 
@@ -90,28 +116,7 @@ namespace Lines.DesktopUI
         {
             lblTurn.Text = "Turn : " + _game.Turn.ToString();
         }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            _game.Stop();
-        }
-
-        private void btnUndo_Click(object sender, EventArgs e)
-        {
-            _game.Undo();
-        }
-
-        private void btnRestartGame_Click(object sender, EventArgs e)
-        {
-            _game.ReStart();
-        }
-        
-        private void pbxSound_Click(object sender, EventArgs e)
-        {
-            _sound.IsSoundOn = !_sound.IsSoundOn;
-            pbxSound.Image = (_sound.IsSoundOn) ? Properties.Resources.sound : Properties.Resources.no_sound;
-        }
-
+             
         #endregion
 
         #region Interaction with field
