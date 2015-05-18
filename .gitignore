@@ -3,5 +3,6 @@ bin
 obj
 TestResults
 ModelingProject
+Debug
 *.suo
 *.sln.DotSettings.user

@@ -166,10 +166,10 @@ namespace Lines.GameEngine.Test
 
         #region Gameplay
 
-        #region Cancel Move
+        #region Undo
 
         [TestMethod]
-        public void TestCancelMove()
+        public void TestUndo()
         {
             Game game = new Game(new FakeRandomStrategy());
             game.Start();
@@ -186,7 +186,7 @@ namespace Lines.GameEngine.Test
         }
 
         [TestMethod]
-        public void TestCancelMove_1()
+        public void TestUndo_1()
         {
             Game game = new Game(new FakeRandomStrategy());
             game.PlayCancelSoundEventHandler += (s, e) => { return; };
@@ -214,7 +214,7 @@ namespace Lines.GameEngine.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestCancelMove_Wrong_1()
+        public void TestUndo_Wrong_1()
         {
             Game game = new Game(new FakeRandomStrategy());
             game.Start();
@@ -224,7 +224,7 @@ namespace Lines.GameEngine.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestCancelMove_Wrong_2()
+        public void TestUndo_Wrong_2()
         {
             Game game = new Game(new FakeRandomStrategy());
             game.Start();
@@ -234,7 +234,7 @@ namespace Lines.GameEngine.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestCancelMove_Wrong_3()
+        public void TestUndo_Wrong_3()
         {
             Game game = new Game(new FakeRandomStrategy());
             game.Start();
@@ -288,6 +288,7 @@ namespace Lines.GameEngine.Test
             game.SelectCell(3, 3);
             game.SelectCell(0, 0);
 
+            Assert.AreEqual(game.Field[3, 3], game.SelectedCell);
             Assert.AreEqual(game.Field[0, 0].ContainedItem, null);
             Assert.AreEqual(game.Field[3, 3].ContainedItem, BubbleSize.Big);
         }

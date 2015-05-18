@@ -22,7 +22,7 @@ namespace Lines.DesktopUI
 
         static void ApplicationThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.Message.ToString(), "Error", MessageBoxButtons.OK);
+            MessageBox.Show(e.Exception.Message.ToString(), "Information", MessageBoxButtons.OK);
         }
     }
 }

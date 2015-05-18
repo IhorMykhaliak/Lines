@@ -51,7 +51,7 @@
             this.rtxtHowToPlay.Location = new System.Drawing.Point(12, 41);
             this.rtxtHowToPlay.Name = "rtxtHowToPlay";
             this.rtxtHowToPlay.ReadOnly = true;
-            this.rtxtHowToPlay.Size = new System.Drawing.Size(400, 330);
+            this.rtxtHowToPlay.Size = new System.Drawing.Size(400, 392);
             this.rtxtHowToPlay.TabIndex = 1;
             this.rtxtHowToPlay.Text = resources.GetString("rtxtHowToPlay.Text");
             // 
@@ -59,7 +59,7 @@
             // 
             this.lblAuthor.AutoSize = true;
             this.lblAuthor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblAuthor.Location = new System.Drawing.Point(213, 374);
+            this.lblAuthor.Location = new System.Drawing.Point(213, 436);
             this.lblAuthor.Name = "lblAuthor";
             this.lblAuthor.Size = new System.Drawing.Size(199, 20);
             this.lblAuthor.TabIndex = 2;
@@ -69,7 +69,7 @@
             // 
             this.lblPlace.AutoSize = true;
             this.lblPlace.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPlace.Location = new System.Drawing.Point(282, 400);
+            this.lblPlace.Location = new System.Drawing.Point(282, 462);
             this.lblPlace.Name = "lblPlace";
             this.lblPlace.Size = new System.Drawing.Size(130, 18);
             this.lblPlace.TabIndex = 3;
@@ -79,7 +79,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(424, 427);
+            this.ClientSize = new System.Drawing.Size(424, 489);
             this.Controls.Add(this.lblPlace);
             this.Controls.Add(this.lblAuthor);
             this.Controls.Add(this.rtxtHowToPlay);

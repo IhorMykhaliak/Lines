@@ -281,21 +281,13 @@ namespace Lines.GameEngine
             }
             if (_allowedUndos < 1)
             {
-                throw new InvalidOperationException("You can cancel move only up to 3 times in a row");
-            }
-            if (_undo.Count == 0)
-            {
-                throw new InvalidOperationException("There is no move to cancel");
+                throw new InvalidOperationException("Undo not allowed");
             }
             #endregion
 
             _allowedUndos--;
             int turn = this.Turn;
             _logic.RestoreMemento(_undo.Pop());
-            if (turn == Turn)
-            {
-                _logic.RestoreMemento(_undo.Pop());
-            }
             if (_allowedUndos == 0)
             {
                 _undo.Clear();
