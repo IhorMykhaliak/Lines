@@ -20,7 +20,6 @@ namespace Lines.GameEngine
         private readonly int _difficulty;
         private int _allowedUndos;
         private GameLogic _logic;
-        private GameMemento _memento;
         private Stack<GameMemento> _undo;
         private GameStatus _gameStatus;
         private IGenerationStrategy _bubbleGenerationStrategy;

@@ -26,8 +26,8 @@ namespace Lines.GameEngine.Scoring
 
         #region Events
 
-        public event EventHandler<int> ScoreChangedEventHandler;
-        public event EventHandler<Cell[][]> DestroyLinesEventHandler;
+        public event EventHandler<ScoreEventArgs> ScoreChangedEventHandler;
+        public event EventHandler<DestroyLinesEvengArgs> DestroyLinesEventHandler;
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Lines.GameEngine.Scoring
         {
             if (ScoreChangedEventHandler != null)
             {
-                ScoreChangedEventHandler(this, points);
+                ScoreChangedEventHandler(this, new ScoreEventArgs(points));
             }
         }
 
@@ -65,7 +65,7 @@ namespace Lines.GameEngine.Scoring
         {
             if (DestroyLinesEventHandler != null)
             {
-                DestroyLinesEventHandler(this, lines);
+                DestroyLinesEventHandler(this, new DestroyLinesEvengArgs(lines));
             }
         }
 
@@ -133,12 +133,12 @@ namespace Lines.GameEngine.Scoring
             {
                 OnDestroyLines(lines);
                 LineLength = lineLength - numberOfLines + 1;
-                OnScoreChange(LineLength * LineLength);
+                OnScoreChange(GetPoints(lineLength));
             }
 
             return lines.Length > 0;
         }
-
+        
         public bool HorizontalLine(out int length, out Cell[] lineElements)
         {
             length = 1;
@@ -265,9 +265,9 @@ namespace Lines.GameEngine.Scoring
 
         private bool IsCellValid(int row, int col)
         {
-            if ((row >= 0) && 
-                (row <= _field.Height - 1) && 
-                (col >= 0) && 
+            if ((row >= 0) &&
+                (row <= _field.Height - 1) &&
+                (col >= 0) &&
                 (col <= _field.Width - 1))
             {
                 return true;
@@ -277,9 +277,14 @@ namespace Lines.GameEngine.Scoring
 
         private bool LineCondition(int curRow, int curCol)
         {
-            return (IsCellValid(curRow, curCol)) && 
-                (_field[curRow, curCol].Color == _cell.Color) && 
+            return (IsCellValid(curRow, curCol)) &&
+                (_field[curRow, curCol].Color == _cell.Color) &&
                 (_field[curRow, curCol].ContainedItem == BubbleSize.Big);
+        }
+
+        private static int GetPoints(int lineLength)
+        {
+            return (int)(Math.Pow(2.0, (double)lineLength) - lineLength * lineLength);
         }
 
         #endregion

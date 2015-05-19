@@ -366,8 +366,8 @@ namespace Lines.GameEngine.Test
             Assert.AreEqual(game.Field[3, 1].ContainedItem, null);
             Assert.AreEqual(game.Field[4, 1].ContainedItem, null);
             Assert.AreEqual(game.Field[5, 1].ContainedItem, null);
-            Assert.AreEqual(game.Score, previousScore + 81);
-            Assert.AreEqual(game.Turn, previousScore + 1);
+            Assert.AreEqual(game.Score, previousScore + 924);
+            Assert.AreEqual(game.Turn, previousTurn + 1);
         }
 
         [TestMethod]

@@ -13,7 +13,7 @@ namespace Lines.GameEngine.Logic
     {
         #region Private Fields
 
-        private int _difficulty;
+        private readonly int _difficulty;
         private LineChecker _lineChecker;
         private LinesDestroyer _linesDestroyer;
         private IGenerationStrategy _bubbleGenerationStrategy;
@@ -74,9 +74,9 @@ namespace Lines.GameEngine.Logic
             }
         }
 
-        private void OnScoreChange(object sender, int points)
+        private void OnScoreChange(object sender, ScoreEventArgs e)
         {
-            Score += points;
+            Score += e.Points;
             
             OnPlayScoreSoundEventHandler();
             if (ScoreChangedEventHandler != null)
@@ -101,10 +101,10 @@ namespace Lines.GameEngine.Logic
             }
         }
 
-        private void OnDestroyLines(object sender, Cell[][] lines)
+        private void OnDestroyLines(object sender, DestroyLinesEvengArgs e)
         {
             OnPlayerActionChangingField();
-            _linesDestroyer.DestroyLines(lines);
+            _linesDestroyer.DestroyLines(e.Lines);
         }
 
         private void OnPathDoesntExist()

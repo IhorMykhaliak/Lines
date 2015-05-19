@@ -5,8 +5,13 @@ namespace Lines.GameEngine
 {
     public class Cell
     {
+        #region Private field
+
         private readonly int _row;
         private readonly int _col;
+
+        #endregion
+
         #region Public Properties
 
         public int Row { get { return _row; } }
