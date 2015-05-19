@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lines.GameEngine.Scoring
 {
-    public class DestroyLinesEvengArgs
+    public class DestroyLinesEvengArgs : EventArgs
     {
         public Cell[][] Lines { get; private set; }
 
