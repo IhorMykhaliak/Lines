@@ -45,10 +45,9 @@
             // 
             // lblScore
             // 
-            this.lblScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblScore.AutoSize = true;
             this.lblScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblScore.Location = new System.Drawing.Point(139, 6);
+            this.lblScore.Location = new System.Drawing.Point(66, 6);
             this.lblScore.Name = "lblScore";
             this.lblScore.Size = new System.Drawing.Size(122, 31);
             this.lblScore.TabIndex = 3;
@@ -165,7 +164,7 @@
             this.btnNewGame.Name = "btnNewGame";
             this.btnNewGame.Size = new System.Drawing.Size(120, 33);
             this.btnNewGame.TabIndex = 15;
-            this.btnNewGame.Text = "New Game";
+            this.btnNewGame.Text = "Main Menu";
             this.btnNewGame.UseVisualStyleBackColor = true;
             this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
             // 

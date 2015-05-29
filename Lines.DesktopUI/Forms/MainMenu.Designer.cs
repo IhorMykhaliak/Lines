@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenu));
             this.btnNewGame = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
-            this.btnRules = new System.Windows.Forms.Button();
+            this.btnAbout = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -46,7 +46,7 @@
             this.btnNewGame.Name = "btnNewGame";
             this.btnNewGame.Size = new System.Drawing.Size(208, 52);
             this.btnNewGame.TabIndex = 0;
-            this.btnNewGame.Text = "Start Game";
+            this.btnNewGame.Text = "Start";
             this.btnNewGame.UseVisualStyleBackColor = true;
             this.btnNewGame.Click += new System.EventHandler(this.btnNewGame_Click);
             // 
@@ -65,20 +65,20 @@
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
-            // btnRules
+            // btnAbout
             // 
-            this.btnRules.BackColor = System.Drawing.Color.IndianRed;
-            this.btnRules.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnRules.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRules.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRules.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.btnRules.Location = new System.Drawing.Point(0, 104);
-            this.btnRules.Name = "btnRules";
-            this.btnRules.Size = new System.Drawing.Size(208, 52);
-            this.btnRules.TabIndex = 2;
-            this.btnRules.Text = "About Game";
-            this.btnRules.UseVisualStyleBackColor = true;
-            this.btnRules.Click += new System.EventHandler(this.btnRules_Click);
+            this.btnAbout.BackColor = System.Drawing.Color.IndianRed;
+            this.btnAbout.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnAbout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnAbout.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.btnAbout.Location = new System.Drawing.Point(0, 104);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(208, 52);
+            this.btnAbout.TabIndex = 2;
+            this.btnAbout.Text = "About Game";
+            this.btnAbout.UseVisualStyleBackColor = true;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // btnExit
             // 
@@ -101,7 +101,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(208, 207);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.btnRules);
+            this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnNewGame);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -119,7 +119,7 @@
 
         private System.Windows.Forms.Button btnNewGame;
         private System.Windows.Forms.Button btnSettings;
-        private System.Windows.Forms.Button btnRules;
+        private System.Windows.Forms.Button btnAbout;
         private System.Windows.Forms.Button btnExit;
     }
 }

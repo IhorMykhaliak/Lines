@@ -1,6 +1,6 @@
 ﻿namespace Lines.DesktopUI
 {
-    partial class Settings
+    partial class GameSettings
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameSettings));
             this.gbxDifficulty = new System.Windows.Forms.GroupBox();
             this.rbtnHard = new System.Windows.Forms.RadioButton();
             this.rbtnMedium = new System.Windows.Forms.RadioButton();
@@ -158,7 +158,7 @@
             this.btnSaveSettings.UseVisualStyleBackColor = true;
             this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
             // 
-            // Settings
+            // GameSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -170,7 +170,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Settings";
+            this.Name = "GameSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lines";
             this.gbxDifficulty.ResumeLayout(false);

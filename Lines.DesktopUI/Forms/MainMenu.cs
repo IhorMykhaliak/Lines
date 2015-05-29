@@ -21,13 +21,13 @@ namespace Lines.DesktopUI
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            GameSettings settings = new GameSettings();
             settings.FormClosing += (s, args) => { this.Show(); };
             settings.Show();
             this.Hide();
         }
 
-        private void btnRules_Click(object sender, EventArgs e)
+        private void btnAbout_Click(object sender, EventArgs e)
         {
             AboutGame about = new AboutGame();
             about.FormClosing += (s, args) => { this.Show(); };

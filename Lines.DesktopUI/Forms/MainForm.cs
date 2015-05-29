@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using System.Configuration;
 using Lines.GameEngine;
 using Lines.GameEngine.Enums;
-
 using Lines.GameEngine.BubbleGenerationStrategy;
 using System.Drawing.Drawing2D;
+using Lines.DesktopUI.Properties;
 
 namespace Lines.DesktopUI
 {
@@ -29,7 +29,7 @@ namespace Lines.DesktopUI
 
         private Game _game;
         private Sound _sound = new Sound();
-        private int _scale = int.Parse(ConfigurationManager.AppSettings["RecomendedDesktopScale"]);
+        private int _scale = Settings.Default.RecomendedScale;
 
         #endregion
 
@@ -46,8 +46,8 @@ namespace Lines.DesktopUI
 
         public void InitializeGame()
         {
-            int size = int.Parse(ConfigurationManager.AppSettings["FieldSize"]);
-            int diff = int.Parse(ConfigurationManager.AppSettings["Difficulty"]);
+            int size = Settings.Default.FieldSize;
+            int diff = Settings.Default.Difficulty;
             _game = new Game(size, diff);
             pbxGameBoard.Width = _game.Field.Width * _scale;
             pbxGameBoard.Height = _game.Field.Height * _scale;

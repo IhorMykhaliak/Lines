@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Configuration;
 using System.Windows.Forms;
+using Lines.DesktopUI.Properties;
 
 namespace Lines.DesktopUI
 {
-    public partial class Settings : Form
+    public partial class GameSettings : Form
     {
-        public Settings()
+        public GameSettings()
         {
             InitializeComponent();
 
@@ -17,12 +18,9 @@ namespace Lines.DesktopUI
         
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
-            System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            config.AppSettings.Settings["FieldSize"].Value = GetFieldSize().ToString();
-            config.AppSettings.Settings["Difficulty"].Value = GetGameDifficulty().ToString();
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
+            Settings.Default.FieldSize = GetFieldSize();
+            Settings.Default.Difficulty = GetGameDifficulty();
+            
             this.Close();
         }
 
@@ -30,7 +28,7 @@ namespace Lines.DesktopUI
 
         private void SetPreviousFieldSize()
         {
-            int size = int.Parse(ConfigurationManager.AppSettings["FieldSize"]);
+            int size = Settings.Default.FieldSize;
             if (size == int.Parse(rbtnSmallSize.Text))
             {
                 rbtnSmallSize.Checked = true;
@@ -55,7 +53,7 @@ namespace Lines.DesktopUI
 
         private void SetPreviousDifficulty()
         {
-            int diff = int.Parse(ConfigurationManager.AppSettings["Difficulty"]);
+            int diff = Settings.Default.Difficulty;
             if (diff == int.Parse(rbtnEasy.Text))
             {
                 rbtnEasy.Checked = true;
